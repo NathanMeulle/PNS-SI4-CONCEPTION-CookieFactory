@@ -34,3 +34,5 @@ Team ID : L
 To participate in this project, please have a look at our [contributing.md](https://github.com/PNS-Conception/cookiefactory-20-21-team-l/blob/master/CONTRIBUTING.md) 👀
 
 
+##
+![Polytech_logo](http://unice.fr/polytechnice/fr/contenus-riches/images/logos/logo-uns-pns)
