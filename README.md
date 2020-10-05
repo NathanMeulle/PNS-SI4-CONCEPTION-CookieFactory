@@ -2,6 +2,9 @@
 ### SI4 Projet
 The goal of this project is to create a cookie factory 🏭
 
+(https://github.com/PNS-Conception/cookiefactory-20-21-team-l/blob/master/cookie-picture.jpg)
+
+
 ## Plan
 - [Presentation](#Presentation)
 - [Team](#Team)
