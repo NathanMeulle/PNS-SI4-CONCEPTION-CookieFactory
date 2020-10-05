@@ -1,6 +1,6 @@
 # Contributing
 
-[Lire en Français ? 🇫🇷]()
+[Lire en Français ? 🇫🇷](https://github.com/PNS-Conception/cookiefactory-20-21-team-l/blob/master/CONTRIBUTING_FR.md)
 
 ## Plan
 * [Introduction](#Introduction)
