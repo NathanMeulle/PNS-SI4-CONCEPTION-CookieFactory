@@ -1,6 +1,6 @@
 # Contributing
 
-[Read in English ? 🇬🇧]()
+[Read in English ? 🇬🇧](https://github.com/PNS-Conception/cookiefactory-20-21-team-l/blob/master/CONTRIBUTING.md)
 
 ## Plan
 * [Introduction](#Introduction)
