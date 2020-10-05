@@ -31,6 +31,6 @@ Team ID : L
 
 
 ## How to contribute
-To participate in this project, please have a look at our [contributing.md]() 👀
+To participate in this project, please have a look at our [contributing.md](https://github.com/PNS-Conception/cookiefactory-20-21-team-l/blob/master/CONTRIBUTING.md) 👀
 
 
