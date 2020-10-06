@@ -2,6 +2,7 @@ import cookie.composition.*;
 
 import java.util.List;
 
+
 /** Represents a recipe
  * @author Delmotte Vincent
  */
