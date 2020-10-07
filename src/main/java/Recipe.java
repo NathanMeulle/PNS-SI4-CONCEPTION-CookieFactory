@@ -1,3 +1,7 @@
+import cookie.composition.*;
+
+import java.util.List;
+
 /** Represents a recipe
  * @author Delmotte Vincent
  */
@@ -5,7 +9,7 @@ public class Recipe {
 
     protected Dough dough;
     protected Flavor flavor;
-    protected Topping topping;
+    protected List<Topping> topping;
     protected Mix mix;
     protected Cooking cooking;
 
@@ -17,7 +21,7 @@ public class Recipe {
      * @param mix Cookie have 1 mix
      * @param cooking Cookie 1 cooking
      */
-    public Recipe(Dough dough, Flavor flavor, Topping topping, Mix mix, Cooking cooking) {
+    public Recipe(Dough dough, Flavor flavor, List<Topping> topping, Mix mix, Cooking cooking) {
         this.dough = dough;
         this.flavor = flavor;
         this.topping = topping;
@@ -41,11 +45,11 @@ public class Recipe {
         this.flavor = flavor;
     }
 
-    public Topping getTopping() {
+    public List<Topping> getTopping() {
         return topping;
     }
 
-    public void setTopping(Topping topping) {
+    public void setTopping(List<Topping> topping) {
         this.topping = topping;
     }
 

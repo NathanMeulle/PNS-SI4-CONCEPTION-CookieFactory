@@ -1,3 +1,5 @@
+package cookie.composition;
+
 /** Represents all of toppings for cookies
  * @author Delmotte Vincent
  */
