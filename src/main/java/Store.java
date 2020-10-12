@@ -1,17 +1,20 @@
 public class Store {
 
-    private int id;
-    private String adress;
+    final private int id;
+    final private String adress;
     private double tax;
     private int phone;
     private String mail;
+    private Manager manager;
 
-    public Store(int id, String adress, double tax, int phone, String mail) {
+    public Store(int id, String adress, double tax, int phone, String mail, Manager manager) {
         this.id = id;
         this.adress = adress;
         this.tax = tax;
         this.phone = phone;
         this.mail = mail;
+        manager.attributStore(this);
+        this.manager = manager;
     }
 
     /** ********************************************************************************
@@ -34,12 +37,7 @@ public class Store {
         return mail;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-    public void setAdress(String adress) {
-        this.adress = adress;
-    }
+
     public void setTax(double tax) {
         this.tax = tax;
     }
