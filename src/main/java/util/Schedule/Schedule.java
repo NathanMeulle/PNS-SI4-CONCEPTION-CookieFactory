@@ -10,6 +10,9 @@ import java.util.Map;
 public class Schedule {
     private Map<Day, Time> openingHours;
 
+    public Schedule(){
+        openingHours = new HashMap<>();
+    }
     /**
      * Creates a working schedule for a Store
      * @param openDay opening day
