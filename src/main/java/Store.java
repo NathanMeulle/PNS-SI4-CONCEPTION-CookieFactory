@@ -1,20 +1,24 @@
+import util.Schedule.*;
+
 public class Store {
 
     final private int id;
-    final private String adress;
+    final private String address;
     private double tax;
-    private int phone;
+    private String phone;
     private String mail;
     private Manager manager;
+    private Schedule schedule;
 
-    public Store(int id, String adress, double tax, int phone, String mail, Manager manager) {
+    public Store(int id, String address, double tax, String phone, String mail, Manager manager) {
         this.id = id;
-        this.adress = adress;
+        this.address = address;
         this.tax = tax;
         this.phone = phone;
         this.mail = mail;
-        manager.attributStore(this);
+        manager.assignStore(this);
         this.manager = manager;
+        this.schedule = new Schedule();
     }
 
     /** ********************************************************************************
@@ -25,12 +29,12 @@ public class Store {
         return id;
     }
     public String getAdress() {
-        return adress;
+        return address;
     }
     public double getTax() {
         return tax;
     }
-    public int getPhone() {
+    public String getPhone() {
         return phone;
     }
     public String getMail() {
@@ -41,7 +45,7 @@ public class Store {
     public void setTax(double tax) {
         this.tax = tax;
     }
-    public void setPhone(int phone) {
+    public void setPhone(String phone) {
         this.phone = phone;
     }
     public void setMail(String mail) {

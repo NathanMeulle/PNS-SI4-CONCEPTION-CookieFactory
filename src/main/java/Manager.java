@@ -24,7 +24,7 @@ public class Manager {
      *                                    METHODS
      *  ********************************************************************************
      */
-    public void attributStore(Store store) {
+    public void assignStore(Store store) {
         this.store = store;
     }
 }
