@@ -9,22 +9,16 @@ import java.util.Map;
  */
 public class Schedule {
     private Map<Day, Time> openingHours;
-    private Map<Day, Time> closingHours;
 
     /**
      * Creates a working schedule for a Store
      * @param openDay opening day
      * @param openTime opening hour
-     * @param closeDay closing day
-     * @param closeTime closing hour
      */
 
-    public Schedule(Day openDay, Time openTime, Day closeDay, Time closeTime){
+    public Schedule(Day openDay, Time openTime){
         openingHours = new HashMap<Day, Time>();
-        closingHours = new HashMap<Day, Time>();
-
         openingHours.put(openDay, openTime);
-        closingHours.put(closeDay, closeTime);
     }
 
     /** ********************************************************************************
@@ -32,29 +26,34 @@ public class Schedule {
      *  ********************************************************************************
      */
 
-    public Map<Day, Time> getClosingHours() {
-        return closingHours;
-    }
-
     public Map<Day, Time> getOpeningHours() {
         return openingHours;
-    }
-
-    public void setClosingHours(Map<Day, Time> closingHours) {
-        this.closingHours = closingHours;
     }
 
     public void setOpeningHours(Map<Day, Time> openingHours) {
         this.openingHours = openingHours;
     }
 
+    public void addOpeningHours(Day day, Time time) { openingHours.put(day, time);}
+
+
     @Override
     public String toString() {
-        return "Open : " + ((Map.Entry<Day, Time>) openingHours.entrySet().iterator().next()).getKey() +
-                "," + ((Map.Entry<Day, Time>) openingHours.entrySet().iterator().next()).getValue() +
-                " - " +
-                ((Map.Entry<Day, Time>) closingHours.entrySet().iterator().next()).getKey() +
-                "," + ((Map.Entry<Day, Time>) closingHours.entrySet().iterator().next()).getValue() +
-                "\n";
+
+        String str = "";
+
+        for ( Map.Entry<Day, Time> sc : openingHours.entrySet()){
+            str +=  "Open :" + sc.getKey() +
+                    "," + sc.getValue().getOpeningHours().getHours() +
+                    ":" + sc.getValue().getOpeningHours().getMinutes() +
+                    ":" + sc.getValue().getOpeningHours().getSeconds() +
+                    " - " +
+                    sc.getValue().getClosingHours().getHours() +
+                    ":" + sc.getValue().getClosingHours().getMinutes() +
+                    ":" + sc.getValue().getClosingHours().getSeconds() +
+                    "\n";
+        }
+
+        return str;
     }
 }

@@ -1,16 +1,26 @@
 package util.Schedule;
 
+import java.util.Date;
+
 /**
  * @author Asaréel DADIOUARI
- * Custom class to display
+ * Custom class to display Time
  */
 public class Time {
-    private int seconds, minutes, hours;
+    private Date openingHours;
+    private Date closingHours;
 
-    public Time(int hours, int minutes, int seconds){
-        this.seconds = seconds;
-        this.minutes = minutes;
-        this.hours = hours;
+    public Time(int openingHour, int openingMinute, int openingSeconds, int closingHour, int closingMinute, int closingSecond){
+        openingHours = new Date();
+        closingHours = new Date();
+
+        openingHours.setHours(openingHour);
+        openingHours.setMinutes(openingMinute);
+        openingHours.setSeconds(openingSeconds);
+
+        closingHours.setHours(closingHour);
+        closingHours.setMinutes(closingMinute);
+        closingHours.setSeconds(closingSecond);
     }
 
     /** ********************************************************************************
@@ -18,32 +28,19 @@ public class Time {
      *  ********************************************************************************
      */
 
-    public int getHours() {
-        return hours;
+    public Date getClosingHours() {
+        return closingHours;
     }
 
-    public int getMinutes() {
-        return minutes;
+    public Date getOpeningHours() {
+        return openingHours;
     }
 
-    public int getSeconds() {
-        return seconds;
+    public void setOpeningHours(Date openingHours) {
+        this.openingHours = openingHours;
     }
 
-    public void setHours(int hours) {
-        this.hours = hours;
-    }
-
-    public void setMinutes(int minutes) {
-        this.minutes = minutes;
-    }
-
-    public void setSeconds(int seconds) {
-        this.seconds = seconds;
-    }
-
-    @Override
-    public String toString() {
-        return Integer.toString(hours) + ":" + Integer.toString(minutes) + ":" + Integer.toString(seconds);
+    public void setClosingHours(Date closingHours) {
+        this.closingHours = closingHours;
     }
 }
