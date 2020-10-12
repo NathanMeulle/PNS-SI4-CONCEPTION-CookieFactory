@@ -1,0 +1,5 @@
+language: java
+notifications:
+  email: nathan.meulle@gmail.com, delmotte-vincent@outlook.fr
+
+
