@@ -20,7 +20,7 @@ Chaque commit doit être associé à une issue github. Le code soumis doit être
 ## Gestion des Branches
   ### Organisation des branches
   Nos branches sont organisées de la façon suivante : 
-  * une branche `master` pour les rendus
+  * une branche `main` pour les rendus
   * une branche `pre-prod` version stable et testée en vue du prochain rendu
   * une branche `newfeaturename` pour developper de nouvelles fonctionnalités
   

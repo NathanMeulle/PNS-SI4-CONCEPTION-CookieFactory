@@ -20,7 +20,7 @@ Each commit must be associated with a github issue. The submitted code must be i
 ## Branch Management
   ### Branch organization
   Our branches are organized as follows: 
-  * a `master` branch for renderings
+  * a `main` branch for renderings
   * a `pre-prod` branch, stable and tested for the next rendering
   * a `newfeaturename` branch to develop new features
   
