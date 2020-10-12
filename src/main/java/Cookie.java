@@ -1,3 +1,7 @@
+import cookie.composition.*;
+
+import java.util.List;
+
 /** Represents a Cookie
  * @author Delmotte Vincent
  */
@@ -5,17 +9,17 @@ public class Cookie {
 
     protected String name;
     protected int price;
-    protected Recipe recipe;
+    protected Mix mix;
+    protected Cooking cooking;
+    protected List<Ingredient> ingredients;
 
     /**
      * Creates a cookie with a name and a price
      * @param name cookie's name
-     * @param price cookie"s price
      */
-    public Cookie(String name, int price, Recipe recipe) {
+    public Cookie(String name) {
         this.name = name;
         this.price = price;
-        this.recipe = recipe;
     }
 
     public String getName() {
@@ -34,11 +38,19 @@ public class Cookie {
         this.price = price;
     }
 
-    public Recipe getRecipe() {
-        return recipe;
+    public Mix getMix() {
+        return mix;
     }
 
-    public void setRecipe(Recipe recipe) {
-        this.recipe = recipe;
+    public void setMix(Mix mix) {
+        this.mix = mix;
+    }
+
+    public Cooking getCooking() {
+        return cooking;
+    }
+
+    public void setCooking(Cooking cooking) {
+        this.cooking = cooking;
     }
 }
