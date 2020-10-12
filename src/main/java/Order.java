@@ -14,7 +14,7 @@ public class Order {
     protected int nbOrder;
     protected HashMap<Cookie, Integer> cookies;
 
-    public Order() {
+    public Order(Store store) {
         this.idOrder = generateIdOrder();
         this.store = store;
         this.date = new Date();
