@@ -18,11 +18,11 @@ public class Order {
         this.idOrder = generateIdOrder();
         this.store = store;
         this.date = new Date();
+        this.cookies = new HashMap<>();
     }
 
     private int generateIdOrder() {
-        String id = date.getYear() + "" + nbOrder;
-        return Integer.parseInt(id);
+        return 1000;
     }
 
     /**
@@ -47,6 +47,4 @@ public class Order {
             this.price += cookie.getPrice() * quantity;
         });
     }
-
-
 }
