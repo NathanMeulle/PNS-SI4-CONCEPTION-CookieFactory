@@ -1,4 +1,6 @@
-import util.Schedule.*;
+package fr.unice.polytech.si4.conception.l;
+
+import fr.unice.polytech.si4.conception.l.util.schedule.*;
 
 public class Store {
 

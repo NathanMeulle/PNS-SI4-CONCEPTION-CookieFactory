@@ -1,6 +1,5 @@
-import cookie.composition.*;
+package fr.unice.polytech.si4.conception.l;
 
-import java.util.ArrayList;
 
 public class Main {
     public static void main(String[] args) {
@@ -10,5 +9,5 @@ public class Main {
         Order order = new Order(store);
         order.addCookie(choco,1);
     }
-    
+
 }

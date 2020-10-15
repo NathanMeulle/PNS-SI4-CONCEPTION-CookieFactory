@@ -1,6 +1,10 @@
-import cookie.composition.*;
+package fr.unice.polytech.si4.conception.l;
 
-import java.util.List;
+
+import fr.unice.polytech.si4.conception.l.cookie.composition.*;
+
+import java.util.*;
+
 
 /** Represents a Cookie
  * @author Delmotte Vincent

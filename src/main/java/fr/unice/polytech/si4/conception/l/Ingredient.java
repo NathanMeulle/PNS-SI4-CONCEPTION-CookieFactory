@@ -1,3 +1,7 @@
+package fr.unice.polytech.si4.conception.l;
+
+
+
 public class Ingredient {
 
     protected String name;

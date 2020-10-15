@@ -1,4 +1,4 @@
-package util.Schedule;
+package fr.unice.polytech.si4.conception.l.util.schedule;
 
 import java.util.HashMap;
 import java.util.Map;
