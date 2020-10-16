@@ -14,7 +14,7 @@ public class Time {
         openingHours = new Date();
         closingHours = new Date();
 
-        openingHours.setHours(openingHour);
+        openingHours.setHours(openingHour); //TODO deprecated...
         openingHours.setMinutes(openingMinute);
         openingHours.setSeconds(openingSeconds);
 

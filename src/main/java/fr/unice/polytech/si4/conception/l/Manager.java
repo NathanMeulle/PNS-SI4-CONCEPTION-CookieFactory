@@ -1,7 +1,9 @@
 package fr.unice.polytech.si4.conception.l;
 
 
-
+/**
+ * Class Manager, responsible for a store
+ * */
 public class Manager {
 
     final private int idManager;
@@ -14,7 +16,7 @@ public class Manager {
     }
 
     /** ********************************************************************************
-     *                                    GETTERS
+     *                               GETTERS / SETTERS
      *  ********************************************************************************
      */
     public int getIdManager() {
@@ -31,4 +33,11 @@ public class Manager {
     public void assignStore(Store store) {
         this.store = store;
     }
+
+
+
+
+
+
+
 }

@@ -11,7 +11,7 @@ public class Schedule {
     private Map<Day, Time> openingHours;
 
     public Schedule(){
-        openingHours = new HashMap<>();
+        openingHours = new HashMap<>(); //TODO : faire un constructeur par défaut 8-18h
     }
     /**
      * Creates a working schedule for a Store
@@ -19,8 +19,8 @@ public class Schedule {
      * @param openTime opening hour
      */
 
-    public Schedule(Day openDay, Time openTime){
-        openingHours = new HashMap<Day, Time>();
+    public Schedule(Day openDay, Time openTime){ //TODO constructeur permettant d'initialiser un seul jour... #useless
+        openingHours = new HashMap<>();
         openingHours.put(openDay, openTime);
     }
 
@@ -39,6 +39,7 @@ public class Schedule {
 
     public void addOpeningHours(Day day, Time time) { openingHours.put(day, time);}
 
+//TODO : supprimer jour d'ouverture ?
 
     @Override
     public String toString() {
@@ -47,7 +48,7 @@ public class Schedule {
 
         for ( Map.Entry<Day, Time> sc : openingHours.entrySet()){
             str +=  "Open :" + sc.getKey() +
-                    "," + sc.getValue().getOpeningHours().getHours() +
+                    "," + sc.getValue().getOpeningHours().getHours() + //TODO : changer deprecated...
                     ":" + sc.getValue().getOpeningHours().getMinutes() +
                     ":" + sc.getValue().getOpeningHours().getSeconds() +
                     " - " +

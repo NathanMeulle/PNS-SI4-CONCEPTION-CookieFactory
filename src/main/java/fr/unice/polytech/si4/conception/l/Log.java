@@ -12,7 +12,9 @@ public class Log {
 
     protected static final List<String> myLog = new ArrayList<>();
 
-    Log() {}
+    Log(){
+        //empty constructor.
+    }
 
     public static void add(String s){
         myLog.add(s);

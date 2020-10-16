@@ -7,12 +7,12 @@ import java.util.HashMap;
 
 
 public class Order {
-    protected int idOrder;
-    protected Date date;
-    protected Store store;
-    protected int price;
-    protected HashMap<Cookie, Integer> cookies;
-    protected AnonymousCustomer anonymousCustomer;
+    private int idOrder;
+    private Date date;
+    private Store store;
+    private int price;
+    private HashMap<Cookie, Integer> cookies;
+    private AnonymousCustomer anonymousCustomer; // TODO for myself, think about that...
 
     public Order(Store store, AnonymousCustomer anonymousCustomer) {
         this.idOrder = generateIdOrder();
@@ -28,7 +28,7 @@ public class Order {
      */
     private int generateIdOrder() {
         return 1000;
-    }
+    } // TODO create hashcode
 
     /**
      * Add a specific cookie to the order with a quantity. If the cookie is already present, increment its quantity
@@ -55,6 +55,11 @@ public class Order {
         });
         Log.add(String.format("La commande id:%d coûte %d€", this.getIdOrder(), this.price));
     }
+
+    /** ********************************************************************************
+     *                               GETTERS / SETTERS
+     *  ********************************************************************************
+     */
 
     public int getIdOrder() {
         return idOrder;

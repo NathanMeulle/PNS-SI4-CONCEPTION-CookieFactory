@@ -2,6 +2,8 @@ package fr.unice.polytech.si4.conception.l;
 
 import fr.unice.polytech.si4.conception.l.util.schedule.*;
 
+import java.util.Objects;
+
 public class Store {
 
     final private int id;
@@ -43,7 +45,6 @@ public class Store {
         return mail;
     }
 
-
     public void setTax(double tax) {
         this.tax = tax;
     }
@@ -52,5 +53,25 @@ public class Store {
     }
     public void setMail(String mail) {
         this.mail = mail;
+    }
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Store)) return false;
+        Store store = (Store) o;
+        return getId() == store.getId() &&
+                Double.compare(store.getTax(), getTax()) == 0 &&
+                getAddress().equals(store.getAddress()) &&
+                getPhone().equals(store.getPhone()) &&
+                getMail().equals(store.getMail()) &&
+                manager.equals(store.manager) &&
+                schedule.equals(store.schedule);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId(), getAddress(), getTax(), getPhone(), getMail(), manager, schedule);
     }
 }
