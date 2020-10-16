@@ -21,9 +21,12 @@ public class Cookie {
      * Creates a cookie with a name and a price
      * @param name cookie's name
      */
-    public Cookie(String name) {
+    public Cookie(String name, List<Ingredient> ingredients, Mix mix, Cooking cooking) {
         this.name = name;
-        this.price = price;
+        this.price = 5;
+        this.ingredients = ingredients;
+        this.mix = mix;
+        this.cooking = cooking;
     }
 
     public String getName() {
