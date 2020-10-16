@@ -2,17 +2,15 @@ package fr.unice.polytech.si4.conception.l;
 /** Represents an Order
  * @author Delmotte Vincent
  */
-import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
+
 
 public class Order {
     protected int idOrder;
     protected Date date;
     protected Store store;
     protected int price;
-    protected int nbOrder;
     protected HashMap<Cookie, Integer> cookies;
     protected AnonymousCustomer anonymousCustomer;
 
@@ -51,10 +49,11 @@ public class Order {
         calculatePrice();
     }
 
-    public void calculatePrice() {
+    private void calculatePrice() {
         cookies.forEach((cookie,quantity) -> {
             this.price += cookie.getPrice() * quantity;
         });
+        Log.add(String.format("La commande id:%d coûte %d€", this.getIdOrder(), this.price));
     }
 
     public int getIdOrder() {
@@ -67,10 +66,6 @@ public class Order {
 
     public Date getDate() {
         return date;
-    }
-
-    public void setDate(Date date) {
-        this.date = date;
     }
 
     public Store getStore() {
@@ -89,14 +84,6 @@ public class Order {
         this.price = price;
     }
 
-    public int getNbOrder() {
-        return nbOrder;
-    }
-
-    public void setNbOrder(int nbOrder) {
-        this.nbOrder = nbOrder;
-    }
-
     public HashMap<Cookie, Integer> getCookies() {
         return cookies;
     }
@@ -109,7 +96,4 @@ public class Order {
         return anonymousCustomer;
     }
 
-    public void setAnonymousCustomer(AnonymousCustomer anonymousCustomer) {
-        this.anonymousCustomer = anonymousCustomer;
-    }
 }
