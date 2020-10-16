@@ -14,7 +14,6 @@ public class Log {
 
     Log() {}
 
-
     public static void add(String s){
         myLog.add(s);
     }
