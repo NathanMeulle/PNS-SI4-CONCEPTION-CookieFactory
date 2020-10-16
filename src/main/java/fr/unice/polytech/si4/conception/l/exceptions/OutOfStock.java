@@ -1,4 +1,4 @@
-package fr.unice.polytech.si4.conception.l;
+package fr.unice.polytech.si4.conception.l.exceptions;
 
 /**
  * This exception warning that an order isn't achievable
