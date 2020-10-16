@@ -42,9 +42,11 @@ public class Order {
         if (cookies.containsKey(cookie)) {
             int updatedQuantity = cookies.get(cookie) + quantity;
             cookies.replace(cookie, updatedQuantity);
+            Log.add(String.format("Ajout de cookie : %s - quantité : %d",cookie.getName(), updatedQuantity));
         }
         else {
             cookies.put(cookie, quantity);
+            Log.add(String.format("Ajout de cookie : %s - quantité : %d",cookie.getName(), quantity));
         }
         calculatePrice();
     }
