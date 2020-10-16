@@ -30,7 +30,7 @@ public class Store {
     public int getId() {
         return id;
     }
-    public String getAdress() {
+    public String getAddress() {
         return address;
     }
     public double getTax() {
