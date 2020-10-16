@@ -11,11 +11,11 @@ import java.util.*;
  */
 public class Cookie {
 
-    protected String name;
-    protected int price;
-    protected Mix mix;
-    protected Cooking cooking;
-    protected List<Ingredient> ingredients;
+    private String name;
+    private int price;
+    private Mix mix;
+    private Cooking cooking;
+    private List<Ingredient> ingredients;
 
     /**
      * Creates a cookie with a name and a price
@@ -23,11 +23,20 @@ public class Cookie {
      */
     public Cookie(String name, List<Ingredient> ingredients, Mix mix, Cooking cooking) {
         this.name = name;
-        this.price = 5;
+        this.price = calculPrice();
         this.ingredients = ingredients;
         this.mix = mix;
         this.cooking = cooking;
     }
+
+    private int calculPrice() {
+        return 5;//TODO : calculer le vrai prix : parcourir les ingrédients pour connaitre le prix
+    }
+
+    /** ********************************************************************************
+     *                               GETTERS / SETTERS
+     *  ********************************************************************************
+     */
 
     public String getName() {
         return name;
@@ -59,5 +68,31 @@ public class Cookie {
 
     public void setCooking(Cooking cooking) {
         this.cooking = cooking;
+    }
+
+    public List<Ingredient> getIngredients() {
+        return ingredients;
+    }
+
+    public void setIngredients(List<Ingredient> ingredients) {
+        this.ingredients = ingredients;
+    }
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Cookie)) return false;
+        Cookie cookie = (Cookie) o;
+        return getPrice() == cookie.getPrice() &&
+                Objects.equals(getName(), cookie.getName()) &&
+                getMix() == cookie.getMix() &&
+                getCooking() == cookie.getCooking() &&
+                Objects.equals(getIngredients(), cookie.getIngredients());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getName(), getPrice(), getMix(), getCooking(), getIngredients());
     }
 }
