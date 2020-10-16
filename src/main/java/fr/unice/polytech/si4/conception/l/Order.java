@@ -96,4 +96,8 @@ public class Order {
         return anonymousCustomer;
     }
 
+    public boolean isAchievable() {
+        return Kitchen.achievableCookie(cookies);
+    }
+
 }
