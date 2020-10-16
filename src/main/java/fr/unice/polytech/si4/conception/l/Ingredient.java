@@ -1,15 +1,18 @@
 package fr.unice.polytech.si4.conception.l;
 
 
+import fr.unice.polytech.si4.conception.l.cookie.composition.IngredientType;
 
 public class Ingredient {
 
-    protected String name;
-    protected int price;
+    private String name;
+    private int price;
+    private IngredientType type;
 
-    public Ingredient(String name, int price) {
+    public Ingredient(String name, int price, IngredientType type) {
         this.name = name;
         this.price = price;
+        this.type = type;
     }
 
     public String getName() {
