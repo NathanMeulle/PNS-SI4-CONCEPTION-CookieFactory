@@ -1,9 +1,11 @@
 package fr.unice.polytech.si4.conception.l;
 
 
-import fr.unice.polytech.si4.conception.l.cookie.composition.*;
+import fr.unice.polytech.si4.conception.l.cookie.composition.Cooking;
+import fr.unice.polytech.si4.conception.l.cookie.composition.Mix;
 
-import java.util.*;
+import java.util.List;
+import java.util.Objects;
 
 
 /** Represents a Cookie

@@ -2,6 +2,9 @@ package fr.unice.polytech.si4.conception.l;
 
 import java.util.Objects;
 
+/**
+ * Class of an AnonynousCustomer
+ */
 public class AnonymousCustomer {
 
     private String phoneNumber;
@@ -11,7 +14,7 @@ public class AnonymousCustomer {
     }
 
     public void makeOrder(){
-
+    //TODO à completer
     }
 
     @Override

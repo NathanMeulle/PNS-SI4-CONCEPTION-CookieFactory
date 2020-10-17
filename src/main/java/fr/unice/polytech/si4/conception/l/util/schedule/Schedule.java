@@ -1,6 +1,6 @@
 package fr.unice.polytech.si4.conception.l.util.schedule;
 
-import java.util.HashMap;
+import java.util.EnumMap;
 import java.util.Map;
 
 /**
@@ -8,10 +8,10 @@ import java.util.Map;
  * Custom class to manage a store's opening/closing hours
  */
 public class Schedule {
-    private Map<Day, Time> openingHours;
+    private EnumMap<Day, Time> openingHours;
 
     public Schedule(){
-        openingHours = new HashMap<>(); //TODO : faire un constructeur par défaut 8-18h
+        openingHours = new EnumMap<>(Day.class); //TODO : faire un constructeur par défaut 8-18h
     }
     /**
      * Creates a working schedule for a Store
@@ -20,7 +20,7 @@ public class Schedule {
      */
 
     public Schedule(Day openDay, Time openTime){ //TODO constructeur permettant d'initialiser un seul jour... #useless
-        openingHours = new HashMap<>();
+        openingHours = new EnumMap<>(Day.class);
         openingHours.put(openDay, openTime);
     }
 
@@ -33,7 +33,7 @@ public class Schedule {
         return openingHours;
     }
 
-    public void setOpeningHours(Map<Day, Time> openingHours) {
+    public void setOpeningHours(EnumMap<Day, Time> openingHours) {
         this.openingHours = openingHours;
     }
 
@@ -42,13 +42,14 @@ public class Schedule {
 //TODO : supprimer jour d'ouverture ?
 
     @Override
+    @Deprecated
     public String toString() {
 
         String str = "";
 
         for ( Map.Entry<Day, Time> sc : openingHours.entrySet()){
             str +=  "Open :" + sc.getKey() +
-                    "," + sc.getValue().getOpeningHours().getHours() + //TODO : changer deprecated...
+                    "," + sc.getValue().getOpeningHours().getHours() +
                     ":" + sc.getValue().getOpeningHours().getMinutes() +
                     ":" + sc.getValue().getOpeningHours().getSeconds() +
                     " - " +

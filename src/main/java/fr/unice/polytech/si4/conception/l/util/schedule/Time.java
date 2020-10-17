@@ -2,6 +2,7 @@ package fr.unice.polytech.si4.conception.l.util.schedule;
 
 import java.util.Date;
 
+
 /**
  * @author Asaréel DADIOUARI
  * Custom class to display Time
@@ -10,11 +11,12 @@ public class Time {
     private Date openingHours;
     private Date closingHours;
 
+    @Deprecated // utiliser java.util.Calendar sinon
     public Time(int openingHour, int openingMinute, int openingSeconds, int closingHour, int closingMinute, int closingSecond){
         openingHours = new Date();
         closingHours = new Date();
 
-        openingHours.setHours(openingHour); //TODO deprecated...
+        openingHours.setHours(openingHour);
         openingHours.setMinutes(openingMinute);
         openingHours.setSeconds(openingSeconds);
 

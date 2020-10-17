@@ -1,6 +1,6 @@
 package fr.unice.polytech.si4.conception.l;
 
-import fr.unice.polytech.si4.conception.l.util.schedule.*;
+import fr.unice.polytech.si4.conception.l.util.schedule.Schedule;
 
 import java.util.Objects;
 

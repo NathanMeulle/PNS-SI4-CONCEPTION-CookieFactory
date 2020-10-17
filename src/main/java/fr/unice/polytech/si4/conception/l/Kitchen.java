@@ -1,7 +1,7 @@
 package fr.unice.polytech.si4.conception.l;
 
 
-import fr.unice.polytech.si4.conception.l.exceptions.OutOfStock;
+import fr.unice.polytech.si4.conception.l.exceptions.OutOfStockException;
 
 import java.util.HashMap;
 
@@ -11,7 +11,7 @@ import java.util.HashMap;
  */
 public class Kitchen {
 
-    static private HashMap<Ingredient, Integer> stock;
+    private HashMap<Ingredient, Integer> stock;
 
     public Kitchen() {
         stock = new HashMap<>();
@@ -25,7 +25,7 @@ public class Kitchen {
      * @return : a boolean indicating true if all cookies are feasible and false
      * if at least one cookie is not feasible
      */
-    static public boolean achievableCookie(HashMap<Cookie, Integer> cookieList) {
+    public boolean achievableCookie(HashMap<Cookie, Integer> cookieList) {
         for (Cookie c : cookieList.keySet()) {           //On itère sur chaque cookie de la HashMap cookieList
             for (int i = 0; i < cookieList.get(c); i++) {  //Puis pour chaque cookie on boucle sur le nombre indiqué dans cookielist
                 if (!canDo(c)) {      // On vérfie si les ingrédients du cookie sont disponibles en stock avec la méthode canDo
@@ -42,7 +42,7 @@ public class Kitchen {
      * @param cookie : a cookie
      * @return a boolean with true if the recipe is feasible and false in contrary
      */
-    static public boolean canDo(Cookie cookie) {
+    public boolean canDo(Cookie cookie) {
         for (Ingredient i : cookie.getIngredients()) {
             try {
                 sufficientQuantity(i);
@@ -60,9 +60,9 @@ public class Kitchen {
      * @param ingredient : ingredient to evaluate
      * @return : a boolean with true if the ingredient is in sufficient quantity and false in contrary
      */
-    static void sufficientQuantity(Ingredient ingredient) throws OutOfStock {
+    void sufficientQuantity(Ingredient ingredient) throws OutOfStockException {
         if (getQuantity(ingredient) <= 0) {
-            throw new OutOfStock(String.format("Ingredient : %s is out of stock", ingredient.getName()));
+            throw new OutOfStockException(String.format("Ingredient : %s is out of stock", ingredient.getName()));
         }
     }
 
@@ -72,7 +72,7 @@ public class Kitchen {
      * @param ingredient : ingredient to evaluate
      * @return : an int of the quantity of the ingredient
      */
-    static int getQuantity(Ingredient ingredient) {
+    int getQuantity(Ingredient ingredient) {
         return stock.get(ingredient);
     }
 }

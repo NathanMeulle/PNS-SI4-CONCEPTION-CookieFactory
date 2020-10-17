@@ -6,12 +6,16 @@ public class OrderHistory {
 
     private ArrayList<Order> listOrder;
 
-    public OrderHistory() {}
+    public OrderHistory() {
+        //TODO
+    }
 
     public void addOrder(Order order){
         listOrder.add(order);
     }
 
-    public void generateStats() {}
-    
+    public void generateStats() {
+        //TODO
+    }
+
 }

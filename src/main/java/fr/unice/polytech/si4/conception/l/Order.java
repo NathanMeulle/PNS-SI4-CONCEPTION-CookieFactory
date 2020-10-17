@@ -101,8 +101,8 @@ public class Order {
         return anonymousCustomer;
     }
 
-    public boolean isAchievable() {
-        return Kitchen.achievableCookie(cookies);
-    }
+//    public boolean isAchievable() {
+//        return Kitchen.achievableCookie(cookies);
+//    } //TODO à revoir
 
 }

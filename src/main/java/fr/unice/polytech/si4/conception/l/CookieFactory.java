@@ -1,6 +1,7 @@
 package fr.unice.polytech.si4.conception.l;
-import java.util.ArrayList;
-import java.util.HashSet;
+
+import fr.unice.polytech.si4.conception.l.exceptions.AlreadyCreatedException;
+
 import java.util.List;
 import java.util.Set;
 
@@ -23,27 +24,27 @@ public class CookieFactory {
      * allows the creation of a new store
      * @param store a store object
      */
-    public void addStore(Store store) throws IllegalArgumentException {
+    public void addStore(Store store) throws AlreadyCreatedException {
         if(stores.contains(store)){
-            throw new IllegalArgumentException("Store already exists");
+            throw new AlreadyCreatedException("Store already exists");
         }
         else {
             stores.add(store);
         }
     }
 
-    public void addCookie(Cookie cookie) throws IllegalArgumentException {
+    public void addCookie(Cookie cookie) throws AlreadyCreatedException {
         if(cookies.contains(cookie)){
-            throw new IllegalArgumentException("Cookie already exists");
+            throw new AlreadyCreatedException("Cookie already exists");
         }
         else {
             cookies.add(cookie);
         }
     }
 
-    public void addCustomer(Customer customer) throws IllegalArgumentException{
+    public void addCustomer(Customer customer) throws AlreadyCreatedException{
         if(customers.contains(customer)){
-            throw new IllegalArgumentException("Customer already exists");
+            throw new AlreadyCreatedException("Customer already exists");
         }
         else {
             customers.add(customer);

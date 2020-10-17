@@ -3,6 +3,7 @@ package fr.unice.polytech.si4.conception.l;
 import fr.unice.polytech.si4.conception.l.cookie.composition.Cooking;
 import fr.unice.polytech.si4.conception.l.cookie.composition.IngredientType;
 import fr.unice.polytech.si4.conception.l.cookie.composition.Mix;
+import fr.unice.polytech.si4.conception.l.exceptions.AlreadyCreatedException;
 import io.cucumber.java8.En;
 
 import java.util.ArrayList;
@@ -43,7 +44,7 @@ public class CreateRecipeStepdefs implements En {
             cookieFactory.addCookie(cookie);
         });
         And("^The cookie \"([^\"]*)\" can't be add a second time$", (String arg0) -> {
-            assertThrows(IllegalArgumentException.class, () -> cookieFactory.addCookie(cookie));
+            assertThrows(AlreadyCreatedException.class, () -> cookieFactory.addCookie(cookie));
 
         });
     }
