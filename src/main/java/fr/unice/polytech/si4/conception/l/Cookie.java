@@ -25,14 +25,14 @@ public class Cookie {
      */
     public Cookie(String name, List<Ingredient> ingredients, Mix mix, Cooking cooking) {
         this.name = name;
-        this.price = calculPrice();
         this.ingredients = ingredients;
+        this.price = calculPrice();
         this.mix = mix;
         this.cooking = cooking;
     }
 
     private int calculPrice() { ;
-        if(this.ingredients.size() == 0)
+        if(this.ingredients.isEmpty())
             return 0;
         int price = 0;
         for (Ingredient i : this.ingredients) {
