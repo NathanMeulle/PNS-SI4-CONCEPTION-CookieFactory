@@ -16,12 +16,17 @@ public class Schedule {
     }
     /**
      * Creates a working schedule for a Store
-     * @param openDay opening day
      * @param openTime opening hour
      */
-    public Schedule(Day openDay, Time openTime){ //TODO constructeur permettant d'initialiser un seul jour... #useless
+    public Schedule(Time openTime){ //TODO constructeur permettant d'initialiser un seul jour... #useless
         openingHours = new EnumMap<>(Day.class);
-        openingHours.put(openDay, openTime);
+        openingHours.put(Day.MONDAY, openTime);
+        openingHours.put(Day.TUESDAY, openTime);
+        openingHours.put(Day.WEDNESDAY, openTime);
+        openingHours.put(Day.THURSDAY,openTime);
+        openingHours.put(Day.FRIDAY, openTime);
+        openingHours.put(Day.SATURDAY, openTime);
+        openingHours.put(Day.SUNDAY, openTime);
     }
 
     public Schedule(boolean defaultSchedule) {
