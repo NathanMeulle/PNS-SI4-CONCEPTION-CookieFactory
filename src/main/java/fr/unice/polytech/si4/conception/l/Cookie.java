@@ -31,8 +31,14 @@ public class Cookie {
         this.cooking = cooking;
     }
 
-    private int calculPrice() {
-        return 5;//TODO : calculer le vrai prix : parcourir les ingrédients pour connaitre le prix
+    private int calculPrice() { ;
+        if(this.ingredients.size() == 0)
+            return 0;
+        int price = 0;
+        for (Ingredient i : this.ingredients) {
+            price+= i.getPrice();
+        }
+        return price;
     }
 
     /** ********************************************************************************

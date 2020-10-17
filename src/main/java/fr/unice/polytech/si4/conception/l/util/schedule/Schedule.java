@@ -52,7 +52,7 @@ public class Schedule {
 
     public void addOpeningHours(Day day, Time time) { openingHours.put(day, time);}
 
-    public void deleteOpeningHours(Day day){
+    public void deleteDayOpeningHours(Day day){
         this.openingHours.remove(day);
     }
 
