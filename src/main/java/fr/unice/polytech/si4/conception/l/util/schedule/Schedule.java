@@ -5,6 +5,7 @@ import java.util.Map;
 
 /**
  * @author Asaréel DADIOUARI
+ * @author Lemuel DONTO
  * Custom class to manage a store's opening/closing hours
  */
 public class Schedule {
@@ -18,10 +19,23 @@ public class Schedule {
      * @param openDay opening day
      * @param openTime opening hour
      */
-
     public Schedule(Day openDay, Time openTime){ //TODO constructeur permettant d'initialiser un seul jour... #useless
         openingHours = new EnumMap<>(Day.class);
         openingHours.put(openDay, openTime);
+    }
+
+    public Schedule(boolean defaultSchedule) {
+        if(defaultSchedule){
+            openingHours = new EnumMap<>(Day.class);
+            Time t = new Time(8, 0,0, 18, 0,0);
+            openingHours.put(Day.MONDAY, t);
+            openingHours.put(Day.TUESDAY, t);
+            openingHours.put(Day.WEDNESDAY, t);
+            openingHours.put(Day.THURSDAY, t);
+            openingHours.put(Day.FRIDAY, t);
+            openingHours.put(Day.SATURDAY, t);
+            openingHours.put(Day.SUNDAY, t);
+        }
     }
 
     /** ********************************************************************************
