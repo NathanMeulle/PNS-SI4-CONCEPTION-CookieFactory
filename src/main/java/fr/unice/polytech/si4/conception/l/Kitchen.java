@@ -72,11 +72,19 @@ public class Kitchen {
             this.stock.put(ingredient, 0);
     }
 
-    void setStock(Ingredient ingredient, int n){
+    public HashMap<Ingredient, Integer> getStock() {
+        return stock;
+    }
+
+    public void setStock(HashMap<Ingredient, Integer> stock) {
+        this.stock = stock;
+    }
+
+    void incrementStock(Ingredient ingredient, int n){
         this.stock.put(ingredient, this.stock.get(ingredient) + n);
     }
 
-    void setStock(HashMap<Ingredient, Integer> ingredientList){
+    void incrementStock(HashMap<Ingredient, Integer> ingredientList){
         for (Ingredient i : ingredientList.keySet()) {
             this.stock.put(i, this.stock.get(i) + ingredientList.get(i));
         }
