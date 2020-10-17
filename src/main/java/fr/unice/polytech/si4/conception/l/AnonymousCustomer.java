@@ -8,8 +8,10 @@ import java.util.Objects;
 public class AnonymousCustomer {
 
     private String phoneNumber;
+    private String name;
 
-    public AnonymousCustomer(String phoneNumber) {
+    public AnonymousCustomer(String name, String phoneNumber) {
+        this.name = name;
         this.phoneNumber = phoneNumber;
     }
 

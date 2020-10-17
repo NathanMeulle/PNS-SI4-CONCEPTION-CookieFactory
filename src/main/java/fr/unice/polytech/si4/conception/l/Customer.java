@@ -9,8 +9,8 @@ public class Customer extends AnonymousCustomer{
     private boolean loyaltyProgramn;
     private int nbCookieOrdered;
 
-    public Customer(String phoneNumber, String mail) {
-        super(phoneNumber);
+    public Customer(String name, String phoneNumber, String mail) {
+        super(name,phoneNumber);
         this.mail = mail;
         this.loyaltyProgramn = false;
         this.nbCookieOrdered = 0;

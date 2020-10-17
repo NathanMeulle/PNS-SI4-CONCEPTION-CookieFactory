@@ -26,26 +26,25 @@ public class Kitchen {
      * if at least one cookie is not feasible
      */
     public boolean achievableCookie(HashMap<Cookie, Integer> cookieList) {
-        for (Cookie c : cookieList.keySet()) {           //On itère sur chaque cookie de la HashMap cookieList
-            for (int i = 0; i < cookieList.get(c); i++) {  //Puis pour chaque cookie on boucle sur le nombre indiqué dans cookielist
-                if (!canDo(c)) {      // On vérfie si les ingrédients du cookie sont disponibles en stock avec la méthode canDo
-                    return false;   // Et on retourne false si ce n'est pas le cas.
-                } // TODO : A CORRIGER : don't work : ici la quantité n'est pas décrémentée des stocks, on ne peut donc pas savoir si l'on peut faire 2 cookies
+        HashMap<Ingredient, Integer> requests = new HashMap<>();
+        for (Cookie c : cookieList.keySet()) {
+            for (Ingredient i : c.getIngredients()) {
+                requests.put(i, cookieList.get(c));
             }
         }
-        return true;  //Sinon, on retourne true
+        return canDo(requests);
     }
 
     /**
      * Indicate if all the ingredients of a cookie are present in the stock and if there are in quantity
      *
-     * @param cookie : a cookie
+     * @param ingredientsMap : a cookie
      * @return a boolean with true if the recipe is feasible and false in contrary
      */
-    public boolean canDo(Cookie cookie) {
-        for (Ingredient i : cookie.getIngredients()) {
+    public boolean canDo(HashMap<Ingredient, Integer> ingredientsMap) {
+        for (Ingredient i : ingredientsMap.keySet()) {
             try {
-                sufficientQuantity(i);
+                sufficientQuantity(i, ingredientsMap.get(i));
             } catch (Exception e) {
                 Log.add(e.getMessage());
                 return false;
@@ -60,8 +59,8 @@ public class Kitchen {
      * @param ingredient : ingredient to evaluate
      * @return : a boolean with true if the ingredient is in sufficient quantity and false in contrary
      */
-    void sufficientQuantity(Ingredient ingredient) throws OutOfStockException {
-        if (getQuantity(ingredient) <= 0) {
+    void sufficientQuantity(Ingredient ingredient, int n) throws OutOfStockException {
+        if (getQuantity(ingredient) < n) {
             throw new OutOfStockException(String.format("Ingredient : %s is out of stock", ingredient.getName()));
         }
     }
@@ -75,6 +74,7 @@ public class Kitchen {
     int getQuantity(Ingredient ingredient) {
         return stock.get(ingredient);
     }
+
 }
 
 
