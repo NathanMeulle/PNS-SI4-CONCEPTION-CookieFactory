@@ -1,24 +1,50 @@
 package fr.unice.polytech.si4.conception.l;
 
+import fr.unice.polytech.si4.conception.l.cookie.composition.Cooking;
+import fr.unice.polytech.si4.conception.l.cookie.composition.IngredientType;
+import fr.unice.polytech.si4.conception.l.cookie.composition.Mix;
 import io.cucumber.java8.En;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class CreateRecipeStepdefs implements En {
 
-    CookieFactory cookieFactory;
-    Cookie cookie;
+    private CookieFactory cookieFactory;
+    private Cookie cookie;
+    private int nbCookies;
 
     public CreateRecipeStepdefs() {
-        Given("^a factory with (\\d+) cookie and (\\d+) store$", (Integer arg0, Integer arg1) -> {
+
+        Given("^a factory with a store$", () -> {
+            Manager manager = new Manager(1, "Nathan");
+            Store store = new Store(1, "a", 1.0, "01", "mail.com", manager);
+            manager.assignStore(store);
+            List<Store> stores = new ArrayList<>();
+            stores.add(store);
+            cookieFactory = new CookieFactory(new ArrayList<>(), stores);
         });
+
         And("^a cookie of name \"([^\"]*)\"$", (String arg0) -> {
+            List<Ingredient> ingredients = new ArrayList<>();
+            ingredients.add(new Ingredient("Chocolate", 2, IngredientType.FLAVOR));
+            cookie = new Cookie(arg0, ingredients, Mix.MIXED, Cooking.CRUNCHY);
         });
         When("^the factory requests his number of cookies$", () -> {
+            nbCookies = cookieFactory.getCookies().size();
         });
         Then("^There is (\\d+) in his number of cookies$", (Integer arg0) -> {
+            assertEquals(arg0.intValue(),nbCookies);
         });
         When("^the factory adds the cookie \"([^\"]*)\"$", (String arg0) -> {
+            cookieFactory.addCookie(cookie);
         });
         And("^The cookie \"([^\"]*)\" can't be add a second time$", (String arg0) -> {
+            assertThrows(IllegalArgumentException.class, () -> cookieFactory.addCookie(cookie));
+
         });
     }
 }

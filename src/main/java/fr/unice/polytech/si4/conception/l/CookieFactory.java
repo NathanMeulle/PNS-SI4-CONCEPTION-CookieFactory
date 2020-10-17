@@ -23,7 +23,7 @@ public class CookieFactory {
      * allows the creation of a new store
      * @param store a store object
      */
-    public void addStore(Store store){
+    public void addStore(Store store) throws IllegalArgumentException {
         if(stores.contains(store)){
             throw new IllegalArgumentException("Store already exists");
         }
@@ -32,7 +32,7 @@ public class CookieFactory {
         }
     }
 
-    public void addCookie(Cookie cookie){
+    public void addCookie(Cookie cookie) throws IllegalArgumentException {
         if(cookies.contains(cookie)){
             throw new IllegalArgumentException("Cookie already exists");
         }
@@ -41,7 +41,7 @@ public class CookieFactory {
         }
     }
 
-    public void addCustomer(Customer customer){
+    public void addCustomer(Customer customer) throws IllegalArgumentException{
         if(customers.contains(customer)){
             throw new IllegalArgumentException("Customer already exists");
         }
