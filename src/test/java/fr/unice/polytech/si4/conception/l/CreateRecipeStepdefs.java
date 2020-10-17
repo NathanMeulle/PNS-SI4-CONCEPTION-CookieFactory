@@ -29,18 +29,18 @@ public class CreateRecipeStepdefs implements En {
             cookieFactory = new CookieFactory(new ArrayList<>(), stores);
         });
 
-        And("^a cookie of name \"([^\"]*)\"$", (String arg0) -> {
+        And("^a recipe of a cookie named \"([^\"]*)\"$", (String arg0) -> {
             List<Ingredient> ingredients = new ArrayList<>();
             ingredients.add(new Ingredient("Chocolate", 2, IngredientType.FLAVOR));
             cookie = new Cookie(arg0, ingredients, Mix.MIXED, Cooking.CRUNCHY);
         });
-        When("^the factory requests his number of cookies$", () -> {
+        When("^the factory requests his number of recipe$", () -> {
             nbCookies = cookieFactory.getCookies().size();
         });
-        Then("^There is (\\d+) in his number of cookies$", (Integer arg0) -> {
+        Then("^There is (\\d+) in his number of recipe$", (Integer arg0) -> {
             assertEquals(arg0.intValue(),nbCookies);
         });
-        When("^the factory adds the cookie \"([^\"]*)\"$", (String arg0) -> {
+        When("^the factory adds the recipe \"([^\"]*)\"$", (String arg0) -> {
             cookieFactory.addCookie(cookie);
         });
         And("^The cookie \"([^\"]*)\" can't be add a second time$", (String arg0) -> {
