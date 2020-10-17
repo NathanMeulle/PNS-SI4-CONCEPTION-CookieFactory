@@ -12,13 +12,21 @@ public class Schedule {
     private EnumMap<Day, Time> openingHours;
 
     public Schedule(){
-        openingHours = new EnumMap<>(Day.class); //TODO : faire un constructeur par défaut 8-18h
+        openingHours = new EnumMap<>(Day.class);
+        Time t = new Time(8, 0,0, 18, 0,0);
+        openingHours.put(Day.MONDAY, t);
+        openingHours.put(Day.TUESDAY, t);
+        openingHours.put(Day.WEDNESDAY, t);
+        openingHours.put(Day.THURSDAY, t);
+        openingHours.put(Day.FRIDAY, t);
+        openingHours.put(Day.SATURDAY, t);
+        openingHours.put(Day.SUNDAY, t);
     }
     /**
      * Creates a working schedule for a Store
      * @param openTime opening hour
      */
-    public Schedule(Time openTime){ //TODO constructeur permettant d'initialiser un seul jour... #useless
+    public Schedule(Time openTime){
         openingHours = new EnumMap<>(Day.class);
         openingHours.put(Day.MONDAY, openTime);
         openingHours.put(Day.TUESDAY, openTime);
@@ -27,20 +35,6 @@ public class Schedule {
         openingHours.put(Day.FRIDAY, openTime);
         openingHours.put(Day.SATURDAY, openTime);
         openingHours.put(Day.SUNDAY, openTime);
-    }
-
-    public Schedule(boolean defaultSchedule) {
-        if(defaultSchedule){
-            openingHours = new EnumMap<>(Day.class);
-            Time t = new Time(8, 0,0, 18, 0,0);
-            openingHours.put(Day.MONDAY, t);
-            openingHours.put(Day.TUESDAY, t);
-            openingHours.put(Day.WEDNESDAY, t);
-            openingHours.put(Day.THURSDAY, t);
-            openingHours.put(Day.FRIDAY, t);
-            openingHours.put(Day.SATURDAY, t);
-            openingHours.put(Day.SUNDAY, t);
-        }
     }
 
     /** ********************************************************************************
@@ -58,7 +52,9 @@ public class Schedule {
 
     public void addOpeningHours(Day day, Time time) { openingHours.put(day, time);}
 
-//TODO : supprimer jour d'ouverture ?
+    public void deleteOpeningHours(Day day){
+        this.openingHours.remove(day);
+    }
 
     @Override
     @Deprecated
