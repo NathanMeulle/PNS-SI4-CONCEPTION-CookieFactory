@@ -22,8 +22,8 @@ public class Store {
         this.tax = tax;
         this.phone = phone;
         this.mail = mail;
-        manager.assignStore(this);
         this.manager = manager;
+        this.manager.assignStore(this);
         this.schedule = new Schedule();
         this.kitchen = new Kitchen();
         this.kitchen.assignStore(this);
@@ -90,5 +90,29 @@ public class Store {
     @Override
     public int hashCode() {
         return Objects.hash(getId(), getAddress(), getTax(), getPhone(), getMail(), manager, schedule);
+    }
+
+    public Manager getManager() {
+        return manager;
+    }
+
+    public void setManager(Manager manager) {
+        this.manager = manager;
+    }
+
+    public Schedule getSchedule() {
+        return schedule;
+    }
+
+    public void setSchedule(Schedule schedule) {
+        this.schedule = schedule;
+    }
+
+    public Kitchen getKitchen() {
+        return kitchen;
+    }
+
+    public void setKitchen(Kitchen kitchen) {
+        this.kitchen = kitchen;
     }
 }

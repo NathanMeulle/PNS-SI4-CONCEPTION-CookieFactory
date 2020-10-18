@@ -74,14 +74,14 @@ public class Kitchen {
         decrementStock(requireIngredients(cookieList));
     }
 
-    private void decrementStock(Ingredient ingredient, int nbre){
+     void decrementStock(Ingredient ingredient, int nbre){
         if(this.stock.get(ingredient) > nbre)
             this.stock.put(ingredient, (this.stock.get(ingredient) - nbre));
         else
             this.stock.put(ingredient, 0);
     }
 
-    private void decrementStock(HashMap<Ingredient, Integer> ingredientList){
+     void decrementStock(HashMap<Ingredient, Integer> ingredientList){
         for (Ingredient i : ingredientList.keySet()) {
             this.stock.put(i, this.stock.get(i) - ingredientList.get(i));
         }
@@ -96,7 +96,11 @@ public class Kitchen {
     }
 
     void incrementStock(Ingredient ingredient, int n){
-        this.stock.put(ingredient, this.stock.get(ingredient) + n);
+        if (!this.stock.containsKey(ingredient))
+            this.stock.put(ingredient, n);
+        else
+            this.stock.replace(ingredient, this.stock.get(ingredient) + n);
+
     }
 
     void incrementStock(HashMap<Ingredient, Integer> ingredientList){
