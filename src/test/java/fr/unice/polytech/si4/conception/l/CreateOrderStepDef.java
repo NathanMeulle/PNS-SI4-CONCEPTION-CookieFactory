@@ -34,7 +34,7 @@ public class CreateOrderStepDef implements En {
 
         });
         When("^the anonymous client create an order$", () -> {
-            order = new Order(store, anonymousCustomer);
+            order = anonymousCustomer.createOrder(store);
         });
 
         Then("^There is (\\d+) in his number of cookies$", (Integer arg0) -> {

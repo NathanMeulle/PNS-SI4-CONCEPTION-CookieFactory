@@ -2,6 +2,7 @@ package fr.unice.polytech.si4.conception.l;
 
 import fr.unice.polytech.si4.conception.l.util.schedule.Schedule;
 
+import java.util.HashMap;
 import java.util.Objects;
 
 public class Store {
@@ -13,6 +14,7 @@ public class Store {
     private String mail;
     private Manager manager;
     private Schedule schedule;
+    private Kitchen kitchen;
 
     public Store(int id, String address, double tax, String phone, String mail, Manager manager) {
         this.id = id;
@@ -23,6 +25,8 @@ public class Store {
         manager.assignStore(this);
         this.manager = manager;
         this.schedule = new Schedule();
+        this.kitchen = new Kitchen();
+        this.kitchen.assignStore(this);
     }
 
     /** ********************************************************************************
@@ -68,6 +72,19 @@ public class Store {
                 getMail().equals(store.getMail()) &&
                 manager.equals(store.manager) &&
                 schedule.equals(store.schedule);
+    }
+
+    boolean achievableCookie(HashMap<Cookie, Integer> cookies){
+        return this.kitchen.canDo(cookies);
+    }
+
+    void prepareOrder(Order order){
+        this.kitchen.prepareCookies(order.getCookies());
+        notify(order.getAnonymousCustomer());
+    }
+
+    void notify(AnonymousCustomer anonymousCustomer){
+        Log.add(" An email was sent to "+ anonymousCustomer.getName() +" to come and collect his order. ");
     }
 
     @Override

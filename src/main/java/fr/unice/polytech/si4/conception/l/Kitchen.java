@@ -12,6 +12,7 @@ import java.util.HashMap;
 public class Kitchen {
 
     private HashMap<Ingredient, Integer> stock;
+    private Store store;
 
     public Kitchen() {
         stock = new HashMap<>();
@@ -59,17 +60,31 @@ public class Kitchen {
      * @param ingredient : ingredient to evaluate
      * @return : a boolean with true if the ingredient is in sufficient quantity and false in contrary
      */
-    void sufficientQuantity(Ingredient ingredient, int nbre) throws OutOfStockException {
+    private void sufficientQuantity(Ingredient ingredient, int nbre) throws OutOfStockException {
         if (getQuantity(ingredient) < nbre) {
             throw new OutOfStockException(String.format("Ingredient : %s is out of stock", ingredient.getName()));
         }
     }
 
-    void decrementStock(Ingredient ingredient, int nbre){
+    void assignStore(Store store){
+        this.store = store;
+    }
+
+    void prepareCookies(HashMap<Cookie, Integer> cookieList) {
+        decrementStock(requireIngredients(cookieList));
+    }
+
+    private void decrementStock(Ingredient ingredient, int nbre){
         if(this.stock.get(ingredient) > nbre)
             this.stock.put(ingredient, (this.stock.get(ingredient) - nbre));
         else
             this.stock.put(ingredient, 0);
+    }
+
+    private void decrementStock(HashMap<Ingredient, Integer> ingredientList){
+        for (Ingredient i : ingredientList.keySet()) {
+            this.stock.put(i, this.stock.get(i) - ingredientList.get(i));
+        }
     }
 
     public HashMap<Ingredient, Integer> getStock() {

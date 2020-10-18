@@ -12,13 +12,15 @@ public class Order {
     private Store store;
     private int price;
     private HashMap<Cookie, Integer> cookies;
-    private AnonymousCustomer anonymousCustomer; // TODO for myself, think about that...
+    private AnonymousCustomer anonymousCustomer;
 
-    public Order(Store store, AnonymousCustomer anonymousCustomer) {
+    public Order() {
         this.idOrder = generateIdOrder();
-        this.store = store;
         this.date = new Date();
         this.cookies = new HashMap<>();
+    }
+
+    public void assignCustomer(AnonymousCustomer anonymousCustomer){
         this.anonymousCustomer = anonymousCustomer;
     }
 
@@ -101,8 +103,14 @@ public class Order {
         return anonymousCustomer;
     }
 
-//    public boolean isAchievable() {
-//        return Kitchen.achievableCookie(cookies);
-//    } //TODO à revoir
+    public void validOrder() {
+        if(isAchievable()){
+            this.store.prepareOrder(this);
+        }
+    }
+
+    public boolean isAchievable() {
+        return this.store.achievableCookie(cookies);
+  }
 
 }
