@@ -106,7 +106,7 @@ public class Kitchen {
         if (!this.stock.containsKey(ingredient))
             this.stock.put(ingredient, n);
         else
-            this.stock.replace(ingredient, this.stock.get(ingredient) + n);
+            this.stock.replace(ingredient, getQuantity(ingredient) + n);
 
     }
 
@@ -118,7 +118,7 @@ public class Kitchen {
      */
     void incrementStock(HashMap<Ingredient, Integer> ingredientList){
         for (Ingredient i : ingredientList.keySet()) {
-            this.stock.put(i, this.stock.get(i) + ingredientList.get(i));
+            this.stock.put(i, getQuantity(i) + ingredientList.get(i));
         }
     }
 
@@ -131,8 +131,8 @@ public class Kitchen {
      * @param n : number of ingredient
      */
     void decrementStock(Ingredient ingredient, int n){
-        if(this.stock.get(ingredient) > n)
-            this.stock.put(ingredient, (this.stock.get(ingredient) - n));
+        if(getQuantity(ingredient) > n)
+            this.stock.put(ingredient, (getQuantity(ingredient) - n));
         else
             this.stock.put(ingredient, 0);
     }
@@ -145,7 +145,7 @@ public class Kitchen {
      */
     void decrementStock(HashMap<Ingredient, Integer> ingredientList){
         for (Ingredient i : ingredientList.keySet()) {
-            this.stock.put(i, this.stock.get(i) - ingredientList.get(i));
+            this.stock.put(i, getQuantity(i) - ingredientList.get(i));
         }
     }
 
