@@ -60,30 +60,9 @@ public class Kitchen {
      * @param ingredient : ingredient to evaluate
      * @return : a boolean with true if the ingredient is in sufficient quantity and false in contrary
      */
-    private void sufficientQuantity(Ingredient ingredient, int nbre) throws OutOfStockException {
-        if (getQuantity(ingredient) < nbre) {
+    private void sufficientQuantity(Ingredient ingredient, int n) throws OutOfStockException {
+        if (getQuantity(ingredient) < n) {
             throw new OutOfStockException(String.format("Ingredient : %s is out of stock", ingredient.getName()));
-        }
-    }
-
-    void assignStore(Store store){
-        this.store = store;
-    }
-
-    void prepareCookies(HashMap<Cookie, Integer> cookieList) {
-        decrementStock(requireIngredients(cookieList));
-    }
-
-     void decrementStock(Ingredient ingredient, int nbre){
-        if(this.stock.get(ingredient) > nbre)
-            this.stock.put(ingredient, (this.stock.get(ingredient) - nbre));
-        else
-            this.stock.put(ingredient, 0);
-    }
-
-     void decrementStock(HashMap<Ingredient, Integer> ingredientList){
-        for (Ingredient i : ingredientList.keySet()) {
-            this.stock.put(i, this.stock.get(i) - ingredientList.get(i));
         }
     }
 
@@ -95,19 +74,6 @@ public class Kitchen {
         this.stock = stock;
     }
 
-    void incrementStock(Ingredient ingredient, int n){
-        if (!this.stock.containsKey(ingredient))
-            this.stock.put(ingredient, n);
-        else
-            this.stock.replace(ingredient, this.stock.get(ingredient) + n);
-
-    }
-
-    void incrementStock(HashMap<Ingredient, Integer> ingredientList){
-        for (Ingredient i : ingredientList.keySet()) {
-            this.stock.put(i, this.stock.get(i) + ingredientList.get(i));
-        }
-    }
 
     /**
      * Get the quantity of an ingredient in the stock
@@ -119,11 +85,78 @@ public class Kitchen {
         return stock.get(ingredient);
     }
 
-    void cook(HashMap<Cookie, Integer> cookieList){
-        HashMap<Ingredient, Integer> ingredientsMap = requireIngredients(cookieList);
-        for (Ingredient i : ingredientsMap.keySet()) {
-            decrementStock(i, ingredientsMap.get(i));
+    /**
+     * Assign store to the kitchen
+     *
+     * @param store : store to assign
+     * @return : an int of the quantity of the ingredient
+     */
+    void assignStore(Store store){
+        this.store = store;
+    }
+
+    /**
+     * Method Overload
+     * Add An Ingredient to stock
+     *
+     * @param ingredient : store to assign
+     * @param n : number of ingredient
+     */
+    void incrementStock(Ingredient ingredient, int n){
+        if (!this.stock.containsKey(ingredient))
+            this.stock.put(ingredient, n);
+        else
+            this.stock.replace(ingredient, this.stock.get(ingredient) + n);
+
+    }
+
+    /**
+     * Method Overload
+     * Add Ingredients in stock
+     *
+     * @param ingredientList : List of Ingredients
+     */
+    void incrementStock(HashMap<Ingredient, Integer> ingredientList){
+        for (Ingredient i : ingredientList.keySet()) {
+            this.stock.put(i, this.stock.get(i) + ingredientList.get(i));
         }
+    }
+
+
+    /**
+     * Method Overload
+     * Remove An Ingredient to stock
+     *
+     * @param ingredient : store to assign
+     * @param n : number of ingredient
+     */
+    void decrementStock(Ingredient ingredient, int n){
+        if(this.stock.get(ingredient) > n)
+            this.stock.put(ingredient, (this.stock.get(ingredient) - n));
+        else
+            this.stock.put(ingredient, 0);
+    }
+
+    /**
+     * Method Overload
+     * Remove Ingredients in stock
+     *
+     * @param ingredientList : List of Ingredients
+     */
+    void decrementStock(HashMap<Ingredient, Integer> ingredientList){
+        for (Ingredient i : ingredientList.keySet()) {
+            this.stock.put(i, this.stock.get(i) - ingredientList.get(i));
+        }
+    }
+
+    /**
+     * Method allowing to decrement the stock after the preparation of an order.
+     * Remove Ingredients in stock
+     *
+     * @param cookieList : List of Ingredients
+     */
+    void prepareCookies(HashMap<Cookie, Integer> cookieList) {
+        decrementStock(requireIngredients(cookieList));
     }
 
 }
