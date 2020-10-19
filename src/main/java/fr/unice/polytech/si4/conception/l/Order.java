@@ -14,6 +14,7 @@ public class Order {
     private int price;
     private HashMap<Cookie, Integer> cookies;
     private AnonymousCustomer anonymousCustomer;
+    private boolean isDone = false;
     private int nbCookies;
 
     public Order() {
@@ -112,6 +113,14 @@ public class Order {
         if(isAchievable()){
             this.store.prepareOrder(this);
         }
+    }
+
+    public boolean getIsDone(){
+        return isDone;
+    }
+
+    public void isDone(){
+        this.isDone = true;
     }
 
     public boolean isAchievable() {
