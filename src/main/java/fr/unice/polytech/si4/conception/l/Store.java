@@ -80,6 +80,7 @@ public class Store {
 
     void prepareOrder(Order order){
         this.kitchen.prepareCookies(order.getCookies());
+        order.isDone();
         notify(order.getAnonymousCustomer());
     }
 
