@@ -14,11 +14,13 @@ public class Order {
     private HashMap<Cookie, Integer> cookies;
     private AnonymousCustomer anonymousCustomer;
     private boolean isDone = false;
+    private int nbCookies;
 
     public Order() {
         this.idOrder = generateIdOrder();
         this.date = new Date();
         this.cookies = new HashMap<>();
+        this.nbCookies = 0;
     }
 
     public void assignCustomer(AnonymousCustomer anonymousCustomer){
@@ -49,6 +51,7 @@ public class Order {
             cookies.put(cookie, quantity);
             Log.add(String.format("Ajout de cookie : %s - quantité : %d",cookie.getName(), quantity));
         }
+        this.nbCookies += quantity;
         calculatePrice();
     }
 
@@ -58,6 +61,7 @@ public class Order {
         });
         Log.add(String.format("La commande id:%d coûte %d€", this.getIdOrder(), this.price));
     }
+
 
     /** ********************************************************************************
      *                               GETTERS / SETTERS
@@ -120,6 +124,10 @@ public class Order {
 
     public boolean isAchievable() {
         return this.store.achievableCookie(cookies);
-  }
+    }
+
+    public int getNumberCookies() {
+        return this.nbCookies;
+    }
 
 }

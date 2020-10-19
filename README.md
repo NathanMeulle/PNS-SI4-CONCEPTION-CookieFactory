@@ -2,6 +2,8 @@
 ### SI4 Projet
 The goal of this project is to create a cookie factory 🏭
 
+![Java CI with Maven](https://github.com/PNS-Conception/cookiefactory-20-21-team-l/workflows/Java%20CI%20with%20Maven/badge.svg)
+
 <img src="https://github.com/PNS-Conception/cookiefactory-20-21-team-l/blob/master/cookie-picture.jpg" width="200">
 
 ## Plan

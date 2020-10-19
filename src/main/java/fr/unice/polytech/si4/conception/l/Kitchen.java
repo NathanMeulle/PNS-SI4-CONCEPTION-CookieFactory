@@ -19,7 +19,7 @@ public class Kitchen {
     }
 
     /**
-     * Method to know if all ingredients and their quantity
+     * Method to know all ingredients necessary for an order
      *
      * @param cookieList : A hashmap representing the cookies to be realized with their number to realize
      * @return : a HasMap of all ingredients and the required quantity
@@ -58,7 +58,7 @@ public class Kitchen {
      * Indicate if a ingredient is in sufficient quantity or not
      *
      * @param ingredient : ingredient to evaluate
-     * @return : a boolean with true if the ingredient is in sufficient quantity and false in contrary
+     * raise an exception if the ingredient is not in sufficient quantity
      */
     private void sufficientQuantity(Ingredient ingredient, int n) throws OutOfStockException {
         if (getQuantity(ingredient) < n) {
