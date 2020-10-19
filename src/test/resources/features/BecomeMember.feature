@@ -13,7 +13,7 @@ Feature: Becoming a member
     And a phoneNumber : "0755555555"
     And a email : "charlie@gmail.com"
 
-  Scenario: He is register and wants to re-register
+  Scenario: He wants to register again while being a member
     When "Charlie" wants to register
     Then he fill a form in order to register
     And the email already exist is the database
