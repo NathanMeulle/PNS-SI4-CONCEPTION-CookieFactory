@@ -2,7 +2,7 @@
 Feature: Create Order
 
   Background:
-    Given a store and an anonymous client
+    Given a store and an anonymous customer
     And a cookie of name "Choco"
 
   Scenario: No cookie by default

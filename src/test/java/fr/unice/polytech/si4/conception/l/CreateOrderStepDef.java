@@ -21,7 +21,7 @@ public class CreateOrderStepDef implements En {
     private AnonymousCustomer anonymousCustomer;
 
     public CreateOrderStepDef() {
-        Given("^a store and an anonymous client$", () -> {
+        Given("^a store and an anonymous customer$", () -> {
             Manager manager = new Manager(1,"Phillipe");
             store = new Store(1,"0",1.0,"0652487564","@gmail.com",manager);
             anonymousCustomer = new AnonymousCustomer("Philippe", "06.05.45.87.12");
