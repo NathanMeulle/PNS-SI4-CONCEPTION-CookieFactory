@@ -4,6 +4,7 @@ package fr.unice.polytech.si4.conception.l;
  */
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Objects;
 
 
 public class Order {
@@ -31,8 +32,8 @@ public class Order {
      * @return id
      */
     private int generateIdOrder() {
-        return 1000;
-    } // TODO create hashcode
+        return hashCode();
+    }
 
     /**
      * Add a specific cookie to the order with a quantity. If the cookie is already present, increment its quantity
@@ -117,8 +118,26 @@ public class Order {
         return this.store.achievableCookie(cookies);
     }
 
-    public int getNumberCookies() {
+    public int getNbCookies() {
         return this.nbCookies;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Order order = (Order) o;
+        return idOrder == order.idOrder &&
+                price == order.price &&
+                nbCookies == order.nbCookies &&
+                date.equals(order.date) &&
+                store.equals(order.store) &&
+                cookies.equals(order.cookies) &&
+                anonymousCustomer.equals(order.anonymousCustomer);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(idOrder, date, store, anonymousCustomer);
+    }
 }
