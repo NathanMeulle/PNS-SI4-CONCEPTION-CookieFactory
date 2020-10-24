@@ -57,7 +57,7 @@ class ScheduleTest {
 
 
         schedule1.setOpeningHours(hours);
-        assertEquals(schedule1.getOpeningHours().size(), 1);
+        assertEquals(schedule1.getOpeningHours().size(), 2);
     }
 
     @Test
