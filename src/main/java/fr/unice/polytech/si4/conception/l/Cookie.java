@@ -31,7 +31,7 @@ public class Cookie {
         this.cooking = cooking;
     }
 
-    private int calculPrice() { ;
+    private int calculPrice() {
         if(this.ingredients.isEmpty())
             return 0;
         int price = 0;

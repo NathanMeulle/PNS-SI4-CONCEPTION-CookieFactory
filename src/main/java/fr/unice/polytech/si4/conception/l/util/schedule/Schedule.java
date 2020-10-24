@@ -56,6 +56,10 @@ public class Schedule {
         this.openingHours.remove(day);
     }
 
+    /**
+     * @deprecated use Calendar instead
+     * @return string
+     */
     @Override
     @Deprecated
     public String toString() {

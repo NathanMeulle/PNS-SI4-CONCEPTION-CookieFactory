@@ -63,6 +63,12 @@ public class Order {
         Log.add(String.format("La commande id:%d coûte %d€", this.getIdOrder(), this.price));
     }
 
+    public void validOrder() {
+        if(isAchievable()){
+            this.store.prepareOrder(this);
+        }
+    }
+
 
     /** ********************************************************************************
      *                               GETTERS / SETTERS
@@ -107,12 +113,6 @@ public class Order {
 
     public AnonymousCustomer getAnonymousCustomer() {
         return anonymousCustomer;
-    }
-
-    public void validOrder() {
-        if(isAchievable()){
-            this.store.prepareOrder(this);
-        }
     }
 
     public boolean getIsDone(){

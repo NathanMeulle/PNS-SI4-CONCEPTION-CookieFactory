@@ -82,7 +82,10 @@ public class Kitchen {
      * @return : an int of the quantity of the ingredient
      */
     int getQuantity(Ingredient ingredient) {
-        return stock.get(ingredient);
+        if (stock.containsKey(ingredient)) {
+            return stock.get(ingredient);
+        }
+        return 0;
     }
 
     /**
@@ -114,11 +117,11 @@ public class Kitchen {
      * Method Overload
      * Add Ingredients in stock
      *
-     * @param ingredientList : List of Ingredients
+     * @param ingredientMap : Map of Ingredients
      */
-    void incrementStock(HashMap<Ingredient, Integer> ingredientList){
-        for (Ingredient i : ingredientList.keySet()) {
-            this.stock.put(i, getQuantity(i) + ingredientList.get(i));
+    void incrementStock(HashMap<Ingredient, Integer> ingredientMap){
+        for (Ingredient i : ingredientMap.keySet()) {
+            this.stock.put(i, getQuantity(i) + ingredientMap.get(i));
         }
     }
 
