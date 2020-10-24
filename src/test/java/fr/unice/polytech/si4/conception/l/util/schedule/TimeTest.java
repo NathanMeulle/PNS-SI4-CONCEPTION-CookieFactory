@@ -17,16 +17,16 @@ class TimeTest {
 
     @Test
     void getClosingHours() {
-        assertEquals(time.getClosingHours().getHours(), 0);
-        assertEquals(time.getClosingHours().getMinutes(), 0);
-        assertEquals(time.getClosingHours().getSeconds(), 0);
+        assertEquals( 0, time.getClosingHours().getHours());
+        assertEquals( 0, time.getClosingHours().getMinutes());
+        assertEquals( 0, time.getClosingHours().getSeconds());
     }
 
     @Test
     void getOpeningHours() {
-        assertEquals(time.getOpeningHours().getHours(), 0);
-        assertEquals(time.getOpeningHours().getMinutes(), 0);
-        assertEquals(time.getOpeningHours().getSeconds(), 0);
+        assertEquals( 0,time.getOpeningHours().getHours());
+        assertEquals( 0, time.getOpeningHours().getMinutes());
+        assertEquals( 0, time.getOpeningHours().getSeconds());
     }
 
     @Test
@@ -38,9 +38,9 @@ class TimeTest {
 
         time.setOpeningHours(date);
 
-        assertEquals(time.getOpeningHours().getHours(), 13);
-        assertEquals(time.getOpeningHours().getMinutes(), 56);
-        assertEquals(time.getOpeningHours().getSeconds(), 8);
+        assertEquals( 13,time.getOpeningHours().getHours());
+        assertEquals( 56,time.getOpeningHours().getMinutes());
+        assertEquals(8,time.getOpeningHours().getSeconds() );
 
     }
 
@@ -53,8 +53,8 @@ class TimeTest {
 
         time.setClosingHours(date);
 
-        assertEquals(time.getClosingHours().getHours(), 1);
-        assertEquals(time.getClosingHours().getMinutes(), 23);
-        assertEquals(time.getClosingHours().getSeconds(), 32);
+        assertEquals( 1,time.getClosingHours().getHours());
+        assertEquals( 23,time.getClosingHours().getMinutes());
+        assertEquals( 32,time.getClosingHours().getSeconds());
     }
 }

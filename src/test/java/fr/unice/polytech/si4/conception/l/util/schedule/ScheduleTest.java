@@ -29,24 +29,24 @@ class ScheduleTest {
         assertNotNull(schedule1.getOpeningHours());
 
         for (Time p : schedule1.getOpeningHours().values()){
-            assertEquals(p.getOpeningHours().getHours(), 8);
-            assertEquals(p.getOpeningHours().getMinutes(), 0);
-            assertEquals(p.getOpeningHours().getSeconds(), 0);
+            assertEquals( 8,p.getOpeningHours().getHours());
+            assertEquals(0,p.getOpeningHours().getMinutes());
+            assertEquals(0,p.getOpeningHours().getSeconds());
 
-            assertEquals(p.getClosingHours().getHours(), 18);
-            assertEquals(p.getClosingHours().getMinutes(), 0);
-            assertEquals(p.getClosingHours().getSeconds(), 0);
+            assertEquals( 18,p.getClosingHours().getHours());
+            assertEquals( 0,p.getClosingHours().getMinutes());
+            assertEquals(0,p.getClosingHours().getSeconds());
         }
 
         Time time2 = schedule2.getOpeningHours().values().iterator().next();
 
-        assertEquals(time2.getOpeningHours().getHours(), 21);
-        assertEquals(time2.getOpeningHours().getMinutes(), 15);
-        assertEquals(time2.getOpeningHours().getSeconds(), 37);
+        assertEquals( 21,time2.getOpeningHours().getHours());
+        assertEquals(15,time2.getOpeningHours().getMinutes());
+        assertEquals(37,time2.getOpeningHours().getSeconds());
 
-        assertEquals(time2.getClosingHours().getHours(), 23);
-        assertEquals(time2.getClosingHours().getMinutes(), 59);
-        assertEquals(time2.getClosingHours().getSeconds(), 59);
+        assertEquals( 23,time2.getClosingHours().getHours());
+        assertEquals(59,time2.getClosingHours().getMinutes());
+        assertEquals(59,time2.getClosingHours().getSeconds());
     }
 
     @Test
@@ -57,25 +57,25 @@ class ScheduleTest {
 
 
         schedule1.setOpeningHours(hours);
-        assertEquals(schedule1.getOpeningHours().size(), 2);
+        assertEquals(2,schedule1.getOpeningHours().size());
     }
 
     @Test
     public void alterOpeningHours() {
         schedule1.alterOpeningHours(Day.MONDAY, new Time(0,0,0,0,0,0));
-        assertEquals(schedule1.getOpeningHours().values().iterator().next().getOpeningHours().getHours(), 0);
-        assertEquals(schedule1.getOpeningHours().values().iterator().next().getOpeningHours().getMinutes(), 0);
-        assertEquals(schedule1.getOpeningHours().values().iterator().next().getOpeningHours().getSeconds(), 0);
+        assertEquals( 0,schedule1.getOpeningHours().values().iterator().next().getOpeningHours().getHours());
+        assertEquals( 0,schedule1.getOpeningHours().values().iterator().next().getOpeningHours().getMinutes());
+        assertEquals( 0,schedule1.getOpeningHours().values().iterator().next().getOpeningHours().getSeconds());
 
-        assertEquals(schedule1.getOpeningHours().values().iterator().next().getClosingHours().getHours(), 0);
-        assertEquals(schedule1.getOpeningHours().values().iterator().next().getClosingHours().getMinutes(), 0);
-        assertEquals(schedule1.getOpeningHours().values().iterator().next().getClosingHours().getSeconds(), 0);
+        assertEquals(0,schedule1.getOpeningHours().values().iterator().next().getClosingHours().getHours());
+        assertEquals( 0,schedule1.getOpeningHours().values().iterator().next().getClosingHours().getMinutes());
+        assertEquals( 0,schedule1.getOpeningHours().values().iterator().next().getClosingHours().getSeconds());
     }
 
     @Test
     public void deleteDayOpeningHours() {
         schedule1.deleteDayOpeningHours(Day.MONDAY);
-        assertEquals(schedule1.getOpeningHours().size(), 6);
+        assertEquals( 6,schedule1.getOpeningHours().size());
 
         schedule2.deleteDayOpeningHours(Day.MONDAY);
         schedule2.deleteDayOpeningHours(Day.TUESDAY);
@@ -83,6 +83,6 @@ class ScheduleTest {
         schedule2.deleteDayOpeningHours(Day.THURSDAY);
         schedule2.deleteDayOpeningHours(Day.FRIDAY);
 
-        assertEquals(schedule2.getOpeningHours().size(), 2);
+        assertEquals(2,schedule2.getOpeningHours().size());
     }
 }
