@@ -6,7 +6,6 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
@@ -26,7 +25,7 @@ public class KitchenTest {
         ingredient = mock(Ingredient.class);
         cookie = mock(Cookie.class);
         cookies = new HashMap<>();
-        ingredients = new ArrayList();
+        ingredients = new ArrayList<>();
         ingredients.add(ingredient);
         when(cookie.getIngredients()).thenReturn(ingredients);
     }
