@@ -2,6 +2,7 @@ package fr.unice.polytech.si4.conception.l;
 
 import fr.unice.polytech.si4.conception.l.exceptions.AlreadyCreatedException;
 
+import java.util.Currency;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
