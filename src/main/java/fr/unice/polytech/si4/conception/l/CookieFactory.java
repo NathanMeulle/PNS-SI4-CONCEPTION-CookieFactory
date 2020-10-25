@@ -65,6 +65,22 @@ public class CookieFactory {
         return customers;
     }
 
+    public Customer getCustomerByMail(String mail){
+        for (Customer c : customers){
+            if (c.getMail().equals(mail))
+                return c;
+        }
+        return null;
+    }
+
+    public Customer getCustomerByTel(String numTel){
+        for (Customer c : customers){
+            if (c.getPhoneNumber().equals(numTel))
+                return c;
+        }
+        return null;
+    }
+
     public List<Cookie> getCookies() {
         return cookies;
     }
