@@ -28,10 +28,10 @@ class CookieFactoryTest {
         try{
             cookieFactory.subscription(name, phoneNumber, mail);
         } catch (AlreadyCreatedException exception){
-            //log.add("Customer already exist");
+            log.add("Customer already exist");
         }
 
-        Customer customerSubscribe = cookieFactory.getCustomerByMail("mail");
+        Customer customerSubscribe = cookieFactory.getCustomerByMail(mail);
 
         assertEquals(name, customerSubscribe.getName());
         assertEquals(phoneNumber, customerSubscribe.getPhoneNumber());
