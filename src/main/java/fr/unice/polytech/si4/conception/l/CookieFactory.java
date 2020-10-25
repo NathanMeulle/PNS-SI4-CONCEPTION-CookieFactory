@@ -42,6 +42,11 @@ public class CookieFactory {
         }
     }
 
+    public void subscription(String name, String phoneNumber, String mail) throws AlreadyCreatedException {
+        Customer customer = new Customer(name, phoneNumber, mail);
+        addCustomer(customer);
+    }
+
     public void addCustomer(Customer customer) throws AlreadyCreatedException{
         if(customers.contains(customer)){
             throw new AlreadyCreatedException("Customer already exists");
@@ -67,4 +72,6 @@ public class CookieFactory {
     public List<Store> getStores() {
         return stores;
     }
+
+
 }
