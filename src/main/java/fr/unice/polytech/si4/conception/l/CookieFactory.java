@@ -2,6 +2,7 @@ package fr.unice.polytech.si4.conception.l;
 
 import fr.unice.polytech.si4.conception.l.exceptions.AlreadyCreatedException;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -18,6 +19,7 @@ public class CookieFactory {
     public CookieFactory(List<Cookie> cookies, List<Store> stores) {
         this.cookies = cookies;
         this.stores = stores;
+        this.customers = new HashSet<>();
     }
 
     /**
