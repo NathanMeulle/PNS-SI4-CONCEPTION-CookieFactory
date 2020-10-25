@@ -1,6 +1,5 @@
 package fr.unice.polytech.si4.conception.l;
 
-import fr.unice.polytech.si4.conception.l.exceptions.AlreadyCreatedException;
 import io.cucumber.java8.En;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -57,16 +56,11 @@ public class BecomeMemberStepDef implements En {
         When("^\"([^\"]*)\" wants to register$", (String arg0) -> {
         });
         And("^the email already exist is the database$", () -> {
-            try {
-                cookieFactory.subscription(name, phoneNumber, mail);
-            } catch (AlreadyCreatedException exception){
-                assertTrue(true);
-            }
+            assertTrue(cookieFactory.getCustomers().contains(cookieFactory.getCustomerByMail(mail)));
         });
         Then("^register failure$", () -> {
+            /** Comme on ne peux pas tester une exception on a été obligés de vérifier
+             * si le customer était déja présent dans la liste **/
         });
-
-
-
     }
 }
