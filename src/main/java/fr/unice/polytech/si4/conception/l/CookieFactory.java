@@ -68,6 +68,12 @@ public class CookieFactory {
         return customers;
     }
 
+    /**
+     * Get a customer by email if he/she exists in the list
+     * @param mail customer identifier
+     * @return the customer if he exists in the databse
+     */
+
     public Customer getCustomerByMail(String mail){
         for (Customer c : customers){
             if (c.getMail().equals(mail))
@@ -76,6 +82,11 @@ public class CookieFactory {
         return null;
     }
 
+    /**
+     * Get a customer by phone Number if he/she exists in the list
+     * @param numTel customer identifier
+     * @return the customer if he exists in the databse
+     */
     public Customer getCustomerByTel(String numTel){
         for (Customer c : customers){
             if (c.getPhoneNumber().equals(numTel))
