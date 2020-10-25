@@ -1,12 +1,11 @@
 package fr.unice.polytech.si4.conception.l.util.schedule;
 
-import io.cucumber.java8.Da;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.Date;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class TimeTest {
     private Time time;
