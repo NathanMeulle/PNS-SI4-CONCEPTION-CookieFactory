@@ -1,16 +1,12 @@
 package fr.unice.polytech.si4.conception.l.util.schedule;
 
-import io.cucumber.java8.Da;
-import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.Collection;
 import java.util.EnumMap;
-import java.util.HashMap;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 class ScheduleTest {
     private Schedule schedule1;

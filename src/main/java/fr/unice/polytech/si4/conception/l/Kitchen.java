@@ -105,7 +105,7 @@ public class Kitchen {
      * @param ingredient : store to assign
      * @param n : number of ingredient
      */
-    void incrementStock(Ingredient ingredient, int n){
+    public void incrementStock(Ingredient ingredient, int n){
         if (!this.stock.containsKey(ingredient))
             this.stock.put(ingredient, n);
         else
