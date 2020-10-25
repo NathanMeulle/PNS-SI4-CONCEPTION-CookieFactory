@@ -5,7 +5,7 @@ Feature: Becoming a member
     And with a email "charlie@gmail.com",
 
   Scenario: He is anonymous and wants to register
-    When "Charlie" wants to register
+    When the client wants to register
     Then he fill a form in order to register
     And he submits it
     Then he becomes a member
