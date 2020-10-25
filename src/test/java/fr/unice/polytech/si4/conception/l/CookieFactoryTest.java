@@ -38,4 +38,49 @@ class CookieFactoryTest {
         assertEquals(mail, customerSubscribe.getMail());
     }
 
+    @Test
+    void addStore() {
+    }
+
+    @Test
+    void addCookie() {
+    }
+
+    @Test
+    void getCustomers() {
+    }
+
+    @Test
+    void getCustomerByMail() {
+        try{
+            cookieFactory.addCustomer(new Customer(name, phoneNumber, mail));
+        } catch (AlreadyCreatedException e){
+            e.printStackTrace();
+        }
+
+        assertEquals(name, cookieFactory.getCustomerByMail(mail).getName());
+        assertEquals(phoneNumber, cookieFactory.getCustomerByMail(mail).getPhoneNumber());
+        assertEquals(mail, cookieFactory.getCustomerByMail(mail).getMail());
+    }
+
+    @Test
+    void getCustomerByTel() {
+        try{
+            cookieFactory.addCustomer(new Customer(name, phoneNumber, mail));
+        } catch (AlreadyCreatedException e){
+            e.printStackTrace();
+        }
+
+        assertEquals(name, cookieFactory.getCustomerByTel(phoneNumber).getName());
+        assertEquals(phoneNumber, cookieFactory.getCustomerByTel(phoneNumber).getPhoneNumber());
+        assertEquals(mail, cookieFactory.getCustomerByTel(phoneNumber).getMail());
+    }
+
+    @Test
+    void getCookies() {
+    }
+
+    @Test
+    void getStores() {
+    }
 }
