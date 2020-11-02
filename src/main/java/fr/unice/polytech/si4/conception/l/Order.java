@@ -2,6 +2,8 @@ package fr.unice.polytech.si4.conception.l;
 /** Represents an Order
  * @author Delmotte Vincent
  */
+import fr.unice.polytech.si4.conception.l.exceptions.ErrorPreparingOrder;
+
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Objects;
@@ -18,6 +20,9 @@ public class Order {
     private int nbCookies;
     private StateOrder stateOrder;
 
+    /**
+     * Creates an order with an ID, a date of creation and the state Choice
+     */
     public Order() {
         this.idOrder = generateIdOrder();
         this.date = new Date();
@@ -65,14 +70,39 @@ public class Order {
         Log.add(String.format("La commande id:%d coûte %d€", this.getIdOrder(), this.price));
     }
 
-    public void validOrder() {
+    public boolean validOrder() throws ErrorPreparingOrder {
         if(isAchievable()){
             this.store.prepareOrder(this);
+            return true;
+        } else {
+            throw new ErrorPreparingOrder(String.format("Erreur lors de la préparation de commande par la cuisine !"));
         }
     }
 
+    /**
+     * When the customer pick up his order, it's put in OrderHistory
+     */
     public void pickedUp() {
         this.store.addToOrderHistory(this);
+    }
+
+    /**
+     * When the customer finish the selection and confirme his order
+     * Check if kitchen can do this order
+     * If true => order state is Validated
+     * Else order state is Refused
+     */
+    public void submit() {
+        this.setStateOrder(StateOrder.Submitted);
+        if (this.isAchievable()) {
+            this.setStateOrder(StateOrder.Validated);
+            Log.add("Order:"+ this.getIdOrder() +" - Validated");
+            store.prepareOrder(this);
+        }
+        else {
+            this.setStateOrder(StateOrder.Refused);
+            Log.add("Order:"+ this.getIdOrder() +" - Refused");
+        }
     }
 
 

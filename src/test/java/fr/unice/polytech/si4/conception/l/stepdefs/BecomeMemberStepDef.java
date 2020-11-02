@@ -30,7 +30,6 @@ public class BecomeMemberStepDef implements En {
             this.mail = arg2;
         });
 
-
         /** ********************************************************************************
          *                  Scenario: He is anonymous and wants to register
          *  ********************************************************************************
@@ -77,7 +76,6 @@ public class BecomeMemberStepDef implements En {
                 assertDoesNotThrow(() -> cookieFactory.subscription(otherName, otherPhone, otherMail));
             }
         });
-
 
     }
 }
