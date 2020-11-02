@@ -16,12 +16,14 @@ public class Order {
     private AnonymousCustomer anonymousCustomer;
     private boolean isDone = false;
     private int nbCookies;
+    private StateOrder stateOrder;
 
     public Order() {
         this.idOrder = generateIdOrder();
         this.date = new Date();
         this.cookies = new HashMap<>();
         this.nbCookies = 0;
+        this.stateOrder = StateOrder.Choice;
     }
 
     public void assignCustomer(AnonymousCustomer anonymousCustomer){
@@ -69,6 +71,10 @@ public class Order {
         }
     }
 
+    public void pickedUp() {
+        this.store.addToOrderHistory(this);
+    }
+
 
     /** ********************************************************************************
      *                               GETTERS / SETTERS
@@ -109,6 +115,14 @@ public class Order {
 
     public void setCookies(HashMap<Cookie, Integer> cookies) {
         this.cookies = cookies;
+    }
+
+    public StateOrder getStateOrder() {
+        return stateOrder;
+    }
+
+    public void setStateOrder(StateOrder stateOrder) {
+        this.stateOrder = stateOrder;
     }
 
     public AnonymousCustomer getAnonymousCustomer() {

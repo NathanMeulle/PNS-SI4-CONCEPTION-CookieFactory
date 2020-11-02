@@ -2,20 +2,29 @@ package fr.unice.polytech.si4.conception.l;
 
 import java.util.ArrayList;
 
+/**
+ * Stock all the order made in a store
+ */
+
 public class OrderHistory {
 
     private ArrayList<Order> listOrder;
 
+    /**
+     * An orderHistory is attached to a specific store and it's create when the store is create
+     */
     public OrderHistory() {
-        //TODO
+        this.listOrder = new ArrayList<>();
     }
 
+    /**
+     * When you add an order in OrderHistory, its state change to classified
+     * @param order
+     */
     public void addOrder(Order order){
         listOrder.add(order);
+        order.setStateOrder(StateOrder.Classified);
     }
 
-    public void generateStats() {
-        //TODO
-    }
 
 }

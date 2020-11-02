@@ -9,5 +9,5 @@ public enum StateOrder {
     Submitted,
     Validated,
     Cooked,
-    Withdrawned
+    Classified
 }
