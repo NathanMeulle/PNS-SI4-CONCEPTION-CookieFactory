@@ -6,8 +6,8 @@ package fr.unice.polytech.si4.conception.l;
  * */
 public class Manager {
 
-    final private int idManager;
-    final private String name;
+    private final int idManager;
+    private final String name;
     private Store store;
 
     public Manager(int idManager, String name) {

@@ -1,11 +1,10 @@
-package fr.unice.polytech.si4.conception.l;
+package fr.unice.polytech.si4.conception.l.stepdefs;
 
+import fr.unice.polytech.si4.conception.l.*;
 import fr.unice.polytech.si4.conception.l.cookie.composition.Cooking;
 import fr.unice.polytech.si4.conception.l.cookie.composition.IngredientType;
 import fr.unice.polytech.si4.conception.l.cookie.composition.Mix;
-import io.cucumber.java8.An;
 import io.cucumber.java8.En;
-import org.mockito.internal.matchers.Or;
 
 import java.util.ArrayList;
 import java.util.List;

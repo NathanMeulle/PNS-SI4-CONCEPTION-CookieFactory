@@ -25,22 +25,21 @@ public class CookieFactory {
 
     /**
      * allows the creation of a new store
+     *
      * @param store a store object
      */
     public void addStore(Store store) throws AlreadyCreatedException {
-        if(stores.contains(store)){
+        if (stores.contains(store)) {
             throw new AlreadyCreatedException("Store already exists");
-        }
-        else {
+        } else {
             stores.add(store);
         }
     }
 
     public void addCookie(Cookie cookie) throws AlreadyCreatedException {
-        if(cookies.contains(cookie)){
+        if (cookies.contains(cookie)) {
             throw new AlreadyCreatedException("Cookie already exists");
-        }
-        else {
+        } else {
             cookies.add(cookie);
         }
     }
@@ -71,9 +70,10 @@ public class CookieFactory {
         }
     }
 
-    /** ********************************************************************************
-     *                               GETTERS / SETTERS
-     *  ********************************************************************************
+    /**
+     * *******************************************************************************
+     * GETTERS / SETTERS
+     * ********************************************************************************
      */
 
     public Set<Customer> getCustomers() {

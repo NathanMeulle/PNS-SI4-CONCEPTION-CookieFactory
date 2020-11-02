@@ -50,12 +50,16 @@ public class Schedule {
         this.openingHours = openingHours;
     }
 
-    public void addOpeningHours(Day day, Time time) { openingHours.put(day, time);}
+    public void alterOpeningHours(Day day, Time time) { openingHours.put(day, time);}
 
     public void deleteDayOpeningHours(Day day){
         this.openingHours.remove(day);
     }
 
+    /**
+     * @deprecated use Calendar instead
+     * @return string
+     */
     @Override
     @Deprecated
     public String toString() {

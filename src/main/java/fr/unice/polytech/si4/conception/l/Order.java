@@ -4,6 +4,7 @@ package fr.unice.polytech.si4.conception.l;
  */
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Objects;
 
 
 public class Order {
@@ -15,12 +16,14 @@ public class Order {
     private AnonymousCustomer anonymousCustomer;
     private boolean isDone = false;
     private int nbCookies;
+    private StateOrder stateOrder;
 
     public Order() {
         this.idOrder = generateIdOrder();
         this.date = new Date();
         this.cookies = new HashMap<>();
         this.nbCookies = 0;
+        this.stateOrder = StateOrder.Choice;
     }
 
     public void assignCustomer(AnonymousCustomer anonymousCustomer){
@@ -32,8 +35,8 @@ public class Order {
      * @return id
      */
     private int generateIdOrder() {
-        return 1000;
-    } // TODO create hashcode
+        return hashCode();
+    }
 
     /**
      * Add a specific cookie to the order with a quantity. If the cookie is already present, increment its quantity
@@ -60,6 +63,16 @@ public class Order {
             this.price += cookie.getPrice() * quantity;
         });
         Log.add(String.format("La commande id:%d coûte %d€", this.getIdOrder(), this.price));
+    }
+
+    public void validOrder() {
+        if(isAchievable()){
+            this.store.prepareOrder(this);
+        }
+    }
+
+    public void pickedUp() {
+        this.store.addToOrderHistory(this);
     }
 
 
@@ -104,14 +117,16 @@ public class Order {
         this.cookies = cookies;
     }
 
-    public AnonymousCustomer getAnonymousCustomer() {
-        return anonymousCustomer;
+    public StateOrder getStateOrder() {
+        return stateOrder;
     }
 
-    public void validOrder() {
-        if(isAchievable()){
-            this.store.prepareOrder(this);
-        }
+    public void setStateOrder(StateOrder stateOrder) {
+        this.stateOrder = stateOrder;
+    }
+
+    public AnonymousCustomer getAnonymousCustomer() {
+        return anonymousCustomer;
     }
 
     public boolean getIsDone(){
@@ -126,8 +141,26 @@ public class Order {
         return this.store.achievableCookie(cookies);
     }
 
-    public int getNumberCookies() {
+    public int getNbCookies() {
         return this.nbCookies;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Order order = (Order) o;
+        return idOrder == order.idOrder &&
+                price == order.price &&
+                nbCookies == order.nbCookies &&
+                date.equals(order.date) &&
+                store.equals(order.store) &&
+                cookies.equals(order.cookies) &&
+                anonymousCustomer.equals(order.anonymousCustomer);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(idOrder, date, store, anonymousCustomer);
+    }
 }
