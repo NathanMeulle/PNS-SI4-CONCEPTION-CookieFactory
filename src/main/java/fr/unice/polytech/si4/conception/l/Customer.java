@@ -54,9 +54,7 @@ public class Customer extends AnonymousCustomer{
         if (!(o instanceof Customer)) return false;
         if (!super.equals(o)) return false;
         Customer customer = (Customer) o;
-        return isLoyaltyProgramn() == customer.isLoyaltyProgramn() &&
-                getNbCookieOrdered() == customer.getNbCookieOrdered() &&
-                getMail().equals(customer.getMail());
+        return getMail().equals(customer.getMail());
     }
 
     @Override
