@@ -1,5 +1,7 @@
-package fr.unice.polytech.si4.conception.l;
+package fr.unice.polytech.si4.conception.l.stepdefs;
 
+import fr.unice.polytech.si4.conception.l.CookieFactory;
+import fr.unice.polytech.si4.conception.l.Customer;
 import fr.unice.polytech.si4.conception.l.exceptions.AlreadyCreatedException;
 import io.cucumber.java8.En;
 
