@@ -1,9 +1,9 @@
 package fr.unice.polytech.si4.conception.l;
 
+import fr.unice.polytech.si4.conception.l.exceptions.AlreadyCreatedException;
 import io.cucumber.java8.En;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class BecomeMemberStepDef implements En {
 
@@ -27,16 +27,16 @@ public class BecomeMemberStepDef implements En {
          *  ********************************************************************************
          */
 
-        When("^the client wants to register$", () -> {
-        });
-        Then("^he fill a form in order to register$", () -> {
+        When("^he fill a form in order to register and he submits it$", () -> {
             cookieFactory = new CookieFactory(null, null);
             cookieFactory.subscription(name, phoneNumber, mail);
         });
-        And("^he submits it$", () -> {
-        });
         Then("^he becomes a member$", () -> {
+            assertNotNull(cookieFactory.getCustomerByMail(mail));
             customerSubscribe = cookieFactory.getCustomerByMail(mail);
+        });
+        And("^there is \"([^\"]*)\" in the list of customers$", (String arg0) -> {
+            assertEquals(1, cookieFactory.getCustomers().size());
         });
         And("^with name : \"([^\"]*)\"$", (String arg0) -> {
             assertEquals(name, customerSubscribe.getName());
@@ -54,6 +54,7 @@ public class BecomeMemberStepDef implements En {
          */
 
         When("^\"([^\"]*)\" wants to register$", (String arg0) -> {
+            cookieFactory = new CookieFactory(null, null);
         });
         And("^the email already exist is the database$", () -> {
             assertTrue(cookieFactory.getCustomers().contains(cookieFactory.getCustomerByMail(mail)));
@@ -61,6 +62,8 @@ public class BecomeMemberStepDef implements En {
         Then("^register failure$", () -> {
             /** Comme on ne peux pas tester une exception on a été obligés de vérifier
              * si le customer était déja présent dans la liste **/
+            assertThrows(AlreadyCreatedException.class, () ->cookieFactory.subscription(name, phoneNumber, mail));
         });
+
     }
 }
