@@ -11,17 +11,28 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.mock;
 
+import static org.junit.jupiter.api.Assertions.*;
+
 class CookieFactoryTest {
-    private CookieFactory cookieFactory;
+
+    String name;
+    String phoneNumber;
+    String mail;
+    CookieFactory cookieFactory;
+    Log log;
     private List<Cookie> cookies;
     private List<Store> stores;
     private Cookie cookieMock;
     private Store storeMock;
     private Customer customerMock;
 
-
     @BeforeEach
-    public void setup() {
+    void setUp() {
+        name = new String("Esteve");
+        phoneNumber = new String("0658601237");
+        mail = new String("estevet@hotmail.fr");
+        cookieFactory = new CookieFactory(null, null);
+        log = new Log();
         cookies = new ArrayList<>();
         stores = new ArrayList<>();
         cookieFactory = new CookieFactory(cookies, stores);
@@ -30,6 +41,66 @@ class CookieFactoryTest {
         customerMock = mock(Customer.class);
     }
 
+    @Test
+    void subscription() {
+        try{
+            cookieFactory.subscription(name, phoneNumber, mail);
+        } catch (AlreadyCreatedException ignored){}
+
+        assertEquals(1, cookieFactory.getCustomers().size());
+
+        Customer customerSubscribe = cookieFactory.getCustomerByMail(mail);
+
+        assertEquals(name, customerSubscribe.getName());
+        assertEquals(phoneNumber, customerSubscribe.getPhoneNumber());
+        assertEquals(mail, customerSubscribe.getMail());
+    }
+
+    @Test
+    void addStore() {
+    }
+
+    @Test
+    void addCookie() {
+    }
+
+    @Test
+    void getCustomers() {
+    }
+
+    @Test
+    void getCustomerByMail() {
+        try{
+            cookieFactory.addCustomer(new Customer(name, phoneNumber, mail));
+        } catch (AlreadyCreatedException e){
+            e.printStackTrace();
+        }
+
+        assertEquals(name, cookieFactory.getCustomerByMail(mail).getName());
+        assertEquals(phoneNumber, cookieFactory.getCustomerByMail(mail).getPhoneNumber());
+        assertEquals(mail, cookieFactory.getCustomerByMail(mail).getMail());
+    }
+
+    @Test
+    void getCustomerByTel() {
+        try{
+            cookieFactory.addCustomer(new Customer(name, phoneNumber, mail));
+        } catch (AlreadyCreatedException e){
+            e.printStackTrace();
+        }
+
+        assertEquals(name, cookieFactory.getCustomerByTel(phoneNumber).getName());
+        assertEquals(phoneNumber, cookieFactory.getCustomerByTel(phoneNumber).getPhoneNumber());
+        assertEquals(mail, cookieFactory.getCustomerByTel(phoneNumber).getMail());
+    }
+
+    @Test
+    void getCookies() {
+    }
+
+    @Test
+    void getStores() {
+    }
 
     @Test
     public void noCookieTest() {
