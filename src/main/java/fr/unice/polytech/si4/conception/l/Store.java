@@ -15,6 +15,7 @@ public class Store {
     private Manager manager;
     private Schedule schedule;
     private Kitchen kitchen;
+    private OrderHistory orderHistory;
 
     public Store(int id, String address, double tax, String phone, String mail, Manager manager) {
         this.id = id;
@@ -27,7 +28,13 @@ public class Store {
         this.schedule = new Schedule();
         this.kitchen = new Kitchen();
         this.kitchen.assignStore(this);
+        this.orderHistory = new OrderHistory();
     }
+
+    public void addToOrderHistory(Order order) {
+        this.orderHistory.addOrder(order);
+    }
+
 
     /** ********************************************************************************
      *                               GETTERS / SETTERS
@@ -78,9 +85,16 @@ public class Store {
         return this.kitchen.canDo(cookies);
     }
 
+    /**
+     * The store notify the kitchen to cook an Order
+     * Once it's done Order state pass to Cooked
+     * The store notify the client
+     * @param order
+     */
     void prepareOrder(Order order){
         this.kitchen.prepareCookies(order.getCookies());
         order.isDone();
+        order.setStateOrder(StateOrder.Cooked);
         notify(order.getAnonymousCustomer());
     }
 
@@ -115,5 +129,9 @@ public class Store {
 
     public void setKitchen(Kitchen kitchen) {
         this.kitchen = kitchen;
+    }
+
+    public OrderHistory getOrderHistory() {
+        return this.orderHistory;
     }
 }
