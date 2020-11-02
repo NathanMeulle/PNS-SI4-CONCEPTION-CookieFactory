@@ -45,11 +45,23 @@ public class CookieFactory {
         }
     }
 
+    /**
+     * create and add a customer to the customer list. If it already exists, returns an exception.
+     * @param name : name of the customer
+     * @param phoneNumber : customer's phone number
+     * @param mail : customer's e-mail
+     * @throws AlreadyCreatedException : exception to indicate that the customer already exists in the customer list.
+     */
     public void subscription(String name, String phoneNumber, String mail) throws AlreadyCreatedException {
         Customer customer = new Customer(name, phoneNumber, mail);
         addCustomer(customer);
     }
 
+    /**
+     * Adds a customer to the customer list. If it already exists, returns an exception.
+     * @param customer  : the client to be added to the custormers list.
+     * @throws AlreadyCreatedException : exception to indicate that the customer already exists in the customer list.
+     */
     public void addCustomer(Customer customer) throws AlreadyCreatedException{
         if(customers.contains(customer)){
             throw new AlreadyCreatedException("Customer already exists");
