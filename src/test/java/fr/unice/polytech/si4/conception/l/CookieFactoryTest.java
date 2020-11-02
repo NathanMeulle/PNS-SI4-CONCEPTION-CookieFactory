@@ -20,7 +20,6 @@ class CookieFactoryTest {
     String mail;
     CookieFactory cookieFactory;
     Log log;
-    private CookieFactory cookieFactory;
     private List<Cookie> cookies;
     private List<Store> stores;
     private Cookie cookieMock;
