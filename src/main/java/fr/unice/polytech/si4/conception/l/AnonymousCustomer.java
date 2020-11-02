@@ -1,5 +1,7 @@
 package fr.unice.polytech.si4.conception.l;
 
+import fr.unice.polytech.si4.conception.l.exceptions.ErrorPreparingOrder;
+
 import java.util.Objects;
 
 /**
@@ -17,14 +19,14 @@ public class AnonymousCustomer {
     }
 
     public Order createOrder(Store store){
-        this.order = new Order();
-        this.order.setStore(store);
-        this.order.assignCustomer(this);
+        order = new Order();
+        order.setStore(store);
+        order.assignCustomer(this);
         return order;
     }
 
-    public void makeOrder() {
-        this.order.validOrder();
+    public boolean makeOrder() throws ErrorPreparingOrder {
+        return this.order.validOrder();
     }
 
 

@@ -2,6 +2,8 @@ package fr.unice.polytech.si4.conception.l;
 /** Represents an Order
  * @author Delmotte Vincent
  */
+import fr.unice.polytech.si4.conception.l.exceptions.ErrorPreparingOrder;
+
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Objects;
@@ -65,9 +67,12 @@ public class Order {
         Log.add(String.format("La commande id:%d coûte %d€", this.getIdOrder(), this.price));
     }
 
-    public void validOrder() {
+    public boolean validOrder() throws ErrorPreparingOrder {
         if(isAchievable()){
             this.store.prepareOrder(this);
+            return true;
+        } else {
+            throw new ErrorPreparingOrder(String.format("Erreur lors de la préparation de commande par la cuisine !"));
         }
     }
 
