@@ -94,7 +94,7 @@ public class Kitchen {
      * @param store : store to assign
      * @return : an int of the quantity of the ingredient
      */
-    void assignStore(Store store){
+    public void assignStore(Store store){
         this.store = store;
     }
 
@@ -111,18 +111,6 @@ public class Kitchen {
         else
             this.stock.replace(ingredient, getQuantity(ingredient) + n);
 
-    }
-
-    /**
-     * Method Overload
-     * Add Ingredients in stock
-     *
-     * @param ingredientMap : Map of Ingredients
-     */
-    void incrementStock(HashMap<Ingredient, Integer> ingredientMap){
-        for (Ingredient i : ingredientMap.keySet()) {
-            this.stock.put(i, getQuantity(i) + ingredientMap.get(i));
-        }
     }
 
 
