@@ -1,5 +1,7 @@
 package fr.unice.polytech.si4.conception.l;
 
+import fr.unice.polytech.si4.conception.l.exceptions.ErrorPreparingOrder;
+
 import java.util.Objects;
 
 public class Customer extends AnonymousCustomer{
@@ -16,6 +18,19 @@ public class Customer extends AnonymousCustomer{
         this.nbCookieOrdered = 0;
     }
 
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Customer)) return false;
+        Customer customer = (Customer) o;
+        return getMail().equals(customer.getMail()) || getPhoneNumber().equals(customer.getPhoneNumber());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), getMail());
+    }
 
     /** ********************************************************************************
      *                               GETTERS / SETTERS
@@ -47,18 +62,12 @@ public class Customer extends AnonymousCustomer{
         this.nbCookieOrdered = nbCookieOrdered;
     }
 
-
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Customer)) return false;
-        if (!super.equals(o)) return false;
-        Customer customer = (Customer) o;
-        return getMail().equals(customer.getMail());
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(super.hashCode(), getMail(), isLoyaltyProgramn(), getNbCookieOrdered());
+    public String toString() {
+        return "Customer{" +
+                "mail='" + mail + '\'' +
+                ", loyaltyProgramn=" + loyaltyProgramn +
+                ", nbCookieOrdered=" + nbCookieOrdered +
+                '}';
     }
 }

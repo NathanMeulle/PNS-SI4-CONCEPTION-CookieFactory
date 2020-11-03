@@ -14,7 +14,6 @@ public class BecomeMemberStepDef implements En {
     private String mail;
     private CookieFactory cookieFactory;
     private Customer customerSubscribe;
-    private Customer otherCustomer;
     private String otherName;
     private String otherPhone;
     private String otherMail;
@@ -71,6 +70,8 @@ public class BecomeMemberStepDef implements En {
 
         Then("^register \"([^\"]*)\"$", (String arg0) -> {
             if (arg0.equals("failure")) {
+                System.out.println(cookieFactory.getCustomers().get(0).getMail());
+                System.out.println(otherMail);
                 assertThrows(AlreadyCreatedException.class, () -> cookieFactory.subscription(otherName, otherPhone, otherMail));
             } else {
                 assertDoesNotThrow(() -> cookieFactory.subscription(otherName, otherPhone, otherMail));
