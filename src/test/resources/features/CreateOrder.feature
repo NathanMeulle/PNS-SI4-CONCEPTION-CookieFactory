@@ -20,6 +20,7 @@ Feature: Create Order
     When the customer create an order
     Then There is 0 in his number of cookies
 
+
   Scenario: add a choco cookie in the order
     When the customer create an order
     And the customer add 1 cookie to his order

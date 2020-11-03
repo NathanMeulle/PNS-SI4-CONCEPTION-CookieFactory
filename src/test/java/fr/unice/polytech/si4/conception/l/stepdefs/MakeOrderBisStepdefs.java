@@ -42,12 +42,12 @@ public class MakeOrderBisStepdefs implements En {
             order.addCookie(cookieM, 3);
 
         });
-        When("^an anonymous customer submit his order and ^(\\d+) \"([^\"]*)\" in the kitchen$", (Integer arg0, String arg1) -> {
+        When("^an anonymous customer submit his order and (\\d+) \"([^\"]*)\" in the kitchen$", (Integer arg0, String arg1) -> {
             kitchen.incrementStock(chocolate ,arg0);
-            System.out.println(order.isAchievable());
         });
         Then("^order is done$", () -> {
             assertDoesNotThrow(() -> anonymousCustomer.makeOrder());
         });
+
     }
 }
