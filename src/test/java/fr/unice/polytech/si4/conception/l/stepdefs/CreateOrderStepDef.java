@@ -18,12 +18,14 @@ public class CreateOrderStepDef implements En {
     private int nbCookies;
     private Store store;
     private AnonymousCustomer anonymousCustomer;
+    private Customer customer;
 
     public CreateOrderStepDef() {
-        Given("^a store and an anonymous customer$", () -> {
+        Given("^a store, an anonymous customer and a customer$", () -> {
             Manager manager = new Manager(1,"Phillipe");
             store = new Store(1,"0",1.0,"0652487564","@gmail.com",manager);
             anonymousCustomer = new AnonymousCustomer("Philippe", "06.05.45.87.12");
+            customer = new Customer("Phil", "06", "phil@mail.fr");
         });
 
         And("^a cookie of name \"([^\"]*)\"$", (String arg0) -> {
@@ -42,6 +44,13 @@ public class CreateOrderStepDef implements En {
         When("^the anonymous client add one cookie to his order$", () -> {
             order.addCookie(cookie,1);
             nbCookies = order.getCookies().get(cookie);
+        });
+        And("^the customer add (\\d+) cookie to his order$", (Integer arg0) -> {
+            order.addCookie(cookie,arg0);
+            nbCookies = order.getCookies().get(cookie);
+        });
+        When("^the customer create an order$", () -> {
+            order = customer.createOrder(store);
         });
     }
 
