@@ -70,15 +70,6 @@ public class Order {
         Log.add(String.format("La commande id:%d coûte %d€", this.getIdOrder(), this.price));
     }
 
-    public boolean validOrder() throws ErrorPreparingOrder {
-        if(isAchievable()){
-            this.store.prepareOrder(this);
-            return true;
-        } else {
-            throw new ErrorPreparingOrder(String.format("Erreur lors de la préparation de commande par la cuisine !"));
-        }
-    }
-
     /**
      * When the customer pick up his order, it's put in OrderHistory
      */
@@ -92,16 +83,17 @@ public class Order {
      * If true => order state is Validated
      * Else order state is Refused
      */
-    public void submit() {
+    public void submit() throws ErrorPreparingOrder {
         this.setStateOrder(StateOrder.Submitted);
         if (this.isAchievable()) {
             this.setStateOrder(StateOrder.Validated);
             Log.add("Order:"+ this.getIdOrder() +" - Validated");
-            store.prepareOrder(this);
+            this.store.prepareOrder(this);
         }
         else {
             this.setStateOrder(StateOrder.Refused);
             Log.add("Order:"+ this.getIdOrder() +" - Refused");
+            throw new ErrorPreparingOrder(String.format("Erreur lors de la préparation de commande par la cuisine !"));
         }
     }
 

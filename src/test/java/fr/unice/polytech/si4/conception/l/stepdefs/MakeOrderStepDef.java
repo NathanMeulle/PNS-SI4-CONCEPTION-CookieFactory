@@ -112,7 +112,7 @@ public class MakeOrderStepDef implements En {
 
         });
         Then("^the kitchen has enough ingredients in stock to prepare the order$", () -> {
-            assertTrue(anonymousCustomer.makeOrder());
+            assertThrows(ErrorPreparingOrder.class, () ->anonymousCustomer.makeOrder());
         });
         Then("^the order is done$", () -> {
             assertTrue(order.getIsDone());

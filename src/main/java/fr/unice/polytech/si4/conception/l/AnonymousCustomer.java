@@ -25,8 +25,8 @@ public class AnonymousCustomer {
         return order;
     }
 
-    public boolean makeOrder() throws ErrorPreparingOrder {
-        return this.order.validOrder();
+    public void makeOrder() throws ErrorPreparingOrder {
+        this.order.submit();
     }
 
 
