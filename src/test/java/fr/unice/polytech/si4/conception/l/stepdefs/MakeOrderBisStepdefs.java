@@ -2,6 +2,7 @@ package fr.unice.polytech.si4.conception.l.stepdefs;
 
 import fr.unice.polytech.si4.conception.l.*;
 import fr.unice.polytech.si4.conception.l.cookie.composition.IngredientType;
+import fr.unice.polytech.si4.conception.l.exceptions.ErrorPreparingOrder;
 import io.cucumber.java8.En;
 import org.mockito.internal.matchers.NotNull;
 
@@ -47,6 +48,11 @@ public class MakeOrderBisStepdefs implements En {
         });
         Then("^order is done$", () -> {
             assertDoesNotThrow(() -> anonymousCustomer.makeOrder());
+        });
+
+        Then("^order is cancel$", () -> {
+            assertThrows(ErrorPreparingOrder.class, () -> anonymousCustomer.makeOrder());
+            Log.display();
         });
 
     }

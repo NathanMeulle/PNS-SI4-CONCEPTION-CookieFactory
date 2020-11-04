@@ -3,6 +3,7 @@ package fr.unice.polytech.si4.conception.l;
  * @author Delmotte Vincent
  */
 import fr.unice.polytech.si4.conception.l.exceptions.ErrorPreparingOrder;
+import fr.unice.polytech.si4.conception.l.exceptions.NotAlreadyCooked;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -72,9 +73,18 @@ public class Order {
 
     /**
      * When the customer pick up his order, it's put in OrderHistory
+     * If order not ready, raise NotAlreadyCookedException
      */
-    public void pickedUp() {
-        this.store.addToOrderHistory(this);
+    public void pickedUp() throws NotAlreadyCooked {
+        if (this.getStateOrder().equals(StateOrder.Cooked)) {
+            this.store.addToOrderHistory(this);
+            Log.add("La commande " + this.idOrder + "a été retiré et est maintenant archivée.");
+        }
+        else {
+            Log.add("La commande " + this.idOrder + "a tenté d'être retiré mais n'est pas encore prête");
+            throw new NotAlreadyCooked("Your order isn't ready yet");
+        }
+
     }
 
     /**
