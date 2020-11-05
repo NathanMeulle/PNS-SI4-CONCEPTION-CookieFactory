@@ -1,6 +1,7 @@
 package fr.unice.polytech.si4.conception.l;
 
 import fr.unice.polytech.si4.conception.l.exceptions.ErrorPreparingOrder;
+import fr.unice.polytech.si4.conception.l.exceptions.NotAlreadyCooked;
 
 import java.util.Objects;
 
@@ -25,8 +26,13 @@ public class AnonymousCustomer {
         return order;
     }
 
-    public boolean makeOrder() throws ErrorPreparingOrder {
-        return this.order.validOrder();
+
+    public void makeOrder() throws ErrorPreparingOrder {
+        this.order.submit();
+    }
+
+    public void pickUpOrder() throws NotAlreadyCooked {
+        this.order.pickedUp();
     }
 
 

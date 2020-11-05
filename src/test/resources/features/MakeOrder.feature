@@ -16,7 +16,7 @@
       And the factory asks for the number of recipe
       Then There are 1 in his number of recipe
       When the client create an order
-      And the client add ten cookies to his order
+      And the client add 10 cookies to his order
       Then There are 10 in his number of cookies
       And the client valid the order
       Then the kitchen does not have enough ingredients in stock to prepare the order
@@ -25,5 +25,8 @@
       And the client valid the order again
       Then the kitchen has enough ingredients in stock to prepare the order
       Then the order is done
+
+
+
 
 

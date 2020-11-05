@@ -3,6 +3,8 @@ package fr.unice.polytech.si4.conception.l;
 
 import fr.unice.polytech.si4.conception.l.cookie.composition.IngredientType;
 
+import java.util.Objects;
+
 public class Ingredient {
 
     private String name;
@@ -37,5 +39,29 @@ public class Ingredient {
 
     public void setType(IngredientType type) {
         this.type = type;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Ingredient that = (Ingredient) o;
+        return price == that.price &&
+                name.equals(that.name) &&
+                type == that.type;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, price, type);
+    }
+
+    @Override
+    public String toString() {
+        return "Ingredient{" +
+                "name='" + name + '\'' +
+                ", price=" + price +
+                ", type=" + type +
+                '}';
     }
 }

@@ -6,6 +6,7 @@ import fr.unice.polytech.si4.conception.l.cookie.composition.IngredientType;
 import fr.unice.polytech.si4.conception.l.cookie.composition.Mix;
 import fr.unice.polytech.si4.conception.l.exceptions.AlreadyCreatedException;
 import io.cucumber.java8.En;
+import org.junit.Ignore;
 
 import java.util.ArrayList;
 import java.util.List;

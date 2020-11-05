@@ -3,6 +3,7 @@ package fr.unice.polytech.si4.conception.l;
  * @author Delmotte Vincent
  */
 import fr.unice.polytech.si4.conception.l.exceptions.ErrorPreparingOrder;
+import fr.unice.polytech.si4.conception.l.exceptions.NotAlreadyCooked;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -70,20 +71,20 @@ public class Order {
         Log.add(String.format("La commande id:%d coûte %d€", this.getIdOrder(), this.price));
     }
 
-    public boolean validOrder() throws ErrorPreparingOrder {
-        if(isAchievable()){
-            this.store.prepareOrder(this);
-            return true;
-        } else {
-            throw new ErrorPreparingOrder(String.format("Erreur lors de la préparation de commande par la cuisine !"));
-        }
-    }
-
     /**
      * When the customer pick up his order, it's put in OrderHistory
+     * If order not ready, raise NotAlreadyCookedException
      */
-    public void pickedUp() {
-        this.store.addToOrderHistory(this);
+    public void pickedUp() throws NotAlreadyCooked {
+        if (this.getStateOrder().equals(StateOrder.Cooked)) {
+            this.store.addToOrderHistory(this);
+            Log.add("La commande " + this.idOrder + "a été retiré et est maintenant archivée.");
+        }
+        else {
+            Log.add("La commande " + this.idOrder + "a tenté d'être retiré mais n'est pas encore prête");
+            throw new NotAlreadyCooked("Your order isn't ready yet");
+        }
+
     }
 
     /**
@@ -92,16 +93,17 @@ public class Order {
      * If true => order state is Validated
      * Else order state is Refused
      */
-    public void submit() {
+    public void submit() throws ErrorPreparingOrder {
         this.setStateOrder(StateOrder.Submitted);
         if (this.isAchievable()) {
             this.setStateOrder(StateOrder.Validated);
             Log.add("Order:"+ this.getIdOrder() +" - Validated");
-            store.prepareOrder(this);
+            this.store.prepareOrder(this);
         }
         else {
             this.setStateOrder(StateOrder.Refused);
             Log.add("Order:"+ this.getIdOrder() +" - Refused");
+            throw new ErrorPreparingOrder(String.format("Erreur lors de la préparation de commande par la cuisine !"));
         }
     }
 

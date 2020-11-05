@@ -2,7 +2,7 @@ package fr.unice.polytech.si4.conception.l;
 
 import fr.unice.polytech.si4.conception.l.exceptions.AlreadyCreatedException;
 
-import java.util.Currency;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -13,14 +13,14 @@ import java.util.Set;
  */
 public class CookieFactory {
 
-    private Set<Customer> customers;
+    private List<Customer> customers;
     private List<Cookie> cookies;
     private List<Store> stores;
 
     public CookieFactory(List<Cookie> cookies, List<Store> stores) {
         this.cookies = cookies;
         this.stores = stores;
-        this.customers = new HashSet<>();
+        this.customers = new ArrayList<>();
     }
 
     /**
@@ -76,7 +76,7 @@ public class CookieFactory {
      * ********************************************************************************
      */
 
-    public Set<Customer> getCustomers() {
+    public List<Customer> getCustomers() {
         return customers;
     }
 

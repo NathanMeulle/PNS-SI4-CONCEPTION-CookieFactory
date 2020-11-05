@@ -48,7 +48,7 @@ public class MakeOrderStepDef implements En {
         });
 
         When("^the manager adds (\\d+) \"([^\"]*)\" to stock$", (Integer arg0, String arg1) -> {
-            kitchen.incrementStock(ingredient, 5);
+            kitchen.incrementStock(ingredient, arg0);
         });
 
         And("^the manager asks for the number of ingredients in kitchen stock$", () -> {
@@ -56,7 +56,7 @@ public class MakeOrderStepDef implements En {
         });
 
         Then("^There are (\\d+) Ingredient in the stock$", (Integer arg0) -> {
-            assertEquals(1, nbIngredients);
+            assertEquals(arg0, nbIngredients);
         });
 
         And("^the manager asks for the number of \"([^\"]*)\" in stock$", (String arg0) -> {
@@ -76,21 +76,21 @@ public class MakeOrderStepDef implements En {
         });
 
         Then("^There are (\\d+) in his number of recipe$", (Integer arg0) -> {
-            assertEquals(1,nbRecipe);
+            assertEquals(arg0,nbRecipe);
         });
 
         When("^the client create an order$", () -> {
             order = anonymousCustomer.createOrder(store);
         });
 
-        And("^the client add ten cookies to his order$", () -> {
-            order.addCookie(cookie,10);
+        And("^the client add (\\d+) cookies to his order$", (Integer arg0) -> {
+            order.addCookie(cookie,arg0);
             nbCookies = order.getCookies().get(cookie);
 
         });
 
         Then("^There are (\\d+) in his number of cookies$", (Integer arg0) -> {
-            assertEquals(10,nbCookies);
+            assertEquals(arg0,nbCookies);
         });
 
         And("^the client valid the order$", () -> {
@@ -102,22 +102,21 @@ public class MakeOrderStepDef implements En {
 
 
         And("^manager adds (\\d+) \"([^\"]*)\"$", (Integer arg0, String arg1) -> {
-            kitchen.incrementStock(ingredient, 5);
+            kitchen.incrementStock(ingredient, arg0);
         });
         Then("^There are (\\d+) \"([^\"]*)\"$", (Integer arg0, String arg1) -> {
             nbIngredients = kitchen.getStock().get(ingredient);
-            assertEquals(10, nbIngredients);
+            assertEquals(arg0, nbIngredients);
         });
         And("^the client valid the order again$", () -> {
 
         });
         Then("^the kitchen has enough ingredients in stock to prepare the order$", () -> {
-            assertTrue(anonymousCustomer.makeOrder());
+            assertDoesNotThrow(() ->anonymousCustomer.makeOrder());
         });
         Then("^the order is done$", () -> {
             assertTrue(order.getIsDone());
         });
-
 
     }
 }
