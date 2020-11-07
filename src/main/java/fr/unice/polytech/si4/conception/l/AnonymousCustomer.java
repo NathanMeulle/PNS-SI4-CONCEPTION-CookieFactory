@@ -2,6 +2,7 @@ package fr.unice.polytech.si4.conception.l;
 
 import fr.unice.polytech.si4.conception.l.exceptions.ErrorPreparingOrder;
 import fr.unice.polytech.si4.conception.l.exceptions.NotAlreadyCooked;
+import fr.unice.polytech.si4.conception.l.exceptions.NotPaid;
 
 import java.util.Objects;
 
@@ -31,7 +32,7 @@ public class AnonymousCustomer {
         this.order.submit();
     }
 
-    public void pickUpOrder() throws NotAlreadyCooked {
+    public void pickUpOrder() throws NotAlreadyCooked, NotPaid {
         this.order.pickedUp();
     }
 
@@ -42,10 +43,6 @@ public class AnonymousCustomer {
         if (!(o instanceof AnonymousCustomer)) return false;
         AnonymousCustomer that = (AnonymousCustomer) o;
         return Objects.equals(phoneNumber, that.phoneNumber);
-    }
-
-    void becomeMember(){
-       //TODO à completer
     }
 
     @Override

@@ -2,13 +2,13 @@ package fr.unice.polytech.si4.conception.l;
 
 import fr.unice.polytech.si4.conception.l.util.schedule.Schedule;
 
-import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 public class Store {
 
-    final private int id;
-    final private String address;
+    private final int id;
+    private final  String address;
     private double tax;
     private String phone;
     private String mail;
@@ -81,7 +81,7 @@ public class Store {
                 schedule.equals(store.schedule);
     }
 
-    boolean achievableCookie(HashMap<Cookie, Integer> cookies){
+    boolean achievableCookie(Map<Cookie, Integer> cookies){
         return this.kitchen.canDo(cookies);
     }
 
@@ -94,7 +94,7 @@ public class Store {
     void prepareOrder(Order order){
         this.kitchen.prepareCookies(order.getCookies());
         order.isDone();
-        order.setStateOrder(StateOrder.Cooked);
+        order.setStateOrder(StateOrder.COOKED);
         notify(order.getAnonymousCustomer());
     }
 
@@ -125,6 +125,10 @@ public class Store {
 
     public Kitchen getKitchen() {
         return kitchen;
+    }
+
+    public void setOrderHistory(OrderHistory orderHistory) {
+        this.orderHistory = orderHistory;
     }
 
     public void setKitchen(Kitchen kitchen) {

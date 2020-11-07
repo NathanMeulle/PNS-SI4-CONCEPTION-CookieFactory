@@ -3,9 +3,7 @@ package fr.unice.polytech.si4.conception.l;
 import fr.unice.polytech.si4.conception.l.exceptions.AlreadyCreatedException;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 /**
  * @author nathan
@@ -34,6 +32,13 @@ public class CookieFactory {
         } else {
             stores.add(store);
         }
+    }
+    public Store getStorerByAddress(String address){
+        for (Store s : stores){
+            if (s.getAddress().equals(address))
+                return s;
+        }
+        return null;
     }
 
     public void addCookie(Cookie cookie) throws AlreadyCreatedException {

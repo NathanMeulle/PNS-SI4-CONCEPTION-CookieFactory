@@ -20,7 +20,7 @@ public class KitchenTest {
     Cookie cookie;
 
     @BeforeEach
-    public void setup() {
+    void setup() {
         kitchen = new Kitchen();
         ingredient = mock(Ingredient.class);
         cookie = mock(Cookie.class);
@@ -32,7 +32,7 @@ public class KitchenTest {
 
 
     @Test
-    public void incrementStockTest(){
+    void incrementStockTest() {
         assertEquals(0, kitchen.getQuantity(ingredient));
         kitchen.incrementStock(ingredient, 0);
         assertEquals(0, kitchen.getQuantity(ingredient));
@@ -43,7 +43,7 @@ public class KitchenTest {
     }
 
     @Test
-    public void decrementeStockTest(){
+    void decrementeStockTest() {
         kitchen.incrementStock(ingredient, 5);
         assertEquals(5, kitchen.getQuantity(ingredient));
         kitchen.decrementStock(ingredient, 3);
@@ -51,7 +51,7 @@ public class KitchenTest {
     }
 
     @Test
-    public void canDoTest(){
+    void canDoTest() {
         kitchen.incrementStock(ingredient, 4);
         cookies.put(cookie, 3);
         assertTrue(kitchen.canDo(cookies));
@@ -59,28 +59,26 @@ public class KitchenTest {
 
 
     @Test
-    public void canDoTest2(){
+    void canDoTest2() {
         kitchen.incrementStock(ingredient, 4);
         cookies.put(cookie, 4);
         assertTrue(kitchen.canDo(cookies));
     }
 
     @Test
-    public void canNotDoTest(){
+    void canNotDoTest() {
         kitchen.incrementStock(ingredient, 4);
         cookies.put(cookie, 5);
         assertFalse(kitchen.canDo(cookies));
     }
 
     @Test
-    public void prepareCookiesTest(){
+    void prepareCookiesTest() {
         kitchen.incrementStock(ingredient, 4);
         cookies.put(cookie, 2);
         kitchen.prepareCookies(cookies);
         assertEquals(2, kitchen.getQuantity(ingredient));
 
     }
-
-
 
 }

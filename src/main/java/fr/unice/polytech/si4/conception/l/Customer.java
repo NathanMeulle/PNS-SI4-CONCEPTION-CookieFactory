@@ -1,7 +1,5 @@
 package fr.unice.polytech.si4.conception.l;
 
-import fr.unice.polytech.si4.conception.l.exceptions.ErrorPreparingOrder;
-
 import java.util.Objects;
 
 public class Customer extends AnonymousCustomer{
