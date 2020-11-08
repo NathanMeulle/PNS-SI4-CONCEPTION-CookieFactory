@@ -17,6 +17,9 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+/**
+ * @author Esteve Thibaut
+ */
 class StoreCustomerSideTest {
 
     private Store store;

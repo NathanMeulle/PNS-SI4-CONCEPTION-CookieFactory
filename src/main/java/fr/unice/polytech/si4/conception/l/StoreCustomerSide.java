@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 /**
  * This class is a proxy of the class Store.
  * It just give a visibility on the Stock in the real kitchen (which is placed in the store)
+ * @author Esteve Thibaut
  */
 public class StoreCustomerSide {
 
