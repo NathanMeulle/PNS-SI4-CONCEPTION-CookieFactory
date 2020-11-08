@@ -37,6 +37,23 @@ public class CreatePersonalizedRecipeStepDef implements En {
             cookieFactory.addStore(store);
         });
 
+        /*
+        And("an ingredient which is called \"([^\"]*)\" which is a \"FLAVOR\", costing (\\d+)", (String name, String type, Integer cost) -> {
+            vanilla = new Ingredient(name, cost, IngredientType.valueOf(type));
+        });
+        And("another ingredient called \"([^\"]*)\" which is a \"DOUGH\", costing (\\d+)", (String name, String type, Integer cost) -> {
+            flour = new Ingredient(name, cost, IngredientType.valueOf(type));
+        });
+
+        ////////////////////////////// Scenario_1 //////////////////////////////
+
+        When("We add (\\d+) vanilla and (\\d+) wholemeal flour to the stock at store \"([^\"]*)\"", (Integer nbVanilla, Integer nbFlour, String storeLocation) -> {
+            store = cookieFactory.getStorerByAddress(storeLocation);
+            kitchen.incrementStock(vanilla, nbVanilla);
+            kitchen.incrementStock(flour, nbFlour);
+        });
+         */
+
 
 
 
