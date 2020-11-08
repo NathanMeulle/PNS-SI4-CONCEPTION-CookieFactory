@@ -63,7 +63,7 @@ class OrderTest {
         Store store = new Store(1, "", 1.2, "01", "mail", managerMock);
 
         Kitchen kitchen = new Kitchen();
-        kitchen.assignStore(store);
+
         store.setKitchen(kitchen);
         Ingredient chocolate = new Ingredient("Chocolate", 4, IngredientType.FLAVOR);
         Ingredient mnm = new Ingredient("MnM", 7, IngredientType.FLAVOR);

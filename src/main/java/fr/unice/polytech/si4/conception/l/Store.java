@@ -27,7 +27,6 @@ public class Store {
         this.manager.assignStore(this);
         this.schedule = new Schedule();
         this.kitchen = new Kitchen();
-        this.kitchen.assignStore(this);
         this.orderHistory = new OrderHistory();
     }
 
@@ -99,7 +98,17 @@ public class Store {
     }
 
     void notify(AnonymousCustomer anonymousCustomer){
-        Log.add(" An email was sent to "+ anonymousCustomer.getName() +" to come and collect his order. ");
+        Log.add(" An email was sent to "+ anonymousCustomer.getName() +" to come and collect his order.");
+    }
+
+    /**
+     * This method return a proxy version of the class Store.
+     * This proxy is for the customers, when they want to consult the stock
+     * to create their own cookie(s) they wouldn't be able to modify the stock.
+     * @return A class StoreCustomerSide of the Store.
+     */
+    public StoreCustomerSide getHisProxy() {
+        return new StoreCustomerSide(this);
     }
 
     @Override
@@ -125,6 +134,12 @@ public class Store {
 
     public Kitchen getKitchen() {
         return kitchen;
+    }
+
+
+
+    public Map<Ingredient, Integer> getStock() {
+        return kitchen.getStock();
     }
 
     public void setOrderHistory(OrderHistory orderHistory) {

@@ -26,6 +26,9 @@ public class MakeOrderStepDef implements En {
     private int nbCookies;
 
     public MakeOrderStepDef() {
+
+        //////////////////// Background ////////////////////
+
         Given("^a manager, a factory with a store and a anonymous client$", () -> {
             manager = new Manager(1, "Gerard");
             store = new Store(1, "a", 1.0, "01", "mail.com", manager);
@@ -45,6 +48,8 @@ public class MakeOrderStepDef implements En {
             cookie = new Cookie("Choco", ingredients, Mix.MIXED, Cooking.CRUNCHY);
         });
 
+        //////////////////// Scenario_1 ////////////////////
+
         When("^the manager adds (\\d+) \"([^\"]*)\" to stock$", (Integer arg0, String arg1) -> {
             kitchen.incrementStock(ingredient, arg0);
         });
@@ -62,7 +67,7 @@ public class MakeOrderStepDef implements En {
         });
 
         Then("^There are (\\d+) \"([^\"]*)\" in stock$", (Integer arg0, String arg1) -> {
-            assertEquals(5, nbIngredients);
+            assertEquals(arg0, nbIngredients);
         });
 
         When("^the factory adds the new recipe \"([^\"]*)\"$", (String arg0) -> {
