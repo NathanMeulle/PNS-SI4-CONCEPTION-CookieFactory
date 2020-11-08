@@ -95,11 +95,11 @@ public class Store {
         this.kitchen.prepareCookies(order.getCookies());
         order.isDone();
         order.setStateOrder(StateOrder.COOKED);
-        notify(order.getAnonymousCustomer());
+        notify(order.getCustomer());
     }
 
     void notify(AnonymousCustomer anonymousCustomer){
-        Log.add(" An email was sent to "+ anonymousCustomer.getName() +" to come and collect his order. ");
+        Log.add(" A sms was sent to "+ anonymousCustomer.getName() +" to come and collect his order. ");
     }
 
     @Override

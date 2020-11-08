@@ -23,7 +23,7 @@ public class AnonymousCustomer {
     public Order createOrder(Store store){
         order = new Order();
         order.setStore(store);
-        order.assignCustomer(this);
+        order.assignAnonymousCustomer(this);
         return order;
     }
 
@@ -73,6 +73,12 @@ public class AnonymousCustomer {
     public void setOrder(Order order) {
         this.order = order;
     }
+
+    public int getNbCookieOrdered() {
+        return 0;
+    }
+
+
 
     @Override
     public String toString() {

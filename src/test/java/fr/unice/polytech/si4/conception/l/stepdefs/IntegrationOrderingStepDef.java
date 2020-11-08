@@ -40,6 +40,7 @@ public class IntegrationOrderingStepDef implements En {
             kitchen = new Kitchen();
             kitchen.assignStore(store);
             store.setKitchen(kitchen);
+
             cookieFactory = new CookieFactory(new ArrayList<>(), new ArrayList<>());
             cookieFactory.addStore(store);
         });
@@ -87,7 +88,7 @@ public class IntegrationOrderingStepDef implements En {
         And("^the total price of this order is now (.+) TTC for client \"([^\"]*)\"$", (Double arg0, String arg2) -> {
             assertEquals(2, chocoCookie.getPrice());
             assertEquals(6, mnMChocoCookie.getPrice());
-            assertEquals(arg0, order.getTTCPrice(), 0.01);
+            assertEquals(arg0, order.getPriceTTC(), 0.01);
         });
         When("^The user makes an order of (\\d+) \"([^\"]*)\"$", (Integer arg0, String arg1) -> {
             order = vincent.createOrder(store);
