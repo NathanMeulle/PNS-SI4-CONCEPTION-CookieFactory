@@ -4,9 +4,7 @@ import fr.unice.polytech.si4.conception.l.*;
 import fr.unice.polytech.si4.conception.l.cookie.composition.Cooking;
 import fr.unice.polytech.si4.conception.l.cookie.composition.IngredientType;
 import fr.unice.polytech.si4.conception.l.cookie.composition.Mix;
-import fr.unice.polytech.si4.conception.l.exceptions.AlreadyCreatedException;
 import fr.unice.polytech.si4.conception.l.exceptions.ErrorPreparingOrder;
-import fr.unice.polytech.si4.conception.l.exceptions.OutOfStockException;
 import io.cucumber.java8.En;
 
 import java.util.ArrayList;

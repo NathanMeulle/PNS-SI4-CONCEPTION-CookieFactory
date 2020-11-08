@@ -4,6 +4,7 @@ package fr.unice.polytech.si4.conception.l;
 import fr.unice.polytech.si4.conception.l.exceptions.OutOfStockException;
 
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Class representing the kitchen in charge of stocks, receiving orders and preparing cookies
@@ -11,7 +12,7 @@ import java.util.HashMap;
  */
 public class Kitchen {
 
-    private HashMap<Ingredient, Integer> stock;
+    private Map<Ingredient, Integer> stock;
     private Store store;
 
     public Kitchen() {
@@ -24,11 +25,17 @@ public class Kitchen {
      * @param cookieList : A hashmap representing the cookies to be realized with their number to realize
      * @return : a HasMap of all ingredients and the required quantity
      */
-    private HashMap<Ingredient, Integer> requireIngredients(HashMap<Cookie, Integer> cookieList){
-        HashMap<Ingredient, Integer> requests = new HashMap<>();
-        for (Cookie c : cookieList.keySet()) {
-            for (Ingredient i : c.getIngredients()) {
-                requests.put(i, cookieList.get(c));
+    private Map<Ingredient, Integer> requireIngredients(Map<Cookie, Integer> cookieList){
+        Map<Ingredient, Integer> requests = new HashMap<>();
+        for (Cookie c : cookieList.keySet()){
+            for (Ingredient i : c.getIngredients()){
+                if(requests.containsKey(i)){
+                    int updatedQuantity = requests.get(i) + cookieList.get(c);
+                    requests.replace(i, updatedQuantity);
+                }
+                else {
+                    requests.put(i, cookieList.get(c));
+                }
             }
         }
         return requests;
@@ -41,8 +48,8 @@ public class Kitchen {
      * @return : a boolean indicating true if all cookies are feasible and false
      * if at least one cookie is not feasible
      */
-    public boolean canDo(HashMap<Cookie, Integer> cookieList) {
-        HashMap<Ingredient, Integer> ingredientsMap = requireIngredients(cookieList);
+    public boolean canDo(Map<Cookie, Integer> cookieList) {
+        Map<Ingredient, Integer> ingredientsMap = requireIngredients(cookieList);
         for (Ingredient i : ingredientsMap.keySet()) {
             try {
                 sufficientQuantity(i, ingredientsMap.get(i));
@@ -66,11 +73,11 @@ public class Kitchen {
         }
     }
 
-    public HashMap<Ingredient, Integer> getStock() {
+    public Map<Ingredient, Integer> getStock() {
         return stock;
     }
 
-    public void setStock(HashMap<Ingredient, Integer> stock) {
+    public void setStock(Map<Ingredient, Integer> stock) {
         this.stock = stock;
     }
 
@@ -134,7 +141,7 @@ public class Kitchen {
      *
      * @param ingredientList : List of Ingredients
      */
-    void decrementStock(HashMap<Ingredient, Integer> ingredientList){
+    void decrementStock(Map<Ingredient, Integer> ingredientList){
         for (Ingredient i : ingredientList.keySet()) {
             this.stock.put(i, getQuantity(i) - ingredientList.get(i));
         }
@@ -146,7 +153,7 @@ public class Kitchen {
      *
      * @param cookieList : List of Ingredients
      */
-    void prepareCookies(HashMap<Cookie, Integer> cookieList) {
+    void prepareCookies(Map<Cookie, Integer> cookieList) {
         decrementStock(requireIngredients(cookieList));
     }
 

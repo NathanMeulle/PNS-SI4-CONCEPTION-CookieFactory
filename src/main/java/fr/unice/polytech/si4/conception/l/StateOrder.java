@@ -5,10 +5,10 @@ package fr.unice.polytech.si4.conception.l;
  */
 
 public enum StateOrder {
-    Choice,
-    Submitted,
-    Validated,
-    Cooked,
-    Classified,
-    Refused
+    CHOICE,
+    SUBMITTED,
+    VALIDATED,
+    COOKED,
+    CLASSIFIED,
+    REFUSED
 }

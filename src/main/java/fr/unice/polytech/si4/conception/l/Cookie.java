@@ -34,11 +34,11 @@ public class Cookie {
     private int calculPrice() {
         if(this.ingredients.isEmpty())
             return 0;
-        int price = 0;
+        int priceTmp = 0;
         for (Ingredient i : this.ingredients) {
-            price+= i.getPrice();
+            priceTmp+= i.getPrice();
         }
-        return price;
+        return priceTmp;
     }
 
     /** ********************************************************************************

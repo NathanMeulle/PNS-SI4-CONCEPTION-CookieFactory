@@ -20,7 +20,7 @@ public class CookieTest {
     private List<Ingredient> ingredients;
 
     @BeforeEach
-    public void setup() {
+    void setup() {
         ingredient1 = mock(Ingredient.class);
         ingredient2 = mock(Ingredient.class);
         when(ingredient1.getPrice()).thenReturn(3);
@@ -30,20 +30,20 @@ public class CookieTest {
 
 
     @Test
-    public void calculPriceTest0() {
+    void calculPriceTest0() {
         cookie = new Cookie("", ingredients, Mix.MIXED, Cooking.CRUNCHY);
         assertEquals(0, cookie.getPrice());
     }
 
     @Test
-    public void calculPriceTest(){
+    void calculPriceTest() {
         ingredients.add(ingredient1);
         cookie = new Cookie("", ingredients, Mix.MIXED, Cooking.CRUNCHY);
         assertEquals(3, cookie.getPrice());
     }
 
     @Test
-    public void calculPriceTest2(){
+    void calculPriceTest2() {
         ingredients.add(ingredient1);
         ingredients.add(ingredient2);
         cookie = new Cookie("", ingredients, Mix.MIXED, Cooking.CRUNCHY);
@@ -51,7 +51,7 @@ public class CookieTest {
     }
 
     @Test
-    public void calculPriceTest3(){
+    void calculPriceTest3() {
         ingredients.add(ingredient1);
         ingredients.add(ingredient2);
         ingredients.add(ingredient2);
