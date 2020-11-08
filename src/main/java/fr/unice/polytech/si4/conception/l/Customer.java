@@ -1,19 +1,54 @@
 package fr.unice.polytech.si4.conception.l;
 
+import fr.unice.polytech.si4.conception.l.exceptions.ErrorPreparingOrder;
+import fr.unice.polytech.si4.conception.l.exceptions.NotAlreadyCooked;
+import fr.unice.polytech.si4.conception.l.exceptions.NotPaid;
+
 import java.util.Objects;
 
-public class Customer extends AnonymousCustomer{
+public class Customer extends AnonymousCustomer implements DiscountObserver {
 
 
     private String mail;
     private boolean loyaltyProgramn;
     private int nbCookieOrdered;
+    private Order order;
 
     public Customer(String name, String phoneNumber, String mail) {
-        super(name,phoneNumber);
+        super(name, phoneNumber);
         this.mail = mail;
         this.loyaltyProgramn = false;
         this.nbCookieOrdered = 0;
+    }
+
+    public Order createOrder(Store store){
+        order = new Order();
+        order.setStore(store);
+        order.assignCustomer(this);
+        return order;
+    }
+
+    public void makeOrder() throws ErrorPreparingOrder {
+        this.order.submit();
+        if(loyaltyProgramn)
+            incrementCookieOrdered(this.order.getNbCookies());
+    }
+
+    public void pickUpOrder() throws NotAlreadyCooked, NotPaid {
+        this.order.pickedUp();
+    }
+
+    public void incrementCookieOrdered(int nbCookieOrdered) {
+        this.nbCookieOrdered += nbCookieOrdered;
+    }
+
+
+    @Override
+    public void update() {
+        if (loyaltyProgramn) {
+            this.order.applyDiscount();
+            nbCookieOrdered-=30;
+        }
     }
 
 
@@ -30,9 +65,10 @@ public class Customer extends AnonymousCustomer{
         return Objects.hash(super.hashCode(), getMail());
     }
 
-    /** ********************************************************************************
-     *                               GETTERS / SETTERS
-     *  ********************************************************************************
+    /**
+     * *******************************************************************************
+     * GETTERS / SETTERS
+     * ********************************************************************************
      */
 
 
