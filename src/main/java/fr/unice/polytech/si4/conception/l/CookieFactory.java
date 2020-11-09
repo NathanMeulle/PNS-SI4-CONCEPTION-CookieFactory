@@ -17,10 +17,21 @@ public class CookieFactory {
     private List<Cookie> cookies;
     private List<Store> stores;
 
-    public CookieFactory(List<Cookie> cookies, List<Store> stores) {
-        this.cookies = cookies;
-        this.stores = stores;
+    private CookieFactory() {
+        this.cookies = new ArrayList<>();
+        this.stores = new ArrayList<>();
         this.customers = new ArrayList<>();
+    }
+
+    private static final CookieFactory INSTANCE = new CookieFactory();
+
+    public static CookieFactory getInstance() {return INSTANCE;}
+
+    public void resetFactory() {
+        this.stores.clear();
+        this.customers.clear();
+        this.cookies.clear();
+
     }
 
     /**

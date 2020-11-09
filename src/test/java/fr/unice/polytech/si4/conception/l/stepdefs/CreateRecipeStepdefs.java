@@ -28,7 +28,10 @@ public class CreateRecipeStepdefs implements En {
             manager.assignStore(store);
             List<Store> stores = new ArrayList<>();
             stores.add(store);
-            cookieFactory = new CookieFactory(new ArrayList<>(), stores);
+            cookieFactory = CookieFactory.getInstance();
+            for (Store s : stores) {
+                cookieFactory.addStore(s);
+            }
         });
 
         And("^a recipe of a cookie named \"([^\"]*)\"$", (String arg0) -> {
