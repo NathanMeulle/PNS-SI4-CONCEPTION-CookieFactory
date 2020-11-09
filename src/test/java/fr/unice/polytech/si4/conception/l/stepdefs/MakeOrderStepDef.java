@@ -20,7 +20,6 @@ public class MakeOrderStepDef implements En {
     private Ingredient ingredient;
     private AnonymousCustomer anonymousCustomer;
     private Kitchen kitchen;
-    private Order order;
     private int nbIngredients;
     private int nbRecipe;
     private int nbCookies;
@@ -31,9 +30,12 @@ public class MakeOrderStepDef implements En {
             store = new Store(1, "a", 1.0, "01", "mail.com", manager);
             List<Store> stores = new ArrayList<>();
             stores.add(store);
-            cookieFactory = new CookieFactory(new ArrayList<>(), stores);
+            cookieFactory = CookieFactory.getInstance();
+            for (Store s : stores) {
+                cookieFactory.addStore(s);
+            }
             anonymousCustomer = new AnonymousCustomer("Philippe", "06.05.45.87.12");
-            order = anonymousCustomer.createOrder(store);
+            anonymousCustomer.createOrder(store);
             kitchen = store.getKitchen();
             manager.assignStore(store);
         });
@@ -78,11 +80,12 @@ public class MakeOrderStepDef implements En {
         });
 
         When("^the client create an order$", () -> {
-            order = anonymousCustomer.createOrder(store);
+            anonymousCustomer.createOrder(store);
         });
 
         And("^the client add (\\d+) cookies to his order$", (Integer arg0) -> {
-            order.addCookie(cookie,arg0);
+            anonymousCustomer.addCookie(cookie,arg0);
+            Order order = anonymousCustomer.getOrder();
             nbCookies = order.getCookies().get(cookie);
 
         });
@@ -113,6 +116,7 @@ public class MakeOrderStepDef implements En {
             assertDoesNotThrow(() ->anonymousCustomer.makeOrder());
         });
         Then("^the order is done$", () -> {
+            Order order = anonymousCustomer.getOrder();
             assertTrue(order.getIsDone());
         });
 

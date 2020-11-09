@@ -14,7 +14,7 @@ import java.util.Objects;
 public class Cookie {
 
     private String name;
-    private int price;
+    private double price;
     private Mix mix;
     private Cooking cooking;
     private List<Ingredient> ingredients;
@@ -54,7 +54,7 @@ public class Cookie {
         this.name = name;
     }
 
-    public int getPrice() {
+    public double getPrice() {
         return price;
     }
 

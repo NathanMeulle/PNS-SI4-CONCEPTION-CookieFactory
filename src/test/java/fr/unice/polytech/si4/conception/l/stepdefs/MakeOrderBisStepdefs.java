@@ -34,12 +34,13 @@ public class MakeOrderBisStepdefs implements En {
             cookieM = mock(Cookie.class);
             when(cookieM.getName()).thenReturn(arg1);
             when(cookieM.getIngredients()).thenReturn(ingredients);
+            when(cookieM.getPrice()).thenReturn((double) 2);
             store = new Store(1, "oui", 25, "06", "", mock(Manager.class));
             store.setKitchen(kitchen);
             kitchen.assignStore(store);
 
-            order = anonymousCustomer.createOrder(store);
-            order.addCookie(cookieM, 3);
+            anonymousCustomer.createOrder(store);
+            anonymousCustomer.addCookie(cookieM, 3);
 
         });
         When("^an anonymous customer submit his order and (\\d+) \"([^\"]*)\" in the kitchen$", (Integer arg0, String arg1) -> {

@@ -4,7 +4,6 @@ import fr.unice.polytech.si4.conception.l.exceptions.AlreadyCreatedException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -17,6 +16,7 @@ class CookieFactoryTest {
     String phoneNumber;
     String mail;
     CookieFactory cookieFactory;
+    Log log;
     private List<Cookie> cookies;
     private List<Store> stores;
     private Cookie cookieMock;
@@ -25,13 +25,13 @@ class CookieFactoryTest {
 
     @BeforeEach
     void setUp() {
+
         name = new String("Esteve");
         phoneNumber = new String("0658601237");
         mail = new String("estevet@hotmail.fr");
-        cookieFactory = new CookieFactory(null, null);
-        cookies = new ArrayList<>();
-        stores = new ArrayList<>();
-        cookieFactory = new CookieFactory(cookies, stores);
+        cookieFactory = CookieFactory.getInstance();
+        log = new Log();
+
         cookieMock = mock(Cookie.class);
         storeMock = mock(Store.class);
         customerMock = mock(Customer.class);
@@ -39,9 +39,10 @@ class CookieFactoryTest {
 
     @Test
     void subscription() {
-        try{
+        try {
             cookieFactory.subscription(name, phoneNumber, mail);
-        } catch (AlreadyCreatedException ignored){}
+        } catch (AlreadyCreatedException ignored) {
+        }
 
         assertEquals(1, cookieFactory.getCustomers().size());
 
@@ -54,45 +55,61 @@ class CookieFactoryTest {
 
     @Test
     void getCustomerByMail() {
-        try{
-            cookieFactory.addCustomer(new Customer(name, phoneNumber, mail));
-        } catch (AlreadyCreatedException e){
+        cookieFactory.resetFactory();
+        String nameCustomer1 = "name1";
+        String phoneCustomer1 = "phone1";
+        String mailCustomer1 = "mail1";
+        try {
+            System.out.println(cookieFactory.getCustomers());
+            cookieFactory.addCustomer(new Customer(nameCustomer1, phoneCustomer1, mailCustomer1));
+            System.out.println(cookieFactory.getCustomers());
+
+        } catch (AlreadyCreatedException e) {
             e.printStackTrace();
         }
 
-        assertEquals(name, cookieFactory.getCustomerByMail(mail).getName());
-        assertEquals(phoneNumber, cookieFactory.getCustomerByMail(mail).getPhoneNumber());
-        assertEquals(mail, cookieFactory.getCustomerByMail(mail).getMail());
+        assertEquals(nameCustomer1, cookieFactory.getCustomerByMail(mailCustomer1).getName());
+        assertEquals(phoneCustomer1, cookieFactory.getCustomerByMail(mailCustomer1).getPhoneNumber());
+        assertEquals(mailCustomer1, cookieFactory.getCustomerByMail(mailCustomer1).getMail());
+
     }
 
     @Test
     void getCustomerByTel() {
-        try{
-            cookieFactory.addCustomer(new Customer(name, phoneNumber, mail));
-        } catch (AlreadyCreatedException e){
+        cookieFactory.resetFactory();
+        String nameCustomer = "name";
+        String phoneCustomer = "phone";
+        String mailCustomer = "mail";
+        Customer customer = new Customer(nameCustomer, phoneCustomer, mailCustomer);
+        try {
+            cookieFactory.addCustomer(customer);
+        } catch (AlreadyCreatedException e) {
             e.printStackTrace();
         }
 
-        assertEquals(name, cookieFactory.getCustomerByTel(phoneNumber).getName());
-        assertEquals(phoneNumber, cookieFactory.getCustomerByTel(phoneNumber).getPhoneNumber());
-        assertEquals(mail, cookieFactory.getCustomerByTel(phoneNumber).getMail());
+        assertEquals(nameCustomer, cookieFactory.getCustomerByTel(phoneCustomer).getName());
+        assertEquals(phoneCustomer, cookieFactory.getCustomerByTel(phoneCustomer).getPhoneNumber());
+        assertEquals(mailCustomer, cookieFactory.getCustomerByTel(phoneCustomer).getMail());
     }
+
 
     @Test
     void noCookieTest() {
-        assertEquals(0, cookieFactory.getCookies().size());
+        cookieFactory.resetFactory();
 
+        assertEquals(0, cookieFactory.getCookies().size());
     }
 
     @Test
     void addingCookieTest() {
+        cookieFactory.resetFactory();
+
         try {
             cookieFactory.addCookie(cookieMock);
         } catch (AlreadyCreatedException e) {
             e.printStackTrace();
         }
         assertEquals(1, cookieFactory.getCookies().size());
-
     }
 
     @Test
@@ -102,14 +119,15 @@ class CookieFactoryTest {
         } catch (AlreadyCreatedException e) {
             e.printStackTrace();
         }
-        assertThrows(AlreadyCreatedException.class ,  () ->cookieFactory.addCookie(cookieMock));
+        assertThrows(AlreadyCreatedException.class, () -> cookieFactory.addCookie(cookieMock));
 
     }
 
     @Test
-    void noStoreTest() {
-        assertEquals(0, cookieFactory.getStores().size());
 
+    void noStoreTest() {
+        cookieFactory.resetFactory();
+        assertEquals(0, cookieFactory.getStores().size());
     }
 
     @Test
@@ -130,7 +148,7 @@ class CookieFactoryTest {
         } catch (AlreadyCreatedException e) {
             e.printStackTrace();
         }
-        assertThrows(AlreadyCreatedException.class ,  () ->cookieFactory.addStore(storeMock));
+        assertThrows(AlreadyCreatedException.class, () -> cookieFactory.addStore(storeMock));
 
     }
 
@@ -142,13 +160,13 @@ class CookieFactoryTest {
 
     @Test
     void addingCustomerTest() {
+        cookieFactory.resetFactory();
         try {
             cookieFactory.addCustomer(customerMock);
         } catch (AlreadyCreatedException e) {
             e.printStackTrace();
         }
         assertEquals(1, cookieFactory.getCustomers().size());
-
     }
 
     @Test
@@ -158,7 +176,7 @@ class CookieFactoryTest {
         } catch (AlreadyCreatedException e) {
             e.printStackTrace();
         }
-        assertThrows(AlreadyCreatedException.class ,  () ->cookieFactory.addCustomer(customerMock));
+        assertThrows(AlreadyCreatedException.class, () -> cookieFactory.addCustomer(customerMock));
 
     }
 }

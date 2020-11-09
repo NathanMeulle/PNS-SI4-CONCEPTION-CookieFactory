@@ -9,7 +9,7 @@ import java.util.Objects;
 /**
  * Class of an AnonynousCustomer
  */
-public class AnonymousCustomer {
+public class AnonymousCustomer implements CustomerInterface{
 
     private String phoneNumber;
     private String name;
@@ -20,11 +20,16 @@ public class AnonymousCustomer {
         this.phoneNumber = phoneNumber;
     }
 
-    public Order createOrder(Store store){
-        order = new Order();
-        order.setStore(store);
-        order.assignCustomer(this);
-        return order;
+    public void createOrder(Store store){
+        this.order = new Order();
+        this.order.setStore(store);
+        this.order.assignAnonymousCustomer(this);
+    }
+
+
+    @Override
+    public void addCookie(Cookie cookie, int quantity) {
+        this.order.addCookie(cookie, quantity);
     }
 
 
@@ -34,6 +39,11 @@ public class AnonymousCustomer {
 
     public void pickUpOrder() throws NotAlreadyCooked, NotPaid {
         this.order.pickedUp();
+    }
+
+    @Override
+    public double getPrice() {
+        return this.order.getPriceTTC();
     }
 
 
@@ -73,6 +83,7 @@ public class AnonymousCustomer {
     public void setOrder(Order order) {
         this.order = order;
     }
+
 
     @Override
     public String toString() {
