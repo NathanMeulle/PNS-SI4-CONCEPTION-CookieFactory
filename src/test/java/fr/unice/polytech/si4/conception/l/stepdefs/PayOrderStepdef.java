@@ -27,7 +27,7 @@ public class PayOrderStepdef implements En {
         });
         When("^a client subscribe to the loyalty program$", () -> {
             customer = new Customer("vincent", "06", "mail");
-            customer.setLoyaltyProgramn(true);
+            customer.setLoyaltyProgram(true);
         });
         And("^he makes an order of (\\d+) cookies$", (Integer arg0) -> {
             cookie = mock(Cookie.class);
@@ -42,9 +42,9 @@ public class PayOrderStepdef implements En {
         When("^a client subscribe or not to the \"([^\"]*)\"$", (String arg0) -> {
             customer = new Customer("vincent", "06", "mail");
             if(arg0.equals("yes"))
-                customer.setLoyaltyProgramn(true);
+                customer.setLoyaltyProgram(true);
             else
-                customer.setLoyaltyProgramn(false);
+                customer.setLoyaltyProgram(false);
 
         });
         And("^he makes an order of \"([^\"]*)\" cookie costing \"([^\"]*)\" at a store with \"([^\"]*)\"$", (Integer arg0, Double price, Double tax) -> {

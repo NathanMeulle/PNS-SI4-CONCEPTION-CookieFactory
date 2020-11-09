@@ -35,7 +35,6 @@ class OrderTest {
     void setup() {
         storeMock = mock(Store.class);
         when(storeMock.getTax()).thenReturn(1.0);
-        AnonymousCustomer aCustomer = new AnonymousCustomer("Petrovitch", "065065045");
         cookieChocoMock = mock(Cookie.class);
         cookieVanilleMock = mock(Cookie.class);
         managerMock = mock(Manager.class);
@@ -119,5 +118,38 @@ class OrderTest {
         vincent.addCookie(chocoCookie, 4);
         vincent.addCookie(mnMChocoCookie, 2);
         assertThrows(ErrorPreparingOrder.class, () -> vincent.makeOrder());
+    }
+
+    @Test
+    void calculatePriceTest(){
+        when(storeMock.getTax()).thenReturn(1.2);
+        vincent.createOrder(storeMock);
+        vincent.addCookie(chocoCookie, 1);
+        assertEquals(4.8, vincent.getPrice(), 0.01);
+
+        vincent.addCookie(mnMChocoCookie, 1);
+        assertEquals(18, vincent.getPrice(), 0.01);
+    }
+
+    @Test
+    void calculatePriceTest2(){
+        when(storeMock.getTax()).thenReturn(1.2);
+        vincent.createOrder(storeMock);
+        vincent.addCookie(chocoCookie, 7);
+        vincent.addCookie(mnMChocoCookie, 4);
+
+        assertEquals(86.4, vincent.getPrice(), 0.01);
+    }
+
+    @Test
+    void loyaltyProgramTest() {
+        Customer customer = new Customer("v", "06", "mail");
+        customer.setLoyaltyProgram(true);
+        when(storeMock.getTax()).thenReturn(1.2);
+        customer.createOrder(storeMock);
+        customer.addCookie(chocoCookie, 28);
+        customer.addCookie(mnMChocoCookie, 4);
+
+        assertEquals(168.48, customer.getPrice(), 0.01);
     }
 }
