@@ -6,10 +6,7 @@ import fr.unice.polytech.si4.conception.l.exceptions.ErrorPreparingOrder;
 import fr.unice.polytech.si4.conception.l.exceptions.NotAlreadyCooked;
 import fr.unice.polytech.si4.conception.l.exceptions.NotPaid;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 
 public class Order {
@@ -23,6 +20,7 @@ public class Order {
     private boolean isPaid;
     private int nbCookies;
     private StateOrder stateOrder;
+    private Date pickUpTime;
 
     /**
      * Creates an order with an ID, a date of creation and the state Choice
@@ -35,6 +33,7 @@ public class Order {
         this.stateOrder = StateOrder.CHOICE;
         this.isDone = false;
         this.isPaid = false;
+        this.pickUpTime = null;
     }
 
     public void assignCustomer(AnonymousCustomer anonymousCustomer) {
@@ -105,7 +104,7 @@ public class Order {
         this.setStateOrder(StateOrder.SUBMITTED);
         if (this.isAchievable()) {
             this.setStateOrder(StateOrder.VALIDATED);
-            Log.add("Order:" + this.getIdOrder() + " - Validated");
+            Log.add("Order:" + this.getIdOrder() + " - Validated\n" + "Pick up time: " + pickUpTime.toString());
             this.store.prepareOrder(this);
         } else {
             this.setStateOrder(StateOrder.REFUSED);
@@ -114,6 +113,13 @@ public class Order {
         }
     }
 
+    /**
+     * set the pickup time of this order
+     * @param time order pickup time
+     */
+    public void choosePickUpTime(Date time){
+        this.pickUpTime = time;
+    }
 
     /**
      * *******************************************************************************
