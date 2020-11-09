@@ -25,9 +25,9 @@ class CookieFactoryTest {
 
     @BeforeEach
     void setUp() {
-        name = new String("Esteve");
-        phoneNumber = new String("0658601237");
-        mail = new String("estevet@hotmail.fr");
+        name = "Esteve";
+        phoneNumber = "0658601237";
+        mail = "estevet@hotmail.fr";
         cookieFactory = new CookieFactory(null, null);
         cookies = new ArrayList<>();
         stores = new ArrayList<>();

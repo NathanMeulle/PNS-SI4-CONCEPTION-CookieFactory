@@ -6,19 +6,17 @@ import fr.unice.polytech.si4.conception.l.exceptions.ErrorPreparingOrder;
 import fr.unice.polytech.si4.conception.l.exceptions.NotAlreadyCooked;
 import fr.unice.polytech.si4.conception.l.exceptions.NotPaid;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 
 public class Order {
     private int idOrder;
     private Date date;
     private Store store;
-    private double price;
+    private double priceHT;
+    private double priceTTC;
     private Map<Cookie, Integer> cookies;
-    private AnonymousCustomer anonymousCustomer;
+    private AnonymousCustomer customer;
     private boolean isDone;
     private boolean isPaid;
     private int nbCookies;
@@ -37,8 +35,12 @@ public class Order {
         this.isPaid = false;
     }
 
-    public void assignCustomer(AnonymousCustomer anonymousCustomer) {
-        this.anonymousCustomer = anonymousCustomer;
+    public void assignAnonymousCustomer(AnonymousCustomer anonymousCustomer) {
+        this.customer = anonymousCustomer;
+    }
+
+    public void assignCustomer(Customer customer) {
+        this.customer = customer;
     }
 
     /**
@@ -70,11 +72,18 @@ public class Order {
         calculatePrice();
     }
 
+
+
     private void calculatePrice() {
-        price = 0.0; // on réinitialise le prix et on re parcourt tous les cookies
+        priceHT = 0.0; // on réinitialise le prix et on re parcourt tous les cookies
         cookies.forEach((cookie, quantity) ->
-            this.price += cookie.getPrice() * quantity);
-        Log.add(String.format("La commande id:%d coûte %f€", this.getIdOrder(), this.price));
+            this.priceHT += cookie.getPrice() * quantity);
+        this.priceTTC = priceHT * getStore().getTax();
+        Log.add(String.format("La commande id:%d coûte %f€ HT", this.getIdOrder(), this.priceTTC));
+    }
+
+    public void applyDiscount() {
+        this.priceTTC *= 0.9;
     }
 
     /**
@@ -92,7 +101,6 @@ public class Order {
             Log.add("La commande " + this.idOrder + "a tenté d'être retiré mais n'est pas encore prête");
             throw new NotAlreadyCooked("Your order isn't ready yet");
         }
-
     }
 
     /**
@@ -141,16 +149,16 @@ public class Order {
         this.store = store;
     }
 
-    public double getPrice() {
-        return price;
+    public double getPriceHT() {
+        return priceHT;
     }
 
-    public double getTTCPrice() {
-        return price *= getStore().getTax();
+    public double getPriceTTC() {
+        return priceTTC;
     }
 
-    public void setPrice(double price) {
-        this.price = price;
+    public void setPriceHT(double priceHT) {
+        this.priceHT = priceHT;
     }
 
     public Map<Cookie, Integer> getCookies() {
@@ -169,8 +177,8 @@ public class Order {
         this.stateOrder = stateOrder;
     }
 
-    public AnonymousCustomer getAnonymousCustomer() {
-        return anonymousCustomer;
+    public AnonymousCustomer getCustomer() {
+        return customer;
     }
 
     public boolean getIsDone() {
@@ -203,16 +211,18 @@ public class Order {
         if (o == null || getClass() != o.getClass()) return false;
         Order order = (Order) o;
         return idOrder == order.idOrder &&
-                price == order.price &&
+                priceHT == order.priceHT &&
                 nbCookies == order.nbCookies &&
                 date.equals(order.date) &&
                 store.equals(order.store) &&
                 cookies.equals(order.cookies) &&
-                anonymousCustomer.equals(order.anonymousCustomer);
+                customer.equals(order.customer);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(idOrder, date, store, anonymousCustomer);
+        return Objects.hash(idOrder, date, store, customer);
     }
+
+
 }

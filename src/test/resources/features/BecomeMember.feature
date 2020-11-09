@@ -28,10 +28,10 @@ Feature: Becoming a member
     And there is "<nbCustomer>" in the list of customers
     Examples:
       | name    | phoneNumber | email             | registerStatus | nbCustomer |
-      | Charlie | 0755555555  | charlie@gmail.com |     failure    | 1          |
-      | Charles | 0755555555  | charlie@gmail.com |     failure    | 1          |
-      | Charlie | 0755555555  | charlo@gmail.com  |     failure    | 1          |
-      | Charlie | 0766666666  | charlo@gmail.com  |     success    | 2          |
+      | Charlie | 0755555555  | charlie@gmail.com | failure        | 1          |
+      | Charles | 0755555555  | charlie@gmail.com | failure        | 1          |
+      | Charlie | 0755555555  | charlo@gmail.com  | failure        | 1          |
+      | Charlie | 0766666666  | charlo@gmail.com  | success        | 2          |
 
 
 

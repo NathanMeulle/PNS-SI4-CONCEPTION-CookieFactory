@@ -35,22 +35,24 @@ public class CreateOrderStepDef implements En {
 
         });
         When("^the anonymous client create an order$", () -> {
-            order = anonymousCustomer.createOrder(store);
+            anonymousCustomer.createOrder(store);
         });
 
         Then("^There is (\\d+) in his number of cookies$", (Integer arg0) -> {
             assertEquals(arg0.intValue(),nbCookies);
         });
         When("^the anonymous client add one cookie to his order$", () -> {
-            order.addCookie(cookie,1);
-            nbCookies = order.getCookies().get(cookie);
-        });
-        And("^the customer add (\\d+) cookie to his order$", (Integer arg0) -> {
-            order.addCookie(cookie,arg0);
+            anonymousCustomer.addCookie(cookie,1);
+            order = anonymousCustomer.getOrder();
             nbCookies = order.getCookies().get(cookie);
         });
         When("^the customer create an order$", () -> {
-            order = customer.createOrder(store);
+            customer.createOrder(store);
+        });
+        And("^the customer add (\\d+) cookie to his order$", (Integer arg0) -> {
+            customer.addCookie(cookie,arg0);
+            order = customer.getOrder();
+            nbCookies = order.getCookies().get(cookie);
         });
     }
 
