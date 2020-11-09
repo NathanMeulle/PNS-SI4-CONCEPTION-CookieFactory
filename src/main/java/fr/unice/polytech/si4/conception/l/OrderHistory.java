@@ -1,6 +1,6 @@
 package fr.unice.polytech.si4.conception.l;
 
-import java.util.ArrayList;
+import java.util.*;
 
 /**
  * Stock all the order made in a store
@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 public class OrderHistory {
 
-    private ArrayList<Order> listOrder;
+    private List<Order> listOrder;
 
     /**
      * An orderHistory is attached to a specific store and it's create when the store is create

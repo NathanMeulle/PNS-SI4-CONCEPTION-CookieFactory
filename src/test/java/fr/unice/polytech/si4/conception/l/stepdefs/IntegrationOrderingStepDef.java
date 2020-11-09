@@ -26,7 +26,6 @@ public class IntegrationOrderingStepDef implements En {
     Manager managerMock;
     CookieFactory cookieFactory;
     Kitchen kitchen;
-    Order order;
     Cookie customCookie;
 
 
@@ -40,7 +39,9 @@ public class IntegrationOrderingStepDef implements En {
             kitchen = new Kitchen();
             kitchen.assignStore(store);
             store.setKitchen(kitchen);
-            cookieFactory = new CookieFactory(new ArrayList<>(), new ArrayList<>());
+
+            cookieFactory = CookieFactory.getInstance();
+            cookieFactory.resetFactory();
             cookieFactory.addStore(store);
         });
         And("^an ingredient called Chocolate, costing (\\d+)$", (Integer arg0) -> {
@@ -69,16 +70,16 @@ public class IntegrationOrderingStepDef implements En {
         });
         And("^The client \"([^\"]*)\" makes an order of (\\d+) \"([^\"]*)\" and (\\d+) \"([^\"]*)\" at store \"([^\"]*)\"$", (String arg0, Integer arg1, String arg2, Integer arg3, String arg4, String arg5) -> {
             store = cookieFactory.getStorerByAddress(arg5);
-            order = vincent.createOrder(store);
-            order.addCookie(chocoCookie, arg1);
-            order.addCookie(mnMChocoCookie, arg3);
+            vincent.createOrder(store);
+            vincent.addCookie(chocoCookie, arg1);
+            vincent.addCookie(mnMChocoCookie, arg3);
             assertDoesNotThrow(()->vincent.makeOrder());
         });
         And("^The client \"([^\"]*)\" try to create an order of (\\d+) \"([^\"]*)\" and (\\d+) \"([^\"]*)\" at store \"([^\"]*)\"$", (String arg0, Integer arg1, String arg2, Integer arg3, String arg4, String arg5) -> {
             store = cookieFactory.getStorerByAddress(arg5);
-            order = vincent.createOrder(store);
-            order.addCookie(chocoCookie, arg1);
-            order.addCookie(mnMChocoCookie, arg3);
+            vincent.createOrder(store);
+            vincent.addCookie(chocoCookie, arg1);
+            vincent.addCookie(mnMChocoCookie, arg3);
             assertThrows(ErrorPreparingOrder.class, ()-> vincent.makeOrder());
         });
         Then("^The client \"([^\"]*)\" has (\\d+) order$", (String arg0, Integer arg1) -> {
@@ -87,11 +88,11 @@ public class IntegrationOrderingStepDef implements En {
         And("^the total price of this order is now (.+) TTC for client \"([^\"]*)\"$", (Double arg0, String arg2) -> {
             assertEquals(2, chocoCookie.getPrice());
             assertEquals(6, mnMChocoCookie.getPrice());
-            assertEquals(arg0, order.getTTCPrice(), 0.01);
+            assertEquals(arg0, vincent.getPrice(), 0.01);
         });
         When("^The user makes an order of (\\d+) \"([^\"]*)\"$", (Integer arg0, String arg1) -> {
-            order = vincent.createOrder(store);
-            order.addCookie(chocoCookie, arg0);
+            vincent.createOrder(store);
+            vincent.addCookie(chocoCookie, arg0);
             vincent.makeOrder();
         });
         When("^the user creates his custom recipe composed of \"([^\"]*)\", \"([^\"]*)\" and \"([^\"]*)\" and is TOPPED and CRUNCHY$", (String arg0, String arg1, String arg2) -> {
@@ -109,12 +110,12 @@ public class IntegrationOrderingStepDef implements En {
 
         });
         Then("^the user makes the order of his custom cookies$", () -> {
-            order = vincent.createOrder(store);
-            order.addCookie(customCookie, 1);
+            vincent.createOrder(store);
+            vincent.addCookie(customCookie, 1);
             vincent.makeOrder();
         });
         And("^the store starts making the order$", () -> {
-            assertEquals(StateOrder.COOKED, order.getStateOrder());
+            assertEquals(StateOrder.COOKED, vincent.getOrder().getStateOrder());
         });
     }
 }
