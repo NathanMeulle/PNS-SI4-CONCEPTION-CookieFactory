@@ -27,4 +27,7 @@ public class OrderHistory {
     }
 
 
+    public ArrayList<Order> getListOrder() {
+        return listOrder;
+    }
 }
