@@ -21,8 +21,8 @@ public class PickUpOrderStepdefs implements En {
         Given("^an order and an anonymous customer$", () -> {
             store = new Store(1, "adresse", 25, "06", "mail", mock(Manager.class));
             anonymousCustomer = new AnonymousCustomer("Bertrand", "06");
-            order = anonymousCustomer.createOrder(store);
-            order.setStore(store);
+            anonymousCustomer.createOrder(store);
+            order = anonymousCustomer.getOrder();
         });
 
         When("^an anonymous client pick up his order$", () -> {

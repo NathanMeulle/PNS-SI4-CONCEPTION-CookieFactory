@@ -21,7 +21,6 @@ public class Order {
     private boolean isPaid;
     private int nbCookies;
     private StateOrder stateOrder;
-    private List<DiscountObserver> observers;
 
     /**
      * Creates an order with an ID, a date of creation and the state Choice
@@ -34,7 +33,6 @@ public class Order {
         this.stateOrder = StateOrder.CHOICE;
         this.isDone = false;
         this.isPaid = false;
-        observers = new ArrayList<>();
     }
 
     public void assignAnonymousCustomer(AnonymousCustomer anonymousCustomer) {
@@ -43,8 +41,6 @@ public class Order {
 
     public void assignCustomer(Customer customer) {
         this.customer = customer;
-        addObserver(customer);
-
     }
 
     /**
@@ -74,25 +70,8 @@ public class Order {
         }
         this.nbCookies += quantity;
         calculatePrice();
-        if(this.nbCookies + customer.getNbCookieOrdered() >= 30){
-            notifyObservers();
-        }
     }
 
-    public void addObserver(DiscountObserver discountObserver){
-        observers.add(discountObserver);
-    }
-
-    public void removeObserver(DiscountObserver discountObserver){
-        observers.remove(discountObserver);
-    }
-
-
-    private void notifyObservers() {
-        for (DiscountObserver observer: observers){
-            observer.update();
-        }
-    }
 
 
     private void calculatePrice() {

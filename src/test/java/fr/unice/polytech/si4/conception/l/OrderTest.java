@@ -36,9 +36,6 @@ class OrderTest {
         storeMock = mock(Store.class);
         when(storeMock.getTax()).thenReturn(1.0);
         AnonymousCustomer aCustomer = new AnonymousCustomer("Petrovitch", "065065045");
-        order = new Order();
-        order.setStore(storeMock);
-        order.assignAnonymousCustomer(aCustomer);
         cookieChocoMock = mock(Cookie.class);
         cookieVanilleMock = mock(Cookie.class);
         managerMock = mock(Manager.class);
@@ -70,23 +67,29 @@ class OrderTest {
 
     @Test
     void addCookieTest() {
-        order.addCookie(cookieChocoMock, 1);
+        vincent.createOrder(storeMock);
+        vincent.addCookie(cookieChocoMock, 1);
+        order = vincent.getOrder();
         assertEquals(1, order.getCookies().get(cookieChocoMock));
         assertEquals(1, order.getNbCookies());
     }
 
     @Test
     void addSameCookieTest() {
-        order.addCookie(cookieChocoMock, 1);
-        order.addCookie(cookieChocoMock, 1);
+        vincent.createOrder(storeMock);
+        vincent.addCookie(cookieChocoMock, 1);
+        vincent.addCookie(cookieChocoMock, 1);
+        order = vincent.getOrder();
         assertEquals(2, order.getCookies().get(cookieChocoMock));
         assertEquals(2, order.getNbCookies());
     }
 
     @Test
     void addDifferentCookieTest() {
-        order.addCookie(cookieChocoMock, 1);
-        order.addCookie(cookieVanilleMock, 3);
+        vincent.createOrder(storeMock);
+        vincent.addCookie(cookieChocoMock, 1);
+        vincent.addCookie(cookieVanilleMock, 3);
+        order = vincent.getOrder();
         assertEquals(1, order.getCookies().get(cookieChocoMock));
         assertEquals(3, order.getCookies().get(cookieVanilleMock));
         assertEquals(4, order.getNbCookies());
@@ -95,26 +98,26 @@ class OrderTest {
     @Test
     void isAchievableTest() {
 
-        order = vincent.createOrder(store);
-        order.addCookie(chocoCookie, 7);
-        order.addCookie(mnMChocoCookie, 1);
+        vincent.createOrder(store);
+        vincent.addCookie(chocoCookie, 7);
+        vincent.addCookie(mnMChocoCookie, 1);
 
         assertThrows(ErrorPreparingOrder.class, () -> vincent.makeOrder());
     }
 
     @Test
     void isAchievableTest2() {
-        order = vincent.createOrder(store);
-        order.addCookie(chocoCookie, 4);
-        order.addCookie(mnMChocoCookie, 1);
+        vincent.createOrder(store);
+        vincent.addCookie(chocoCookie, 4);
+        vincent.addCookie(mnMChocoCookie, 1);
         assertDoesNotThrow(() -> vincent.makeOrder());
     }
 
     @Test
     void isAchievableTest3() {
-        order = vincent.createOrder(store);
-        order.addCookie(chocoCookie, 4);
-        order.addCookie(mnMChocoCookie, 2);
+        vincent.createOrder(store);
+        vincent.addCookie(chocoCookie, 4);
+        vincent.addCookie(mnMChocoCookie, 2);
         assertThrows(ErrorPreparingOrder.class, () -> vincent.makeOrder());
     }
 }

@@ -6,7 +6,7 @@ import fr.unice.polytech.si4.conception.l.exceptions.NotPaid;
 
 import java.util.Objects;
 
-public class Customer extends AnonymousCustomer implements DiscountObserver {
+public class Customer extends AnonymousCustomer implements CustomerInterface {
 
 
     private String mail;
@@ -21,34 +21,37 @@ public class Customer extends AnonymousCustomer implements DiscountObserver {
         this.nbCookieOrdered = 0;
     }
 
-    public Order createOrder(Store store){
-        order = new Order();
-        order.setStore(store);
-        order.assignCustomer(this);
-        return order;
+    @Override
+    public void createOrder(Store store){
+        this.order = new Order();
+        this.order.setStore(store);
+        this.order.assignCustomer(this);
     }
 
+    @Override
     public void makeOrder() throws ErrorPreparingOrder {
         this.order.submit();
         if(loyaltyProgramn)
             incrementCookieOrdered(this.order.getNbCookies());
     }
 
-    public void pickUpOrder() throws NotAlreadyCooked, NotPaid {
-        this.order.pickedUp();
+    @Override
+    public void addCookie(Cookie cookie, int quantity) {
+        order.addCookie(cookie, quantity);
+        if(loyaltyProgramn && nbCookieOrdered + quantity >=30) {
+            decrementeNbCookie();
+        }
     }
+
 
     public void incrementCookieOrdered(int nbCookieOrdered) {
         this.nbCookieOrdered += nbCookieOrdered;
     }
 
 
-    @Override
-    public void update() {
-        if (loyaltyProgramn) {
+    public void decrementeNbCookie() {
             this.order.applyDiscount();
-            nbCookieOrdered-=30;
-        }
+            this.nbCookieOrdered-=30;
     }
 
 
@@ -76,6 +79,10 @@ public class Customer extends AnonymousCustomer implements DiscountObserver {
         return mail;
     }
 
+    public Order getOrder() {
+        return order;
+    }
+
     public void setMail(String mail) {
         this.mail = mail;
     }
@@ -94,6 +101,11 @@ public class Customer extends AnonymousCustomer implements DiscountObserver {
 
     public void setNbCookieOrdered(int nbCookieOrdered) {
         this.nbCookieOrdered = nbCookieOrdered;
+    }
+
+    @Override
+    public double getPrice() {
+        return this.order.getPriceTTC();
     }
 
     @Override

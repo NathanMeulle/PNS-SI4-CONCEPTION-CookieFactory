@@ -38,8 +38,8 @@ public class MakeOrderBisStepdefs implements En {
             store.setKitchen(kitchen);
             kitchen.assignStore(store);
 
-            order = anonymousCustomer.createOrder(store);
-            order.addCookie(cookieM, 3);
+            anonymousCustomer.createOrder(store);
+            anonymousCustomer.addCookie(cookieM, 3);
 
         });
         When("^an anonymous customer submit his order and (\\d+) \"([^\"]*)\" in the kitchen$", (Integer arg0, String arg1) -> {

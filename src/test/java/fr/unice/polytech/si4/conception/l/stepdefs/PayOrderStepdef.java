@@ -9,7 +9,6 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 public class PayOrderStepdef implements En {
-    private Order order;
     private Store store;
     private Kitchen kitchen;
     Cookie cookie;
@@ -33,8 +32,8 @@ public class PayOrderStepdef implements En {
         And("^he makes an order of (\\d+) cookies$", (Integer arg0) -> {
             cookie = mock(Cookie.class);
             when(cookie.getPrice()).thenReturn(1.0);
-            order = customer.createOrder(store);
-            order.addCookie(cookie, arg0);
+            customer.createOrder(store);
+            customer.addCookie(cookie, arg0);
             customer.makeOrder();
         });
         Then("^there is (\\d+) in the cookie counter$", (Integer arg0) -> {
@@ -52,12 +51,12 @@ public class PayOrderStepdef implements En {
             store.setTax(tax);
             cookie = mock(Cookie.class);
             when(cookie.getPrice()).thenReturn(price);
-            order = customer.createOrder(store);
-            order.addCookie(cookie, arg0);
+            customer.createOrder(store);
+            customer.addCookie(cookie, arg0);
             customer.makeOrder();
         });
         Then("^he must pay \"([^\"]*)\"$", (Double arg0) -> {
-            assertEquals(arg0, order.getPriceTTC(), 0.01);
+            assertEquals(arg0, customer.getPrice(), 0.01);
         });
         And("^there is \"([^\"]*)\" cookies$", (Integer arg0) -> {
             assertEquals(arg0, customer.getNbCookieOrdered());
