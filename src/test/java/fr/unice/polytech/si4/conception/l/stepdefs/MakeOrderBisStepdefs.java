@@ -34,6 +34,7 @@ public class MakeOrderBisStepdefs implements En {
             cookieM = mock(Cookie.class);
             when(cookieM.getName()).thenReturn(arg1);
             when(cookieM.getIngredients()).thenReturn(ingredients);
+            when(cookieM.getPrice()).thenReturn(2);
             store = new Store(1, "oui", 25, "06", "", mock(Manager.class));
             store.setKitchen(kitchen);
             kitchen.assignStore(store);

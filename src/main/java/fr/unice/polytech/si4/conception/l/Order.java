@@ -67,7 +67,7 @@ public class Order {
             Log.add(String.format("Ajout de cookie : %s - quantité : %d", cookie.getName(), quantity));
         }
         this.nbCookies += quantity;
-        calculatePrice();
+        this.calculatePrice();
     }
 
     private void calculatePrice() {
