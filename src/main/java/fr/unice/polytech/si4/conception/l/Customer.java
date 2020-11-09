@@ -1,21 +1,57 @@
 package fr.unice.polytech.si4.conception.l;
 
 import fr.unice.polytech.si4.conception.l.exceptions.ErrorPreparingOrder;
+import fr.unice.polytech.si4.conception.l.exceptions.NotAlreadyCooked;
+import fr.unice.polytech.si4.conception.l.exceptions.NotPaid;
 
 import java.util.Objects;
 
-public class Customer extends AnonymousCustomer{
+public class Customer extends AnonymousCustomer implements CustomerInterface {
 
 
     private String mail;
     private boolean loyaltyProgramn;
     private int nbCookieOrdered;
+    private Order order;
 
     public Customer(String name, String phoneNumber, String mail) {
-        super(name,phoneNumber);
+        super(name, phoneNumber);
         this.mail = mail;
         this.loyaltyProgramn = false;
         this.nbCookieOrdered = 0;
+    }
+
+    @Override
+    public void createOrder(Store store){
+        this.order = new Order();
+        this.order.setStore(store);
+        this.order.assignCustomer(this);
+    }
+
+    @Override
+    public void makeOrder() throws ErrorPreparingOrder {
+        this.order.submit();
+        if(loyaltyProgramn)
+            incrementCookieOrdered(this.order.getNbCookies());
+    }
+
+    @Override
+    public void addCookie(Cookie cookie, int quantity) {
+        order.addCookie(cookie, quantity);
+        if(loyaltyProgramn && nbCookieOrdered + quantity >=30) {
+            decrementeNbCookie();
+        }
+    }
+
+
+    public void incrementCookieOrdered(int nbCookieOrdered) {
+        this.nbCookieOrdered += nbCookieOrdered;
+    }
+
+
+    public void decrementeNbCookie() {
+            this.order.applyDiscount();
+            this.nbCookieOrdered-=30;
     }
 
 
@@ -32,14 +68,19 @@ public class Customer extends AnonymousCustomer{
         return Objects.hash(super.hashCode(), getMail());
     }
 
-    /** ********************************************************************************
-     *                               GETTERS / SETTERS
-     *  ********************************************************************************
+    /**
+     * *******************************************************************************
+     * GETTERS / SETTERS
+     * ********************************************************************************
      */
 
 
     public String getMail() {
         return mail;
+    }
+
+    public Order getOrder() {
+        return order;
     }
 
     public void setMail(String mail) {
@@ -60,6 +101,11 @@ public class Customer extends AnonymousCustomer{
 
     public void setNbCookieOrdered(int nbCookieOrdered) {
         this.nbCookieOrdered = nbCookieOrdered;
+    }
+
+    @Override
+    public double getPrice() {
+        return this.order.getPriceTTC();
     }
 
     @Override

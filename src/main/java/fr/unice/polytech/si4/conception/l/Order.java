@@ -4,20 +4,21 @@ package fr.unice.polytech.si4.conception.l;
  */
 import fr.unice.polytech.si4.conception.l.exceptions.ErrorPreparingOrder;
 import fr.unice.polytech.si4.conception.l.exceptions.NotAlreadyCooked;
+import fr.unice.polytech.si4.conception.l.exceptions.NotPaid;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Objects;
+import java.util.*;
 
 
 public class Order {
     private int idOrder;
     private Date date;
     private Store store;
-    private int price;
-    private HashMap<Cookie, Integer> cookies;
-    private AnonymousCustomer anonymousCustomer;
-    private boolean isDone = false;
+    private double priceHT;
+    private double priceTTC;
+    private Map<Cookie, Integer> cookies;
+    private AnonymousCustomer customer;
+    private boolean isDone;
+    private boolean isPaid;
     private int nbCookies;
     private StateOrder stateOrder;
 
@@ -29,15 +30,22 @@ public class Order {
         this.date = new Date();
         this.cookies = new HashMap<>();
         this.nbCookies = 0;
-        this.stateOrder = StateOrder.Choice;
+        this.stateOrder = StateOrder.CHOICE;
+        this.isDone = false;
+        this.isPaid = false;
     }
 
-    public void assignCustomer(AnonymousCustomer anonymousCustomer){
-        this.anonymousCustomer = anonymousCustomer;
+    public void assignAnonymousCustomer(AnonymousCustomer anonymousCustomer) {
+        this.customer = anonymousCustomer;
+    }
+
+    public void assignCustomer(Customer customer) {
+        this.customer = customer;
     }
 
     /**
      * Generate a unique id that permits to recognize an order
+     *
      * @return id
      */
     private int generateIdOrder() {
@@ -47,44 +55,52 @@ public class Order {
     /**
      * Add a specific cookie to the order with a quantity. If the cookie is already present, increment its quantity
      * Update price of the order
-     * @param cookie Cookie's type
+     *
+     * @param cookie   Cookie's type
      * @param quantity Cookie's quantity
      */
     public void addCookie(Cookie cookie, int quantity) {
         if (cookies.containsKey(cookie)) {
             int updatedQuantity = cookies.get(cookie) + quantity;
             cookies.replace(cookie, updatedQuantity);
-            Log.add(String.format("Ajout de cookie : %s - quantité : %d",cookie.getName(), updatedQuantity));
-        }
-        else {
+            Log.add(String.format("Ajout de cookie : %s - quantité : %d", cookie.getName(), updatedQuantity));
+        } else {
             cookies.put(cookie, quantity);
-            Log.add(String.format("Ajout de cookie : %s - quantité : %d",cookie.getName(), quantity));
+            Log.add(String.format("Ajout de cookie : %s - quantité : %d", cookie.getName(), quantity));
         }
         this.nbCookies += quantity;
         this.calculatePrice();
     }
 
+
+
     private void calculatePrice() {
-        cookies.forEach((cookie,quantity) -> {
-            this.price += cookie.getPrice() * quantity;
-        });
-        Log.add(String.format("La commande id:%d coûte %d€", this.getIdOrder(), this.price));
+        priceHT = 0.0; // on réinitialise le prix et on re parcourt tous les cookies
+        cookies.forEach((cookie, quantity) ->
+            this.priceHT += cookie.getPrice() * quantity);
+        this.priceTTC = priceHT * getStore().getTax();
+        Log.add(String.format("La commande id:%d coûte %f€ HT", this.getIdOrder(), this.priceTTC));
+    }
+
+    public void applyDiscount() {
+        this.priceTTC *= 0.9;
     }
 
     /**
      * When the customer pick up his order, it's put in OrderHistory
      * If order not ready, raise NotAlreadyCookedException
      */
-    public void pickedUp() throws NotAlreadyCooked {
-        if (this.getStateOrder().equals(StateOrder.Cooked)) {
+    public void pickedUp() throws NotAlreadyCooked, NotPaid {
+        if (!isPaid) {
+            throw new NotPaid("You did not pay");
+        }
+        if (this.getStateOrder().equals(StateOrder.COOKED)) {
             this.store.addToOrderHistory(this);
             Log.add("La commande " + this.idOrder + "a été retiré et est maintenant archivée.");
-        }
-        else {
+        } else {
             Log.add("La commande " + this.idOrder + "a tenté d'être retiré mais n'est pas encore prête");
             throw new NotAlreadyCooked("Your order isn't ready yet");
         }
-
     }
 
     /**
@@ -94,23 +110,23 @@ public class Order {
      * Else order state is Refused
      */
     public void submit() throws ErrorPreparingOrder {
-        this.setStateOrder(StateOrder.Submitted);
+        this.setStateOrder(StateOrder.SUBMITTED);
         if (this.isAchievable()) {
-            this.setStateOrder(StateOrder.Validated);
-            Log.add("Order:"+ this.getIdOrder() +" - Validated");
+            this.setStateOrder(StateOrder.VALIDATED);
+            Log.add("Order:" + this.getIdOrder() + " - Validated");
             this.store.prepareOrder(this);
-        }
-        else {
-            this.setStateOrder(StateOrder.Refused);
-            Log.add("Order:"+ this.getIdOrder() +" - Refused");
-            throw new ErrorPreparingOrder(String.format("Erreur lors de la préparation de commande par la cuisine !"));
+        } else {
+            this.setStateOrder(StateOrder.REFUSED);
+            Log.add("Order:" + this.getIdOrder() + " - Refused");
+            throw new ErrorPreparingOrder("Erreur lors de la préparation de commande par la cuisine !");
         }
     }
 
 
-    /** ********************************************************************************
-     *                               GETTERS / SETTERS
-     *  ********************************************************************************
+    /**
+     * *******************************************************************************
+     * GETTERS / SETTERS
+     * ********************************************************************************
      */
 
     public int getIdOrder() {
@@ -133,19 +149,23 @@ public class Order {
         this.store = store;
     }
 
-    public int getPrice() {
-        return price;
+    public double getPriceHT() {
+        return priceHT;
     }
 
-    public void setPrice(int price) {
-        this.price = price;
+    public double getPriceTTC() {
+        return priceTTC;
     }
 
-    public HashMap<Cookie, Integer> getCookies() {
+    public void setPriceHT(double priceHT) {
+        this.priceHT = priceHT;
+    }
+
+    public Map<Cookie, Integer> getCookies() {
         return cookies;
     }
 
-    public void setCookies(HashMap<Cookie, Integer> cookies) {
+    public void setCookies(Map<Cookie, Integer> cookies) {
         this.cookies = cookies;
     }
 
@@ -157,16 +177,24 @@ public class Order {
         this.stateOrder = stateOrder;
     }
 
-    public AnonymousCustomer getAnonymousCustomer() {
-        return anonymousCustomer;
+    public AnonymousCustomer getCustomer() {
+        return customer;
     }
 
-    public boolean getIsDone(){
+    public boolean getIsDone() {
         return isDone;
     }
 
-    public void isDone(){
+    public boolean getIsPaid() {
+        return isPaid;
+    }
+
+    public void isDone() {
         this.isDone = true;
+    }
+
+    public void isPaid() {
+        this.isPaid = true;
     }
 
     public boolean isAchievable() {
@@ -183,16 +211,18 @@ public class Order {
         if (o == null || getClass() != o.getClass()) return false;
         Order order = (Order) o;
         return idOrder == order.idOrder &&
-                price == order.price &&
+                priceHT == order.priceHT &&
                 nbCookies == order.nbCookies &&
                 date.equals(order.date) &&
                 store.equals(order.store) &&
                 cookies.equals(order.cookies) &&
-                anonymousCustomer.equals(order.anonymousCustomer);
+                customer.equals(order.customer);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(idOrder, date, store, anonymousCustomer);
+        return Objects.hash(idOrder, date, store, customer);
     }
+
+
 }

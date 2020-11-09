@@ -23,7 +23,7 @@ public class OrderHistory {
      */
     public void addOrder(Order order){
         listOrder.add(order);
-        order.setStateOrder(StateOrder.Classified);
+        order.setStateOrder(StateOrder.CLASSIFIED);
     }
 
 

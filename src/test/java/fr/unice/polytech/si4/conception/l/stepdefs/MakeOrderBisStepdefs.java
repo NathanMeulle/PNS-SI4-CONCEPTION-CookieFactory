@@ -4,12 +4,12 @@ import fr.unice.polytech.si4.conception.l.*;
 import fr.unice.polytech.si4.conception.l.cookie.composition.IngredientType;
 import fr.unice.polytech.si4.conception.l.exceptions.ErrorPreparingOrder;
 import io.cucumber.java8.En;
-import org.mockito.internal.matchers.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -20,7 +20,6 @@ public class MakeOrderBisStepdefs implements En {
     private Cookie cookieM;
     private Store store;
     private Kitchen kitchen;
-    private Exception exception;
     private Ingredient chocolate;
 
 
@@ -35,13 +34,13 @@ public class MakeOrderBisStepdefs implements En {
             cookieM = mock(Cookie.class);
             when(cookieM.getName()).thenReturn(arg1);
             when(cookieM.getIngredients()).thenReturn(ingredients);
-            when(cookieM.getPrice()).thenReturn(2);
+            when(cookieM.getPrice()).thenReturn((double) 2);
             store = new Store(1, "oui", 25, "06", "", mock(Manager.class));
             store.setKitchen(kitchen);
             kitchen.assignStore(store);
 
-            order = anonymousCustomer.createOrder(store);
-            order.addCookie(cookieM, 3);
+            anonymousCustomer.createOrder(store);
+            anonymousCustomer.addCookie(cookieM, 3);
 
         });
         When("^an anonymous customer submit his order and (\\d+) \"([^\"]*)\" in the kitchen$", (Integer arg0, String arg1) -> {
@@ -53,7 +52,6 @@ public class MakeOrderBisStepdefs implements En {
 
         Then("^order is cancel$", () -> {
             assertThrows(ErrorPreparingOrder.class, () -> anonymousCustomer.makeOrder());
-            Log.display();
         });
 
     }

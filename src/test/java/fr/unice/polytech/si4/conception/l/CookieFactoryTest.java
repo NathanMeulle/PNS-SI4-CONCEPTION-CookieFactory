@@ -26,11 +26,13 @@ class CookieFactoryTest {
 
     @BeforeEach
     void setUp() {
+
         name = new String("Esteve");
         phoneNumber = new String("0658601237");
         mail = new String("estevet@hotmail.fr");
         cookieFactory = CookieFactory.getInstance();
         log = new Log();
+
         cookieMock = mock(Cookie.class);
         storeMock = mock(Store.class);
         customerMock = mock(Customer.class);
@@ -91,15 +93,19 @@ class CookieFactoryTest {
     }
 
 
+
     @Test
     public void noCookieTest() {
         cookieFactory.resetFactory();
+
         assertEquals(0, cookieFactory.getCookies().size());
     }
 
     @Test
+
     public void addingCookieTest() {
         cookieFactory.resetFactory();
+
         try {
             cookieFactory.addCookie(cookieMock);
         } catch (AlreadyCreatedException e) {
@@ -109,7 +115,7 @@ class CookieFactoryTest {
     }
 
     @Test
-    public void addingSameCookieTest() {
+    void addingSameCookieTest() {
         try {
             cookieFactory.addCookie(cookieMock);
         } catch (AlreadyCreatedException e) {
@@ -120,13 +126,14 @@ class CookieFactoryTest {
     }
 
     @Test
+
     public void noStoreTest() {
         cookieFactory.resetFactory();
         assertEquals(0, cookieFactory.getStores().size());
     }
 
     @Test
-    public void addingStoreTest() {
+    void addingStoreTest() {
         try {
             cookieFactory.addStore(storeMock);
         } catch (AlreadyCreatedException e) {
@@ -137,7 +144,7 @@ class CookieFactoryTest {
     }
 
     @Test
-    public void addingSameStoreTest() {
+    void addingSameStoreTest() {
         try {
             cookieFactory.addStore(storeMock);
         } catch (AlreadyCreatedException e) {
@@ -148,12 +155,13 @@ class CookieFactoryTest {
     }
 
     @Test
-    public void nCustomerTest() {
+    void nCustomerTest() {
         assertEquals(0, cookieFactory.getCustomers().size());
 
     }
 
     @Test
+
     public void addingCustomerTest() {
         cookieFactory.resetFactory();
         try {
@@ -165,7 +173,7 @@ class CookieFactoryTest {
     }
 
     @Test
-    public void addingSameCustomerTest() {
+    void addingSameCustomerTest() {
         try {
             cookieFactory.addCustomer(customerMock);
         } catch (AlreadyCreatedException e) {
