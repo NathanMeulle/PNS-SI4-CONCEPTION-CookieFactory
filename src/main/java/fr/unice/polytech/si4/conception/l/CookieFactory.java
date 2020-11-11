@@ -110,6 +110,17 @@ public class CookieFactory implements ICookieFactory{
     }
 
     /**
+     * Generate a proxy version of the CookieFactory named FactoryCustomerSide.
+     * The FactoryCustomerSide give just access to the cookies, stores and ingredients
+     * but within unmodifiableList
+     * @return : an instance of class FactoryCustomerSide
+     */
+    public FactoryCustomerSide generateProxy(){
+        return new FactoryCustomerSide();
+    }
+
+
+    /**
      * *******************************************************************************
      * GETTERS / SETTERS
      * ********************************************************************************

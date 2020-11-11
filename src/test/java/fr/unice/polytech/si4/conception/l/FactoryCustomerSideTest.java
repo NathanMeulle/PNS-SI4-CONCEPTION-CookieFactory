@@ -15,18 +15,34 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class FactoryCustomerSideTest {
 
-    FactoryCustomerSide factory;
+    Customer customer;
+    FactoryCustomerSide catalogue;
+    CookieFactory cookieFactory;
     Ingredient ingredientOne;
     Ingredient ingredientTwo;
     Ingredient ingredientThree;
 
     @BeforeEach
     void setUp() {
-        factory = new FactoryCustomerSide();
+        customer = new Customer("Charlie", "06", "charlie@mail.com");
+        catalogue = new FactoryCustomerSide();
+        cookieFactory = CookieFactory.getInstance();
         ingredientOne = new Ingredient("Banana", 2, IngredientType.FLAVOR);
         ingredientTwo = new Ingredient("Dough gluten free", 5, IngredientType.DOUGH);
         ingredientThree = new Ingredient("student's tears", 1, IngredientType.TOPPING);
 
+    }
+
+    @Test
+    void Test5() {
+        cookieFactory.resetFactory();
+        cookieFactory.newIngredient(ingredientOne);
+        cookieFactory.newIngredient(ingredientTwo);
+        cookieFactory.newIngredient(ingredientThree);
+        customer.accessCatalogue(cookieFactory.generateProxy());
+        customer.createCookie();
+        Cookie cookie = cookieFactory.getCookies().get(0);
+        System.out.println(cookie);
     }
 
     /*

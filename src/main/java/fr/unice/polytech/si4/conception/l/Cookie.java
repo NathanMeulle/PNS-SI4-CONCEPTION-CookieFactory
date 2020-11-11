@@ -100,6 +100,17 @@ public class Cookie {
     }
 
     @Override
+    public String toString() {
+        return "Cookie{" +
+                "name='" + name + '\'' +
+                ", price=" + price +
+                ", mix=" + mix +
+                ", cooking=" + cooking +
+                ", ingredients=" + ingredients +
+                '}';
+    }
+
+    @Override
     public int hashCode() {
         return Objects.hash(getName(), getPrice(), getMix(), getCooking(), getIngredients());
     }
