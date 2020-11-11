@@ -33,7 +33,7 @@ public class CreatePersonalizedRecipeStepDef implements En {
             kitchen = new Kitchen();
             kitchen.assignStore(store);
             store.setKitchen(kitchen);
-            cookieFactory = new CookieFactory(new ArrayList<>(), new ArrayList<>());
+            cookieFactory = CookieFactory.getInstance();
             cookieFactory.addStore(store);
         });
 

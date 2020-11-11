@@ -14,11 +14,13 @@ public class CookieFactory {
     private List<Customer> customers;
     private List<Cookie> cookies;
     private List<Store> stores;
+    private List<Ingredient> ingredients;
 
     private CookieFactory() {
         this.cookies = new ArrayList<>();
         this.stores = new ArrayList<>();
         this.customers = new ArrayList<>();
+        this.ingredients = new ArrayList<>();
     }
 
     private static final CookieFactory INSTANCE = new CookieFactory();
@@ -29,7 +31,6 @@ public class CookieFactory {
         this.stores.clear();
         this.customers.clear();
         this.cookies.clear();
-
     }
 
     /**
@@ -59,6 +60,28 @@ public class CookieFactory {
             cookies.add(cookie);
         }
     }
+
+    /**
+     * Add a new ingredients in the stock of each store.
+     * As there is already the method newIngredient for a list of Ingredient
+     * and because this method have more chances to be use, we just convert the ingredient in param
+     * into a list of one element ingredient and call le method newIngredient(List<Ingredient> ingredientList)
+     * @param ingredient : the ingredient which we want to had into the catalogue of CookieFactory
+     */
+    public void newIngredient(Ingredient ingredient){
+        ingredients.add(ingredient);
+        List<Ingredient> oneIngredientList = new ArrayList<>();
+        oneIngredientList.add(ingredient);
+        newIngredient(oneIngredientList);
+    }
+
+    public void newIngredient(List<Ingredient> ingredientList){
+        ingredients.addAll(ingredientList);
+        for (Store s : stores){
+            s.addNewIngredients(ingredientList);
+        }
+    }
+
 
     /**
      * create and add a customer to the customer list. If it already exists, returns an exception.

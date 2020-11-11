@@ -33,6 +33,7 @@ public class StoreCustomerSide {
      */
     public void updateStock() {
 
+        stock.clear();
         stock = copy((HashMap<Ingredient, Integer>) store.getStock());
 
     }
