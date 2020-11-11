@@ -9,7 +9,7 @@ import java.util.List;
  * @author nathan
  * Class containing our company, regrouping our stores, cookies, customers and managers
  */
-public class CookieFactory {
+public class CookieFactory implements ICookieFactory{
 
     private List<Customer> customers;
     private List<Cookie> cookies;
@@ -146,13 +146,19 @@ public class CookieFactory {
         return null;
     }
 
+    @Override
     public List<Cookie> getCookies() {
         return cookies;
     }
 
+    @Override
     public List<Store> getStores() {
         return stores;
     }
 
+    @Override
+    public List<Ingredient> getIngredients() {
+        return ingredients;
+    }
 
 }
