@@ -64,19 +64,19 @@ public class IntegrationOrderingStepDef implements En {
             cookieFactory.addCookie(mnMChocoCookie);
         });
         When("^Add (\\d+) Chocolate and (\\d+) MnMs to the stock at store \"([^\"]*)\"$", (Integer arg0, Integer arg2, String arg4) -> {
-            store = cookieFactory.getStorerByAddress(arg4);
+            store = cookieFactory.getStoreByAddress(arg4);
             kitchen.incrementStock(chocolate, arg0);
             kitchen.incrementStock(mnm, arg2);
         });
         And("^The client \"([^\"]*)\" makes an order of (\\d+) \"([^\"]*)\" and (\\d+) \"([^\"]*)\" at store \"([^\"]*)\"$", (String arg0, Integer arg1, String arg2, Integer arg3, String arg4, String arg5) -> {
-            store = cookieFactory.getStorerByAddress(arg5);
+            store = cookieFactory.getStoreByAddress(arg5);
             vincent.createOrder(store);
             vincent.addCookie(chocoCookie, arg1);
             vincent.addCookie(mnMChocoCookie, arg3);
             assertDoesNotThrow(()->vincent.makeOrder());
         });
         And("^The client \"([^\"]*)\" try to create an order of (\\d+) \"([^\"]*)\" and (\\d+) \"([^\"]*)\" at store \"([^\"]*)\"$", (String arg0, Integer arg1, String arg2, Integer arg3, String arg4, String arg5) -> {
-            store = cookieFactory.getStorerByAddress(arg5);
+            store = cookieFactory.getStoreByAddress(arg5);
             vincent.createOrder(store);
             vincent.addCookie(chocoCookie, arg1);
             vincent.addCookie(mnMChocoCookie, arg3);

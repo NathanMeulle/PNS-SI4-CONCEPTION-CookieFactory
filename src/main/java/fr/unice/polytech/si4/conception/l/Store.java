@@ -16,6 +16,7 @@ public class Store {
     private Schedule schedule;
     private Kitchen kitchen;
     private OrderHistory orderHistory;
+    private Cookie bestOfStore;
 
     public Store(int id, String address, double tax, String phone, String mail, Manager manager) {
         this.id = id;
@@ -29,10 +30,13 @@ public class Store {
         this.kitchen = new Kitchen();
         this.kitchen.assignStore(this);
         this.orderHistory = new OrderHistory();
+        this.bestOfStore = null;
+
     }
 
     public void addToOrderHistory(Order order) {
         this.orderHistory.addOrder(order);
+        this.bestOfStore = orderHistory.getBestCookieStore();
     }
 
 

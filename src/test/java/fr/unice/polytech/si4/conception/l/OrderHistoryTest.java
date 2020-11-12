@@ -1,8 +1,7 @@
 package fr.unice.polytech.si4.conception.l;
 
 
-import fr.unice.polytech.si4.conception.l.cookie.composition.Cooking;
-import fr.unice.polytech.si4.conception.l.cookie.composition.Mix;
+import fr.unice.polytech.si4.conception.l.exceptions.AlreadyCreatedException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -15,26 +14,31 @@ import static org.mockito.Mockito.when;
 
 public class OrderHistoryTest {
 
+    CookieFactory cookieFactory;
     Store store1;
     Store store2;
-    Manager manager1Mock;
-    Manager manager2Mock;
     Cookie cookie1;
     Cookie cookie2;
     Cookie cookie3;
     Cookie cookie4;
-    OrderHistory orderHistory;
+    OrderHistory orderHistory1;
+    OrderHistory orderHistory2;
     Order order1;
     Order order2;
     Order order3;
 
     @BeforeEach
-    void setup() {
-        orderHistory = new OrderHistory();
-        manager1Mock = mock(Manager.class);
-        manager2Mock = mock(Manager.class);
-        store1 = new Store(1, "nice", 1.2, "06", "mail", manager1Mock);
-        store2 = new Store(1, "lyon", 1.2, "07", "mail", manager2Mock);
+    void setup() throws AlreadyCreatedException {
+        cookieFactory = CookieFactory.getInstance();
+        cookieFactory.resetFactory();
+        orderHistory1 = new OrderHistory();
+        orderHistory2 = new OrderHistory();
+        store1 = mock(Store.class);
+        store2 = mock(Store.class);
+        when(store1.getOrderHistory()).thenReturn(orderHistory1);
+        when(store2.getOrderHistory()).thenReturn(orderHistory2);
+        cookieFactory.addStore(store1);
+        cookieFactory.addStore(store2);
         cookie1 = mock(Cookie.class);
         cookie2 = mock(Cookie.class);
         cookie3 = mock(Cookie.class);
@@ -42,6 +46,16 @@ public class OrderHistoryTest {
         order1 = mock(Order.class);
         order2 = mock(Order.class);
         order3 = mock(Order.class);
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.DATE, -2);
+        Date date = calendar.getTime();
+        when(order1.getDate()).thenReturn(date);
+
+        Calendar calendar2 = Calendar.getInstance();
+        calendar2.add(Calendar.DATE, -2);
+        Date date2 = calendar.getTime();
+        when(order2.getDate()).thenReturn(date2);
     }
 
     @Test
@@ -51,8 +65,8 @@ public class OrderHistoryTest {
         Date date = calendar.getTime(); //On crée une date il y à 20 jours
 
         when(order1.getDate()).thenReturn(date);
-        orderHistory.addOrder(order1);
-        assertEquals(1, orderHistory.getRecentOrders().size());
+        orderHistory1.addOrder(order1);
+        assertEquals(1, orderHistory1.getRecentOrders().size());
 
     }
 
@@ -63,8 +77,8 @@ public class OrderHistoryTest {
         Date date = calendar.getTime();
 
         when(order1.getDate()).thenReturn(date);
-        orderHistory.addOrder(order1);
-        assertEquals(1, orderHistory.getRecentOrders().size());
+        orderHistory1.addOrder(order1);
+        assertEquals(1, orderHistory1.getRecentOrders().size());
     }
 
     @Test
@@ -74,8 +88,8 @@ public class OrderHistoryTest {
         Date date = calendar.getTime();
 
         when(order1.getDate()).thenReturn(date);
-        orderHistory.addOrder(order1);
-        assertEquals(0, orderHistory.getRecentOrders().size());
+        orderHistory1.addOrder(order1);
+        assertEquals(0, orderHistory1.getRecentOrders().size());
     }
 
     @Test
@@ -95,11 +109,11 @@ public class OrderHistoryTest {
         when(order1.getDate()).thenReturn(date1);
         when(order2.getDate()).thenReturn(date2);
         when(order3.getDate()).thenReturn(date3);
-        orderHistory.addOrder(order1);
-        orderHistory.addOrder(order2);
-        orderHistory.addOrder(order3);
+        orderHistory1.addOrder(order1);
+        orderHistory1.addOrder(order2);
+        orderHistory1.addOrder(order3);
 
-        assertEquals(List.of(order1, order2), orderHistory.getRecentOrders());
+        assertEquals(List.of(order1, order2), orderHistory1.getRecentOrders());
     }
 
     @Test
@@ -116,8 +130,11 @@ public class OrderHistoryTest {
         when(order2.getCookies()).thenReturn(cookies2);
         when(order2.getStore()).thenReturn(store2);
 
-        assertEquals(4, orderHistory.countNationalCookie(List.of(order1, order2)).get(cookie1));
-        assertEquals(13, orderHistory.countNationalCookie(List.of(order1, order2)).get(cookie2));
+        orderHistory1.addOrder(order1);
+        orderHistory2.addOrder(order2);
+
+        assertEquals(4, cookieFactory.countNationalCookie().get(cookie1));
+        assertEquals(13, cookieFactory.countNationalCookie().get(cookie2));
     }
 
     @Test
@@ -134,8 +151,8 @@ public class OrderHistoryTest {
         when(order2.getCookies()).thenReturn(cookies2);
         when(order2.getStore()).thenReturn(store2);
 
-        assertEquals(2, orderHistory.countStoreCookie(List.of(order1, order2), store1).get(cookie1));
-        assertEquals(12, orderHistory.countStoreCookie(List.of(order1, order2), store2).get(cookie2));
+        assertEquals(2, orderHistory1.countStoreCookie(List.of(order1)).get(cookie1));
+        assertEquals(12, orderHistory2.countStoreCookie(List.of(order2)).get(cookie2));
     }
 
     @Test
@@ -152,8 +169,8 @@ public class OrderHistoryTest {
         when(order2.getCookies()).thenReturn(cookies2);
         when(order2.getStore()).thenReturn(store1);
 
-        assertEquals(4, orderHistory.countStoreCookie(List.of(order1, order2), store1).get(cookie1));
-        assertEquals(13, orderHistory.countStoreCookie(List.of(order1, order2), store1).get(cookie2));
+        assertEquals(4, orderHistory1.countStoreCookie(List.of(order1, order2)).get(cookie1));
+        assertEquals(13, orderHistory2.countStoreCookie(List.of(order1, order2)).get(cookie2));
     }
 
 
@@ -171,8 +188,10 @@ public class OrderHistoryTest {
         when(order2.getCookies()).thenReturn(cookies2);
         when(order2.getStore()).thenReturn(store2);
 
+        orderHistory1.addOrder(order1);
+        orderHistory1.addOrder(order2);
 
-        assertEquals(cookie1, orderHistory.getBestCookie(orderHistory.countNationalCookie(List.of(order1, order2))));
+        assertEquals(cookie1, cookieFactory.getBestCookieNational());
     }
 
     /**
@@ -195,11 +214,11 @@ public class OrderHistoryTest {
         when(cookie1.getPrice()).thenReturn(2.0);
         when(cookie4.getPrice()).thenReturn(1.0);
 
-        assertEquals(cookie4, orderHistory.getBestCookie(orderHistory.countNationalCookie(List.of(order1, order2))));
+        orderHistory1.addOrder(order1);
+        orderHistory1.addOrder(order2);
+
+        assertEquals(cookie4, cookieFactory.getBestCookieNational());
     }
-
-
-
 
 
     /**
@@ -217,18 +236,25 @@ public class OrderHistoryTest {
         cookies2.put(cookie3, 2);
         cookies2.put(cookie4, 12);
         when(order2.getCookies()).thenReturn(cookies2);
-        when(order2.getStore()).thenReturn(store2);
+        when(order2.getStore()).thenReturn(store1);
 
         when(cookie1.getPrice()).thenReturn(2.0);
         when(cookie4.getPrice()).thenReturn(1.0);
 
-        assertEquals(cookie2, orderHistory.getBestCookie(orderHistory.countStoreCookie(List.of(order1, order2), store1)));
+        orderHistory1.addOrder(order1);
+        orderHistory1.addOrder(order2);
+
+        assertEquals(cookie4, orderHistory1.getBestCookieStore());
     }
 
 
-
-
-
+    /**
+     * Cas aucune commande
+     */
+    @Test
+    void getNationalBestOfTest4() {
+        assertNull(cookieFactory.getBestCookieNational());
+    }
 
 
 }

@@ -47,7 +47,8 @@ public class OrderHistory {
         return recentOrders;
     }
 
-    public Map<Cookie, Integer> countNationalCookie(List<Order> orders) {
+
+    public Map<Cookie, Integer> countStoreCookie(List<Order> orders) {
         Map<Cookie, Integer> totalCookie = new HashMap<>();
         for (Order order : orders) {
             for (Cookie c : order.getCookies().keySet()) {
@@ -57,29 +58,13 @@ public class OrderHistory {
                 } else {
                     totalCookie.put(c, order.getCookies().get(c));
                 }
+
             }
         }
         return totalCookie;
     }
 
-    public Map<Cookie, Integer> countStoreCookie(List<Order> orders, Store store) {
-        Map<Cookie, Integer> totalCookie = new HashMap<>();
-        for (Order order : orders) {
-            if(order.getStore().equals(store)) {
-                for (Cookie c : order.getCookies().keySet()) {
-                    if (totalCookie.containsKey(c)) {
-                        int updatedQuantity = totalCookie.get(c) + order.getCookies().get(c);
-                        totalCookie.replace(c, updatedQuantity);
-                    } else {
-                        totalCookie.put(c, order.getCookies().get(c));
-                    }
-                }
-            }
-        }
-        return totalCookie;
-    }
-
-    public Cookie getBestCookie(Map<Cookie, Integer> totalCookie){
+    private Cookie getBestCookie(Map<Cookie, Integer> totalCookie){
         Cookie bestCookie = null;
         for (Map.Entry<Cookie, Integer> entry : totalCookie.entrySet()) {
             if (bestCookie == null || entry.getValue() >= totalCookie.get(bestCookie)) {
@@ -89,6 +74,10 @@ public class OrderHistory {
             }
         }
         return bestCookie;
+    }
+
+    public Cookie getBestCookieStore(){
+        return getBestCookie(countStoreCookie(getRecentOrders()));
     }
 
 
