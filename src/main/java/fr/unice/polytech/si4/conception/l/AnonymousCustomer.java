@@ -84,11 +84,6 @@ public class AnonymousCustomer implements CustomerInterface{
         this.order = order;
     }
 
-    public int getNbCookieOrdered() {
-        return 0;
-    }
-
-
 
     @Override
     public String toString() {
@@ -97,9 +92,5 @@ public class AnonymousCustomer implements CustomerInterface{
                 ", name='" + name + '\'' +
                 ", order=" + order +
                 '}';
-    }
-
-    public String getMail() {
-        return "";
     }
 }
