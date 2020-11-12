@@ -40,7 +40,8 @@ public class IntegrationOrderingStepDef implements En {
             kitchen.assignStore(store);
             store.setKitchen(kitchen);
 
-            cookieFactory = new CookieFactory(new ArrayList<>(), new ArrayList<>());
+            cookieFactory = CookieFactory.getInstance();
+            cookieFactory.resetFactory();
             cookieFactory.addStore(store);
         });
         And("^an ingredient called Chocolate, costing (\\d+)$", (Integer arg0) -> {
