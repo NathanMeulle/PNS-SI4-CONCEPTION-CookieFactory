@@ -22,6 +22,7 @@ public class MakeOrderStepDef implements En {
     private Ingredient ingredient;
     private AnonymousCustomer anonymousCustomer;
     private Kitchen kitchen;
+    private Order order;
     private int nbIngredients;
     private int nbRecipe;
     private int nbCookies;
@@ -30,14 +31,10 @@ public class MakeOrderStepDef implements En {
         Given("^a manager, a factory with a store and a anonymous client$", () -> {
             manager = new Manager(1, "Gerard");
             store = new Store(1, "a", 1.0, "01", "mail.com", manager);
-            List<Store> stores = new ArrayList<>();
+            cookieFactory = new CookieFactory();
+            List<Store> stores = cookieFactory.getStores();
             stores.add(store);
-            cookieFactory = CookieFactory.getInstance();
-            for (Store s : stores) {
-                cookieFactory.addStore(s);
-            }
             anonymousCustomer = new AnonymousCustomer("Philippe", "06.05.45.87.12");
-            anonymousCustomer.createOrder(store);
             kitchen = store.getKitchen();
             manager.assignStore(store);
         });
@@ -88,13 +85,13 @@ public class MakeOrderStepDef implements En {
         // Create New Order
         When("^the client create an order$", () -> {
             anonymousCustomer.createOrder(store);
+            order = anonymousCustomer.getOrder();
         });
         Then("^the order state is \"([^\"]*)\"$", (String arg0) -> {
             assertEquals(arg0, this.order.getStateOrder().toString());
         });
         And("^the client add (\\d+) cookies to his order$", (Integer arg0) -> {
-            anonymousCustomer.addCookie(cookie,arg0);
-            Order order = anonymousCustomer.getOrder();
+            order.addCookie(cookie,arg0);
             nbCookies = order.getCookies().get(cookie);
         });
         Then("^There are (\\d+) in his number of cookies$", (Integer arg0) -> {
@@ -120,7 +117,6 @@ public class MakeOrderStepDef implements En {
         });
 
         Then("^the order is done$", () -> {
-            Order order = anonymousCustomer.getOrder();
             assertTrue(order.getIsDone());
         });
 

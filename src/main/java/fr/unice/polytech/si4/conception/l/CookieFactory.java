@@ -15,7 +15,7 @@ public class CookieFactory {
     private List<Cookie> cookies;
     private List<Store> stores;
 
-    private CookieFactory() {
+    public CookieFactory() {
         this.cookies = new ArrayList<>();
         this.stores = new ArrayList<>();
         this.customers = new ArrayList<>();
