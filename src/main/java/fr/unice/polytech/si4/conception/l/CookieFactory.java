@@ -31,6 +31,7 @@ public class CookieFactory implements ICookieFactory{
         this.stores.clear();
         this.customers.clear();
         this.cookies.clear();
+        this.ingredients.clear();
     }
 
     /**
@@ -69,16 +70,24 @@ public class CookieFactory implements ICookieFactory{
      * @param ingredient : the ingredient which we want to had into the catalogue of CookieFactory
      */
     public void newIngredient(Ingredient ingredient){
-        ingredients.add(ingredient);
         List<Ingredient> oneIngredientList = new ArrayList<>();
         oneIngredientList.add(ingredient);
         newIngredient(oneIngredientList);
     }
 
+    /**
+     * Add a new list of ingredients in the stock of each stores.
+     * @param ingredientList : the list of ingredients which we want to had into the catalogue of CookieFactory
+     */
     public void newIngredient(List<Ingredient> ingredientList){
         ingredients.addAll(ingredientList);
         for (Store s : stores){
-            s.addNewIngredients(ingredientList);
+            try{
+                s.addNewIngredients(ingredientList);
+            }
+            catch (NullPointerException e){
+                Log.add(e.toString());
+            }
         }
     }
 

@@ -75,7 +75,9 @@ public class Customer extends AnonymousCustomer{
     }
 
     private List<Ingredient> toppingChoice() {
+        System.out.println(catalogue.getIngredients());
         List<Ingredient> toppingList = catalogue.getTopping();
+        System.out.println(toppingList);
         ////////////////////////////// Choice the 3 first by default //////////////////////////////
         if(toppingList.size() >= 3){
             return toppingList.subList(0,3);

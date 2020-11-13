@@ -1,5 +1,6 @@
 package fr.unice.polytech.si4.conception.l;
 
+import fr.unice.polytech.si4.conception.l.cookie.composition.IngredientType;
 import fr.unice.polytech.si4.conception.l.exceptions.AlreadyCreatedException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -7,9 +8,9 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 class CookieFactoryTest {
 
@@ -23,6 +24,10 @@ class CookieFactoryTest {
     private Cookie cookieMock;
     private Store storeMock;
     private Customer customerMock;
+    private Ingredient ingredient1;
+    private Ingredient ingredient2;
+    private Store realStore1;
+    private Store realStore2;
 
     @BeforeEach
     void setUp() {
@@ -34,6 +39,31 @@ class CookieFactoryTest {
         cookieMock = mock(Cookie.class);
         storeMock = mock(Store.class);
         customerMock = mock(Customer.class);
+        ingredient1 = new Ingredient("Nuts", 1, IngredientType.TOPPING);
+        ingredient2 = new Ingredient("stanpe", 2, IngredientType.FLAVOR);
+        //ingredientMock1 = mock(Ingredient.class);
+        //ingredientMock2 = mock(Ingredient.class);
+        realStore1 = new Store(1, "addr", 2, "00", "mail", mock(Manager.class));
+        realStore2 = new Store(2, "ad", 3, "04", "email", mock(Manager.class));
+    }
+
+    @Test
+    void newIngredientTest() throws AlreadyCreatedException {
+        cookieFactory.addStore(realStore1);
+        cookieFactory.newIngredient(ingredient1);
+        assertTrue(realStore1.getStock().containsKey(ingredient1));
+    }
+
+    @Test
+    void newIngredientTestList() throws AlreadyCreatedException {
+        cookieFactory.addStore(realStore1);
+        cookieFactory.addStore(realStore2);
+        List<Ingredient> listIngredient = new ArrayList<>();
+        listIngredient.add(ingredient1);
+        listIngredient.add(ingredient2);
+        cookieFactory.newIngredient(listIngredient);
+        assertTrue(realStore1.getStock().containsKey(ingredient1) && realStore1.getStock().containsKey(ingredient2));
+        assertTrue(realStore2.getStock().containsKey(ingredient1) && realStore2.getStock().containsKey(ingredient2));
     }
 
     @Test
