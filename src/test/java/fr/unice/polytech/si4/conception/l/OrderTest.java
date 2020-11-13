@@ -19,39 +19,77 @@ class OrderTest {
     Cookie cookieChocoMock;
     Cookie cookieVanilleMock;
     Store storeMock;
+    Manager managerMock;
+    Store store;
+    Kitchen kitchen;
+    Ingredient chocolate;
+    Ingredient mnm;
+    List<Ingredient> ingredients;
+    List<Ingredient> ingredients2;
+    Cookie mnMChocoCookie;
+    Cookie chocoCookie;
+    AnonymousCustomer vincent;
+
 
     @BeforeEach
     void setup() {
         storeMock = mock(Store.class);
         when(storeMock.getTax()).thenReturn(1.0);
         AnonymousCustomer aCustomer = new AnonymousCustomer("Petrovitch", "065065045");
-        order = new Order();
-        order.setStore(storeMock);
-        order.assignCustomer(aCustomer);
         cookieChocoMock = mock(Cookie.class);
         cookieVanilleMock = mock(Cookie.class);
+        managerMock = mock(Manager.class);
+
+        store = new Store(1, "", 1.2, "01", "mail", managerMock);
+
+        kitchen = new Kitchen();
+        kitchen.assignStore(store);
+        store.setKitchen(kitchen);
+        chocolate = new Ingredient("Chocolate", 4, IngredientType.FLAVOR);
+        mnm = new Ingredient("MnM", 7, IngredientType.FLAVOR);
+
+        kitchen.incrementStock(chocolate, 5);
+        kitchen.incrementStock(mnm, 3);
+
+        ingredients = new ArrayList<>();
+        ingredients.add(chocolate);
+        ingredients.add(mnm);
+        mnMChocoCookie = new Cookie("MnmsChoco", ingredients, Mix.TOPPED, Cooking.CRUNCHY);
+
+        ingredients2 = new ArrayList<>();
+        ingredients2.add(chocolate);
+        chocoCookie = new Cookie("Choco", ingredients2, Mix.TOPPED, Cooking.CRUNCHY);
+
+        vincent = new AnonymousCustomer("vincent", "06");
+
     }
 
 
     @Test
     void addCookieTest() {
-        order.addCookie(cookieChocoMock, 1);
+        vincent.createOrder(storeMock);
+        vincent.addCookie(cookieChocoMock, 1);
+        order = vincent.getOrder();
         assertEquals(1, order.getCookies().get(cookieChocoMock));
         assertEquals(1, order.getNbCookies());
     }
 
     @Test
     void addSameCookieTest() {
-        order.addCookie(cookieChocoMock, 1);
-        order.addCookie(cookieChocoMock, 1);
+        vincent.createOrder(storeMock);
+        vincent.addCookie(cookieChocoMock, 1);
+        vincent.addCookie(cookieChocoMock, 1);
+        order = vincent.getOrder();
         assertEquals(2, order.getCookies().get(cookieChocoMock));
         assertEquals(2, order.getNbCookies());
     }
 
     @Test
     void addDifferentCookieTest() {
-        order.addCookie(cookieChocoMock, 1);
-        order.addCookie(cookieVanilleMock, 3);
+        vincent.createOrder(storeMock);
+        vincent.addCookie(cookieChocoMock, 1);
+        vincent.addCookie(cookieVanilleMock, 3);
+        order = vincent.getOrder();
         assertEquals(1, order.getCookies().get(cookieChocoMock));
         assertEquals(3, order.getCookies().get(cookieVanilleMock));
         assertEquals(4, order.getNbCookies());
@@ -59,33 +97,27 @@ class OrderTest {
 
     @Test
     void isAchievableTest() {
-        Manager managerMock = mock(Manager.class);
-        Store store = new Store(1, "", 1.2, "01", "mail", managerMock);
 
-        Kitchen kitchen = new Kitchen();
-        kitchen.assignStore(store);
-        store.setKitchen(kitchen);
-        Ingredient chocolate = new Ingredient("Chocolate", 4, IngredientType.FLAVOR);
-        Ingredient mnm = new Ingredient("MnM", 7, IngredientType.FLAVOR);
-
-        kitchen.incrementStock(chocolate, 5);
-        kitchen.incrementStock(mnm, 3);
-
-        List<Ingredient> ingredients = new ArrayList<>();
-        ingredients.add(chocolate);
-        ingredients.add(mnm);
-        Cookie mnMChocoCookie = new Cookie("MnmsChoco", ingredients, Mix.TOPPED, Cooking.CRUNCHY);
-
-        List<Ingredient> ingredients2 = new ArrayList<>();
-        ingredients2.add(chocolate);
-        Cookie chocoCookie = new Cookie("Choco", ingredients2, Mix.TOPPED, Cooking.CRUNCHY);
-
-        AnonymousCustomer vincent = new AnonymousCustomer("vincent", "06");
-        order = vincent.createOrder(store);
-        order.addCookie(chocoCookie, 7);
-        order.addCookie(mnMChocoCookie, 1);
+        vincent.createOrder(store);
+        vincent.addCookie(chocoCookie, 7);
+        vincent.addCookie(mnMChocoCookie, 1);
 
         assertThrows(ErrorPreparingOrder.class, () -> vincent.makeOrder());
+    }
 
+    @Test
+    void isAchievableTest2() {
+        vincent.createOrder(store);
+        vincent.addCookie(chocoCookie, 4);
+        vincent.addCookie(mnMChocoCookie, 1);
+        assertDoesNotThrow(() -> vincent.makeOrder());
+    }
+
+    @Test
+    void isAchievableTest3() {
+        vincent.createOrder(store);
+        vincent.addCookie(chocoCookie, 4);
+        vincent.addCookie(mnMChocoCookie, 2);
+        assertThrows(ErrorPreparingOrder.class, () -> vincent.makeOrder());
     }
 }
