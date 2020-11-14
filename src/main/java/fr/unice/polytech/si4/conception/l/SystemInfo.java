@@ -14,6 +14,7 @@ import java.util.Map;
 /**
  * @author nathan
  * Class containing our company, regrouping our stores, cookies, customers and managers
+ * @Patern Singleton
  */
 public class SystemInfo {
 
@@ -23,6 +24,7 @@ public class SystemInfo {
     private Cookie bestOfNational;
 
     private SystemInfo() {
+        //Constructeur privé car SINGLETON
         this.cookies = new ArrayList<>();
         this.stores = new ArrayList<>();
         this.customers = new ArrayList<>();

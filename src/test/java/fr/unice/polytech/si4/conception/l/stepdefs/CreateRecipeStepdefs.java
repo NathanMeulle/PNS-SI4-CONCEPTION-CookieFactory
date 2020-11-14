@@ -3,6 +3,7 @@ package fr.unice.polytech.si4.conception.l.stepdefs;
 import fr.unice.polytech.si4.conception.l.SystemInfo;
 import fr.unice.polytech.si4.conception.l.exceptions.AlreadyCreatedException;
 import fr.unice.polytech.si4.conception.l.products.Cookie;
+import fr.unice.polytech.si4.conception.l.products.CookieFactory;
 import fr.unice.polytech.si4.conception.l.products.composition.*;
 import fr.unice.polytech.si4.conception.l.store.Manager;
 import fr.unice.polytech.si4.conception.l.store.Store;
@@ -17,13 +18,16 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 public class CreateRecipeStepdefs implements En {
 
     private SystemInfo systemInfo;
+    private CookieFactory cookieFactory;
     private Cookie cookie;
     private int nbCookies;
 
     public CreateRecipeStepdefs() {
 
         Given("^a factory with a store$", () -> {
+
             Manager manager = new Manager(1, "Nathan");
+            cookieFactory = new CookieFactory();
             Store store = new Store(1, "a", 1.0, "01", "mail.com", manager);
             manager.assignStore(store);
             List<Store> stores = new ArrayList<>();
@@ -37,7 +41,7 @@ public class CreateRecipeStepdefs implements En {
         And("^a recipe of a cookie named \"([^\"]*)\"$", (String arg0) -> {
             List<Ingredient> ingredients = new ArrayList<>();
             ingredients.add(new Ingredient("Chocolate", 2, IngredientType.FLAVOR));
-            cookie = new Cookie(arg0, ingredients, new Dough("plain", 1),  Mix.MIXED, Cooking.CRUNCHY);
+            cookie = cookieFactory.createCookie(arg0, ingredients, new Dough("plain", 1),  Mix.MIXED, Cooking.CRUNCHY);
         });
         When("^the factory requests his number of recipe$", () -> {
             nbCookies = systemInfo.getCookies().size();

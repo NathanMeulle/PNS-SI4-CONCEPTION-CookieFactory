@@ -5,6 +5,7 @@ import fr.unice.polytech.si4.conception.l.customer.AnonymousCustomer;
 import fr.unice.polytech.si4.conception.l.exceptions.ErrorPreparingOrder;
 import fr.unice.polytech.si4.conception.l.order.StateOrder;
 import fr.unice.polytech.si4.conception.l.products.Cookie;
+import fr.unice.polytech.si4.conception.l.products.CookieFactory;
 import fr.unice.polytech.si4.conception.l.products.composition.*;
 import fr.unice.polytech.si4.conception.l.store.Kitchen;
 import fr.unice.polytech.si4.conception.l.store.Manager;
@@ -31,6 +32,7 @@ public class IntegrationOrderingStepDef implements En {
     SystemInfo systemInfo;
     Kitchen kitchen;
     Cookie customCookie;
+    CookieFactory cookieFactory;
 
 
     public IntegrationOrderingStepDef() {
@@ -44,6 +46,7 @@ public class IntegrationOrderingStepDef implements En {
             kitchen.assignStore(store);
             store.setKitchen(kitchen);
 
+            cookieFactory = new CookieFactory();
             systemInfo = SystemInfo.getInstance();
             systemInfo.resetSystemInfo();
             systemInfo.addStore(store);
@@ -57,14 +60,14 @@ public class IntegrationOrderingStepDef implements En {
         And("^A recipe \"([^\"]*)\" with ingredients \"([^\"]*)\"$", (String arg0, String arg1) -> {
             List<Ingredient> ingredients = new ArrayList<>();
             ingredients.add(chocolate);
-            chocoCookie = new Cookie(arg0, ingredients, new Dough("plain", 1),  Mix.TOPPED, Cooking.CRUNCHY);
+            chocoCookie = cookieFactory.createCookie(arg0, ingredients, new Dough("plain", 1),  Mix.TOPPED, Cooking.CRUNCHY);
             systemInfo.addCookie(chocoCookie);
         });
         And("^A recipe \"([^\"]*)\" with ingredients \"([^\"]*)\" and \"([^\"]*)\"$", (String arg0, String arg1, String arg2) -> {
             List<Ingredient> ingredients = new ArrayList<>();
             ingredients.add(chocolate);
             ingredients.add(mnm);
-            mnMChocoCookie = new Cookie(arg0, ingredients, new Dough("plain", 1),  Mix.TOPPED, Cooking.CRUNCHY);
+            mnMChocoCookie = cookieFactory.createCookie(arg0, ingredients, new Dough("plain", 1),  Mix.TOPPED, Cooking.CRUNCHY);
             systemInfo.addCookie(mnMChocoCookie);
         });
         When("^Add (\\d+) Chocolate and (\\d+) MnMs to the stock at store \"([^\"]*)\"$", (Integer arg0, Integer arg2, String arg4) -> {
@@ -110,7 +113,7 @@ public class IntegrationOrderingStepDef implements En {
             ingredients.add(ingredient1);
             ingredients.add(ingredient2);
             ingredients.add(ingredient3);
-            customCookie = new Cookie("custom", ingredients, new Dough("plain", 1),  Mix.TOPPED, Cooking.CRUNCHY);
+            customCookie = cookieFactory.createCookie("custom", ingredients, new Dough("plain", 1),  Mix.TOPPED, Cooking.CRUNCHY);
 
         });
         Then("^the user makes the order of his custom cookies$", () -> {

@@ -56,28 +56,4 @@ public class Schedule {
         this.openingHours.remove(day);
     }
 
-    /**
-     * @deprecated use Calendar instead
-     * @return string
-     */
-    @Override
-    @Deprecated
-    public String toString() {
-
-        String str = "";
-
-        for ( Map.Entry<Day, Time> sc : openingHours.entrySet()){
-            str +=  "Open :" + sc.getKey() +
-                    "," + sc.getValue().getOpeningHours().getHours() +
-                    ":" + sc.getValue().getOpeningHours().getMinutes() +
-                    ":" + sc.getValue().getOpeningHours().getSeconds() +
-                    " - " +
-                    sc.getValue().getClosingHours().getHours() +
-                    ":" + sc.getValue().getClosingHours().getMinutes() +
-                    ":" + sc.getValue().getClosingHours().getSeconds() +
-                    "\n";
-        }
-
-        return str;
-    }
 }

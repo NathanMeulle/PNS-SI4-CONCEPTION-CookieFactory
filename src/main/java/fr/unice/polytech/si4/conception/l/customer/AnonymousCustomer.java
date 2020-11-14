@@ -87,13 +87,4 @@ public class AnonymousCustomer implements CustomerInterface {
         this.order = order;
     }
 
-
-    @Override
-    public String toString() {
-        return "AnonymousCustomer{" +
-                "phoneNumber='" + phoneNumber + '\'' +
-                ", name='" + name + '\'' +
-                ", order=" + order +
-                '}';
-    }
 }

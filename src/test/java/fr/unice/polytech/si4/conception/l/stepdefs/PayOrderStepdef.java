@@ -3,6 +3,7 @@ package fr.unice.polytech.si4.conception.l.stepdefs;
 import fr.unice.polytech.si4.conception.l.SystemInfo;
 import fr.unice.polytech.si4.conception.l.customer.Customer;
 import fr.unice.polytech.si4.conception.l.products.Cookie;
+import fr.unice.polytech.si4.conception.l.products.CookieFactory;
 import fr.unice.polytech.si4.conception.l.products.composition.*;
 import fr.unice.polytech.si4.conception.l.store.Kitchen;
 import fr.unice.polytech.si4.conception.l.store.Manager;
@@ -28,8 +29,9 @@ public class PayOrderStepdef implements En {
     Cookie cookieVanilla;
     Ingredient chocolate;
     Ingredient vanilla;
-    List ingredients1;
-    List ingredients2;
+    List<Ingredient> ingredients1;
+    List<Ingredient> ingredients2;
+    CookieFactory cookieFactory;
 
 
 
@@ -37,6 +39,7 @@ public class PayOrderStepdef implements En {
         Given("^a new cookieFactory$", () -> {
             systemInfo = systemInfo.getInstance();
             systemInfo.resetSystemInfo();
+            cookieFactory = new CookieFactory();
         });
 
         And("^a store$", () -> {
@@ -90,12 +93,12 @@ public class PayOrderStepdef implements En {
             chocolate = new Ingredient("Chocolate", 1, IngredientType.FLAVOR);
             ingredients1 = new ArrayList<>();
             ingredients1.add(chocolate);
-            cookieChoco = new Cookie("Choco", ingredients1, new Dough("plain", 1), Mix.TOPPED, Cooking.CRUNCHY);
+            cookieChoco = cookieFactory.createCookie("Choco", ingredients1, new Dough("plain", 1), Mix.TOPPED, Cooking.CRUNCHY);
 
             vanilla = new Ingredient("Vanilla", 1, IngredientType.FLAVOR);
             ingredients2 = new ArrayList<>();
             ingredients2.add(chocolate);
-            cookieVanilla = new Cookie("Vanilla", ingredients2, new Dough("plain", 1), Mix.TOPPED, Cooking.CRUNCHY);
+            cookieVanilla = cookieFactory.createCookie("Vanilla", ingredients2, new Dough("plain", 1), Mix.TOPPED, Cooking.CRUNCHY);
 
             customer.createOrder(store);
             customer.addCookie(cookieChoco, arg0);

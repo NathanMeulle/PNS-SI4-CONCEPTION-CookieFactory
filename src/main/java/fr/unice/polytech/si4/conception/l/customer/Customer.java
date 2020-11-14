@@ -108,12 +108,4 @@ public class Customer extends AnonymousCustomer implements CustomerInterface {
         return this.order.getPriceTTC();
     }
 
-    @Override
-    public String toString() {
-        return "Customer{" +
-                "mail='" + mail + '\'' +
-                ", loyaltyProgramn=" + loyaltyProgram +
-                ", nbCookieOrdered=" + nbCookieOrdered +
-                '}';
-    }
 }

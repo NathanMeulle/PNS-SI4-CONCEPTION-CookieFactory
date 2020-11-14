@@ -5,6 +5,7 @@ import fr.unice.polytech.si4.conception.l.customer.Customer;
 import fr.unice.polytech.si4.conception.l.exceptions.ErrorPreparingOrder;
 import fr.unice.polytech.si4.conception.l.order.Order;
 import fr.unice.polytech.si4.conception.l.products.Cookie;
+import fr.unice.polytech.si4.conception.l.products.CookieFactory;
 import fr.unice.polytech.si4.conception.l.products.composition.*;
 import fr.unice.polytech.si4.conception.l.store.Kitchen;
 import fr.unice.polytech.si4.conception.l.store.Manager;
@@ -34,10 +35,12 @@ class OrderTest {
     Cookie mnMChocoCookie;
     Cookie chocoCookie;
     AnonymousCustomer vincent;
+    CookieFactory cookieFactory;
 
 
     @BeforeEach
     void setup() {
+        cookieFactory = new CookieFactory();
         storeMock = mock(Store.class);
         when(storeMock.getTax()).thenReturn(1.0);
         cookieChocoMock = mock(Cookie.class);
@@ -59,11 +62,11 @@ class OrderTest {
         ingredients = new ArrayList<>();
         ingredients.add(chocolate);
         ingredients.add(mnm);
-        mnMChocoCookie = new Cookie("MnmsChoco", ingredients, new Dough("plain", 0), Mix.TOPPED, Cooking.CRUNCHY);
+        mnMChocoCookie = cookieFactory.createCookie("MnmsChoco", ingredients, new Dough("plain", 0), Mix.TOPPED, Cooking.CRUNCHY);
 
         ingredients2 = new ArrayList<>();
         ingredients2.add(chocolate);
-        chocoCookie = new Cookie("Choco", ingredients2, new Dough("plain", 0), Mix.TOPPED, Cooking.CRUNCHY);
+        chocoCookie = cookieFactory.createCookie("Choco", ingredients2, new Dough("plain", 0), Mix.TOPPED, Cooking.CRUNCHY);
 
         vincent = new AnonymousCustomer("vincent", "06");
 

@@ -54,12 +54,4 @@ public class Ingredient {
         return Objects.hash(name, price, type);
     }
 
-    @Override
-    public String toString() {
-        return "Ingredient{" +
-                "name='" + name + '\'' +
-                ", price=" + price +
-                ", type=" + type +
-                '}';
-    }
 }

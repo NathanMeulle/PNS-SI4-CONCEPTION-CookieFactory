@@ -12,22 +12,30 @@ import java.util.Objects;
 
 /** Represents a Cookie
  * @author Delmotte Vincent
+ * @author Nathan
  */
-public class Cookie {
+public abstract class Cookie {
 
     private String name;
     private double price;
+    private CookieType cookieType;
     private Dough dough;
     private Mix mix;
     private Cooking cooking;
     private List<Ingredient> ingredients;
 
     /**
-     * Creates a cookie with a name and a price
-     * @param name cookie's name
+     * Creates a cookie with :
+     * @param name name of the cookie
+     * @param cookieType Default or Personnalized
+     * @param ingredients  list of ingredient FLAVOR or TOPPING
+     * @param dough a dough
+     * @param mix a mix  MIXED or TOPPED
+     * @param cooking a cooking     CRUNCHY or CHEWY
      */
-    public Cookie(String name, List<Ingredient> ingredients, Dough dough, Mix mix, Cooking cooking) {
+    Cookie(String name, CookieType cookieType, List<Ingredient> ingredients, Dough dough, Mix mix, Cooking cooking) {
         this.name = name;
+        this.cookieType = cookieType;
         this.ingredients = ingredients;
         this.dough = dough;
         this.price = calculPrice();
