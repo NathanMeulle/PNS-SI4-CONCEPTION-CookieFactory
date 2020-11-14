@@ -159,7 +159,6 @@ public class CookieFactory {
                     }
                 }
             }
-
         }
         return totalCookie;
     }

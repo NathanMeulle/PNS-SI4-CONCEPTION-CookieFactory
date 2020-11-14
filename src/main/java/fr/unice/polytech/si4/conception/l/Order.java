@@ -77,11 +77,23 @@ public class Order {
     }
 
 
-
+    /**
+     * Calculate price of an order
+     * Apply 10% in all cookies equal to the best of national or best of store cookie
+     */
     private void calculatePrice() {
+        CookieFactory cookieFactory = CookieFactory.getInstance();
         priceHT = 0.0; // on réinitialise le prix et on re parcourt tous les cookies
-        cookies.forEach((cookie, quantity) ->
-            this.priceHT += cookie.getPrice() * quantity);
+        cookies.forEach((cookie, quantity) -> {
+            if (cookie.equals(cookieFactory.getBestCookieNational()) || cookie.equals(this.store.getBestCookie())) {
+                this.priceHT += cookie.getPrice() * quantity * 0.1;
+            }
+            else {
+                this.priceHT += cookie.getPrice() * quantity;
+            }
+
+        }
+           );
         this.priceTTC = priceHT * getStore().getTax();
         Log.add(String.format("La commande id:%d coûte %f€ HT", this.getIdOrder(), this.priceTTC));
     }

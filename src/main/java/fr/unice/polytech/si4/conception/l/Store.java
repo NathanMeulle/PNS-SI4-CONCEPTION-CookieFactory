@@ -144,4 +144,9 @@ public class Store {
     }
 
 
+    public Cookie getBestCookie() {
+        return this.orderHistory.getBestCookieStore();
+    }
+
+
 }
