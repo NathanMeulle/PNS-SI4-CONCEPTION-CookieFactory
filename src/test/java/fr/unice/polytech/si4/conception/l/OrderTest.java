@@ -38,11 +38,14 @@ class OrderTest {
     CookieFactory cookieFactory;
 
 
+
     @BeforeEach
     void setup() {
         cookieFactory = new CookieFactory();
         storeMock = mock(Store.class);
         when(storeMock.getTax()).thenReturn(1.0);
+        AnonymousCustomer aCustomer = new AnonymousCustomer("Petrovitch", "065065045");
+
         cookieChocoMock = mock(Cookie.class);
         cookieVanilleMock = mock(Cookie.class);
         managerMock = mock(Manager.class);
@@ -105,11 +108,9 @@ class OrderTest {
 
     @Test
     void isAchievableTest() {
-
         vincent.createOrder(store);
         vincent.addCookie(chocoCookie, 7);
         vincent.addCookie(mnMChocoCookie, 1);
-
         assertThrows(ErrorPreparingOrder.class, () -> vincent.makeOrder());
     }
 
@@ -160,5 +161,6 @@ class OrderTest {
         customer.addCookie(mnMChocoCookie, 4);
 
         assertEquals(168.48, customer.getPrice(), 0.01);
+
     }
 }

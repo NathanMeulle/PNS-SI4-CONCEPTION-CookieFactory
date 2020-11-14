@@ -70,7 +70,6 @@ public class PayOrderStepdef implements En {
                 customer.setLoyaltyProgram(true);
             else
                 customer.setLoyaltyProgram(false);
-
         });
         And("^he makes an order of \"([^\"]*)\" cookie costing \"([^\"]*)\" at a store with \"([^\"]*)\"$", (Integer arg0, Double price, Double tax) -> {
             store.setTax(tax);
@@ -116,7 +115,5 @@ public class PayOrderStepdef implements En {
         Then("^cookie choco is the bestOfCookie$", () -> {
             assertEquals(cookieChoco, systemInfo.getBestCookieNational());
         });
-
-
     }
 }

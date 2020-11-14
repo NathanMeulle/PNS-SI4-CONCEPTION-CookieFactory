@@ -50,6 +50,7 @@ public class IntegrationOrderingStepDef implements En {
             systemInfo = SystemInfo.getInstance();
             systemInfo.resetSystemInfo();
             systemInfo.addStore(store);
+
         });
         And("^an ingredient called Chocolate, costing (\\d+)$", (Integer arg0) -> {
             chocolate = new Ingredient("Chocolate", arg0, IngredientType.FLAVOR);
@@ -77,6 +78,7 @@ public class IntegrationOrderingStepDef implements En {
         });
         And("^The client \"([^\"]*)\" makes an order of (\\d+) \"([^\"]*)\" and (\\d+) \"([^\"]*)\" at store \"([^\"]*)\"$", (String arg0, Integer arg1, String arg2, Integer arg3, String arg4, String arg5) -> {
             store = systemInfo.getStoreByAddress(arg5);
+
             vincent.createOrder(store);
             vincent.addCookie(chocoCookie, arg1);
             vincent.addCookie(mnMChocoCookie, arg3);
@@ -95,6 +97,7 @@ public class IntegrationOrderingStepDef implements En {
         And("^the total price of this order is now (.+) TTC for client \"([^\"]*)\"$", (Double arg0, String arg2) -> {
             assertEquals(3, chocoCookie.getPrice());
             assertEquals(7, mnMChocoCookie.getPrice());
+
             assertEquals(arg0, vincent.getPrice(), 0.01);
         });
         When("^The user makes an order of (\\d+) \"([^\"]*)\"$", (Integer arg0, String arg1) -> {

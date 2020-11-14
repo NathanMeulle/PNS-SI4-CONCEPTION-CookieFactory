@@ -13,10 +13,7 @@ import fr.unice.polytech.si4.conception.l.exceptions.NotPaid;
 import fr.unice.polytech.si4.conception.l.products.Cookie;
 import fr.unice.polytech.si4.conception.l.store.Store;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 
 public class Order {
@@ -91,12 +88,11 @@ public class Order {
         SystemInfo systemInfo = SystemInfo.getInstance();
         priceHT = 0.0; // on réinitialise le prix et on re parcourt tous les cookies
         cookies.forEach((cookie, quantity) -> {
-            if (cookie.equals(systemInfo.getBestCookieNational()) || cookie.equals(this.store.getBestCookie())) {
-                this.priceHT += cookie.getPrice() * quantity * 0.9;
-            }
-            else {
-                this.priceHT += cookie.getPrice() * quantity;
-            }
+                    if (cookie.equals(systemInfo.getBestCookieNational()) || cookie.equals(this.store.getBestCookie())) {
+                        this.priceHT += cookie.getPrice() * quantity * 0.9;
+                    } else {
+                        this.priceHT += cookie.getPrice() * quantity;
+                    }
 
         }
            );
@@ -218,6 +214,7 @@ public class Order {
     public void isPaid() {
         this.isPaid = true;
     }
+
 
     public boolean isAchievable() {
         return this.store.achievableCookie(cookies);

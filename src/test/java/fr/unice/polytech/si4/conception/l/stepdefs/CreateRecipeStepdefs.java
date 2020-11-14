@@ -35,6 +35,7 @@ public class CreateRecipeStepdefs implements En {
             systemInfo = systemInfo.getInstance();
             for (Store s : stores) {
                 systemInfo.addStore(s);
+
             }
         });
 

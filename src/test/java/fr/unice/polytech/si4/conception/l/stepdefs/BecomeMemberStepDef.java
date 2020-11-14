@@ -21,6 +21,7 @@ public class BecomeMemberStepDef implements En {
     public BecomeMemberStepDef() {
         Given("^a cookieFactory$", () -> {
             systemInfo = systemInfo.getInstance();
+
         });
 
         And("^A client named \"([^\"]*)\" with a phoneNumber \"([^\"]*)\" and with an email \"([^\"]*)\",$", (String arg0, String arg1, String arg2) -> {
@@ -36,6 +37,7 @@ public class BecomeMemberStepDef implements En {
         When("^he fill a form in order to register and he submits it$", () -> {
             systemInfo.resetSystemInfo();
             systemInfo.subscription(name, phoneNumber, mail);
+
         });
         Then("^he becomes a member$", () -> {
             assertNotNull(systemInfo.getCustomerByMail(mail));

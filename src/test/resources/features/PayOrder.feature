@@ -32,6 +32,7 @@ Feature: Pay Order
     And he makes an order of 35 cookies
     Then there is 0 in the cookie counter
 
+
   Scenario Outline: A registered client wants to use the loyalty program : discount
     When a client subscribe or not to the "<loyaltyProgram>"
     And he makes an order of "<nbCookie>" cookie costing "<price>" at a store with "<tax>"
@@ -57,5 +58,6 @@ Feature: Pay Order
 
       When an order of 3 cookie choco and 2 cookie vanilla
       Then the customer pay 9.4 euros
+
 
 

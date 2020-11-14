@@ -14,6 +14,7 @@ import java.util.Objects;
  */
 public class AnonymousCustomer implements CustomerInterface {
 
+
     private String phoneNumber;
     private String name;
     private Order order;
@@ -86,5 +87,4 @@ public class AnonymousCustomer implements CustomerInterface {
     public void setOrder(Order order) {
         this.order = order;
     }
-
 }
