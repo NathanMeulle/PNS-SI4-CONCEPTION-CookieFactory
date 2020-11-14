@@ -1,4 +1,8 @@
-package fr.unice.polytech.si4.conception.l;
+package fr.unice.polytech.si4.conception.l.store;
+
+import fr.unice.polytech.si4.conception.l.order.Order;
+import fr.unice.polytech.si4.conception.l.order.StateOrder;
+import fr.unice.polytech.si4.conception.l.products.Cookie;
 
 import java.util.*;
 

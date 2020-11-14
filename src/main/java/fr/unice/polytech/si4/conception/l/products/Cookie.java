@@ -1,9 +1,10 @@
-package fr.unice.polytech.si4.conception.l;
+package fr.unice.polytech.si4.conception.l.products;
 
 
-import fr.unice.polytech.si4.conception.l.cookie.composition.Cooking;
-import fr.unice.polytech.si4.conception.l.cookie.composition.Dough;
-import fr.unice.polytech.si4.conception.l.cookie.composition.Mix;
+import fr.unice.polytech.si4.conception.l.products.composition.Cooking;
+import fr.unice.polytech.si4.conception.l.products.composition.Dough;
+import fr.unice.polytech.si4.conception.l.products.composition.Ingredient;
+import fr.unice.polytech.si4.conception.l.products.composition.Mix;
 
 import java.util.List;
 import java.util.Objects;

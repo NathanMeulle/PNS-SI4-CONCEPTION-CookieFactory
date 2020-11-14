@@ -1,6 +1,4 @@
-package fr.unice.polytech.si4.conception.l.cookie.composition;
-
-import fr.unice.polytech.si4.conception.l.Ingredient;
+package fr.unice.polytech.si4.conception.l.products.composition;
 
 public class Dough extends Ingredient {
 

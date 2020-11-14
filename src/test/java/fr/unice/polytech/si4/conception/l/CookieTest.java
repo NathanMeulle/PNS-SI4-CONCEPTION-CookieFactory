@@ -1,8 +1,10 @@
 package fr.unice.polytech.si4.conception.l;
 
-import fr.unice.polytech.si4.conception.l.cookie.composition.Cooking;
-import fr.unice.polytech.si4.conception.l.cookie.composition.Dough;
-import fr.unice.polytech.si4.conception.l.cookie.composition.Mix;
+import fr.unice.polytech.si4.conception.l.products.Cookie;
+import fr.unice.polytech.si4.conception.l.products.composition.Cooking;
+import fr.unice.polytech.si4.conception.l.products.composition.Dough;
+import fr.unice.polytech.si4.conception.l.products.composition.Ingredient;
+import fr.unice.polytech.si4.conception.l.products.composition.Mix;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

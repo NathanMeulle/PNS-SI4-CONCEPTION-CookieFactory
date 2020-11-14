@@ -1,11 +1,12 @@
 package fr.unice.polytech.si4.conception.l.stepdefs;
 
-import fr.unice.polytech.si4.conception.l.*;
 import fr.unice.polytech.si4.conception.l.SystemInfo;
-import fr.unice.polytech.si4.conception.l.cookie.composition.Cooking;
-import fr.unice.polytech.si4.conception.l.cookie.composition.Dough;
-import fr.unice.polytech.si4.conception.l.cookie.composition.IngredientType;
-import fr.unice.polytech.si4.conception.l.cookie.composition.Mix;
+import fr.unice.polytech.si4.conception.l.customer.Customer;
+import fr.unice.polytech.si4.conception.l.products.Cookie;
+import fr.unice.polytech.si4.conception.l.products.composition.*;
+import fr.unice.polytech.si4.conception.l.store.Kitchen;
+import fr.unice.polytech.si4.conception.l.store.Manager;
+import fr.unice.polytech.si4.conception.l.store.Store;
 import io.cucumber.java8.En;
 
 import java.util.ArrayList;

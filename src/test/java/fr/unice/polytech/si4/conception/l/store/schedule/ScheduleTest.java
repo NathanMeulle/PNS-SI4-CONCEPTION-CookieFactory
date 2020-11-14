@@ -1,4 +1,4 @@
-package fr.unice.polytech.si4.conception.l.util.schedule;
+package fr.unice.polytech.si4.conception.l.store.schedule;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

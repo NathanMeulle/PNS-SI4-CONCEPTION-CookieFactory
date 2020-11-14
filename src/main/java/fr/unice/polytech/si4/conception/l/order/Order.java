@@ -1,11 +1,17 @@
-package fr.unice.polytech.si4.conception.l;
+package fr.unice.polytech.si4.conception.l.order;
 /** Represents an Order
  * @author Delmotte Vincent
  */
 
+import fr.unice.polytech.si4.conception.l.Log;
+import fr.unice.polytech.si4.conception.l.SystemInfo;
+import fr.unice.polytech.si4.conception.l.customer.AnonymousCustomer;
+import fr.unice.polytech.si4.conception.l.customer.Customer;
 import fr.unice.polytech.si4.conception.l.exceptions.ErrorPreparingOrder;
 import fr.unice.polytech.si4.conception.l.exceptions.NotAlreadyCooked;
 import fr.unice.polytech.si4.conception.l.exceptions.NotPaid;
+import fr.unice.polytech.si4.conception.l.products.Cookie;
+import fr.unice.polytech.si4.conception.l.store.Store;
 
 import java.util.Date;
 import java.util.HashMap;
