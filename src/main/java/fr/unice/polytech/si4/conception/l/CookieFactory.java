@@ -142,14 +142,14 @@ public class CookieFactory {
     }
 
     public void updateBestOfCookie() {
-        this.bestOfNational = getBestCookieNational();
+        this.bestOfNational = getBestCookie(countNationalCookie());
     }
 
 
     public Map<Cookie, Integer> countNationalCookie() {
         Map<Cookie, Integer> totalCookie = new HashMap<>();
         for (Store store : getStores()) {
-            for (Order order : store.getOrderHistory().getRecentOrders()) {
+            for (Order order : store.getOrderHistory().getRecentOrders()) { //TODO Nathan refacto avoid duplicate code
                 for (Cookie c : order.getCookies().keySet()) {
                     if (totalCookie.containsKey(c)) {
                         int updatedQuantity = totalCookie.get(c) + order.getCookies().get(c);
@@ -177,7 +177,7 @@ public class CookieFactory {
     }
 
     public Cookie getBestCookieNational(){
-        return getBestCookie(countNationalCookie());
+        return this.bestOfNational;
     }
 
 }
