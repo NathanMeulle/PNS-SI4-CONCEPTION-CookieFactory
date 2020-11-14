@@ -1,7 +1,9 @@
 package fr.unice.polytech.si4.conception.l.stepdefs;
 
 import fr.unice.polytech.si4.conception.l.*;
+import fr.unice.polytech.si4.conception.l.SystemInfo;
 import fr.unice.polytech.si4.conception.l.cookie.composition.Cooking;
+import fr.unice.polytech.si4.conception.l.cookie.composition.Dough;
 import fr.unice.polytech.si4.conception.l.cookie.composition.IngredientType;
 import fr.unice.polytech.si4.conception.l.cookie.composition.Mix;
 import fr.unice.polytech.si4.conception.l.exceptions.ErrorPreparingOrder;
@@ -24,7 +26,7 @@ public class IntegrationOrderingStepDef implements En {
     Cookie chocoCookie;
     Cookie mnMChocoCookie;
     Manager managerMock;
-    CookieFactory cookieFactory;
+    SystemInfo systemInfo;
     Kitchen kitchen;
     Cookie customCookie;
 
@@ -40,9 +42,9 @@ public class IntegrationOrderingStepDef implements En {
             kitchen.assignStore(store);
             store.setKitchen(kitchen);
 
-            cookieFactory = CookieFactory.getInstance();
-            cookieFactory.resetFactory();
-            cookieFactory.addStore(store);
+            systemInfo = SystemInfo.getInstance();
+            systemInfo.resetSystemInfo();
+            systemInfo.addStore(store);
         });
         And("^an ingredient called Chocolate, costing (\\d+)$", (Integer arg0) -> {
             chocolate = new Ingredient("Chocolate", arg0, IngredientType.FLAVOR);
@@ -53,30 +55,30 @@ public class IntegrationOrderingStepDef implements En {
         And("^A recipe \"([^\"]*)\" with ingredients \"([^\"]*)\"$", (String arg0, String arg1) -> {
             List<Ingredient> ingredients = new ArrayList<>();
             ingredients.add(chocolate);
-            chocoCookie = new Cookie(arg0, ingredients, Mix.TOPPED, Cooking.CRUNCHY);
-            cookieFactory.addCookie(chocoCookie);
+            chocoCookie = new Cookie(arg0, ingredients, new Dough("plain", 1),  Mix.TOPPED, Cooking.CRUNCHY);
+            systemInfo.addCookie(chocoCookie);
         });
         And("^A recipe \"([^\"]*)\" with ingredients \"([^\"]*)\" and \"([^\"]*)\"$", (String arg0, String arg1, String arg2) -> {
             List<Ingredient> ingredients = new ArrayList<>();
             ingredients.add(chocolate);
             ingredients.add(mnm);
-            mnMChocoCookie = new Cookie(arg0, ingredients, Mix.TOPPED, Cooking.CRUNCHY);
-            cookieFactory.addCookie(mnMChocoCookie);
+            mnMChocoCookie = new Cookie(arg0, ingredients, new Dough("plain", 1),  Mix.TOPPED, Cooking.CRUNCHY);
+            systemInfo.addCookie(mnMChocoCookie);
         });
         When("^Add (\\d+) Chocolate and (\\d+) MnMs to the stock at store \"([^\"]*)\"$", (Integer arg0, Integer arg2, String arg4) -> {
-            store = cookieFactory.getStoreByAddress(arg4);
+            store = systemInfo.getStoreByAddress(arg4);
             kitchen.incrementStock(chocolate, arg0);
             kitchen.incrementStock(mnm, arg2);
         });
         And("^The client \"([^\"]*)\" makes an order of (\\d+) \"([^\"]*)\" and (\\d+) \"([^\"]*)\" at store \"([^\"]*)\"$", (String arg0, Integer arg1, String arg2, Integer arg3, String arg4, String arg5) -> {
-            store = cookieFactory.getStoreByAddress(arg5);
+            store = systemInfo.getStoreByAddress(arg5);
             vincent.createOrder(store);
             vincent.addCookie(chocoCookie, arg1);
             vincent.addCookie(mnMChocoCookie, arg3);
             assertDoesNotThrow(()->vincent.makeOrder());
         });
         And("^The client \"([^\"]*)\" try to create an order of (\\d+) \"([^\"]*)\" and (\\d+) \"([^\"]*)\" at store \"([^\"]*)\"$", (String arg0, Integer arg1, String arg2, Integer arg3, String arg4, String arg5) -> {
-            store = cookieFactory.getStoreByAddress(arg5);
+            store = systemInfo.getStoreByAddress(arg5);
             vincent.createOrder(store);
             vincent.addCookie(chocoCookie, arg1);
             vincent.addCookie(mnMChocoCookie, arg3);
@@ -86,8 +88,8 @@ public class IntegrationOrderingStepDef implements En {
             assertNotNull(vincent.getOrder());
         });
         And("^the total price of this order is now (.+) TTC for client \"([^\"]*)\"$", (Double arg0, String arg2) -> {
-            assertEquals(2, chocoCookie.getPrice());
-            assertEquals(6, mnMChocoCookie.getPrice());
+            assertEquals(3, chocoCookie.getPrice());
+            assertEquals(7, mnMChocoCookie.getPrice());
             assertEquals(arg0, vincent.getPrice(), 0.01);
         });
         When("^The user makes an order of (\\d+) \"([^\"]*)\"$", (Integer arg0, String arg1) -> {
@@ -106,7 +108,7 @@ public class IntegrationOrderingStepDef implements En {
             ingredients.add(ingredient1);
             ingredients.add(ingredient2);
             ingredients.add(ingredient3);
-            customCookie = new Cookie("custom", ingredients, Mix.TOPPED, Cooking.CRUNCHY);
+            customCookie = new Cookie("custom", ingredients, new Dough("plain", 1),  Mix.TOPPED, Cooking.CRUNCHY);
 
         });
         Then("^the user makes the order of his custom cookies$", () -> {

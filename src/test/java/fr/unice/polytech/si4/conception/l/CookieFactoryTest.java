@@ -4,7 +4,6 @@ import fr.unice.polytech.si4.conception.l.exceptions.AlreadyCreatedException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -16,7 +15,7 @@ class CookieFactoryTest {
     String name;
     String phoneNumber;
     String mail;
-    CookieFactory cookieFactory;
+    SystemInfo cookieFactory;
     Log log;
     private List<Cookie> cookies;
     private List<Store> stores;
@@ -29,7 +28,7 @@ class CookieFactoryTest {
         name = new String("Esteve");
         phoneNumber = new String("0658601237");
         mail = new String("estevet@hotmail.fr");
-        cookieFactory = CookieFactory.getInstance();
+        cookieFactory = SystemInfo.getInstance();
         log = new Log();
         cookieMock = mock(Cookie.class);
         storeMock = mock(Store.class);
@@ -53,14 +52,14 @@ class CookieFactoryTest {
 
     @Test
     void getCustomerByMail() {
-        cookieFactory.resetFactory();
+        cookieFactory.resetSystemInfo();
         String nameCustomer1 = "name1";
         String phoneCustomer1 = "phone1";
         String mailCustomer1 = "mail1";
         try{
-            System.out.println(cookieFactory.getCustomers());
+            java.lang.System.out.println(cookieFactory.getCustomers());
             cookieFactory.addCustomer(new Customer(nameCustomer1, phoneCustomer1, mailCustomer1));
-            System.out.println(cookieFactory.getCustomers());
+            java.lang.System.out.println(cookieFactory.getCustomers());
 
         } catch (AlreadyCreatedException e){
             e.printStackTrace();
@@ -74,7 +73,7 @@ class CookieFactoryTest {
 
     @Test
     void getCustomerByTel() {
-        cookieFactory.resetFactory();
+        cookieFactory.resetSystemInfo();
         String nameCustomer = "name";
         String phoneCustomer = "phone";
         String mailCustomer = "mail";
@@ -93,13 +92,13 @@ class CookieFactoryTest {
 
     @Test
     public void noCookieTest() {
-        cookieFactory.resetFactory();
+        cookieFactory.resetSystemInfo();
         assertEquals(0, cookieFactory.getCookies().size());
     }
 
     @Test
     public void addingCookieTest() {
-        cookieFactory.resetFactory();
+        cookieFactory.resetSystemInfo();
         try {
             cookieFactory.addCookie(cookieMock);
         } catch (AlreadyCreatedException e) {
@@ -121,7 +120,7 @@ class CookieFactoryTest {
 
     @Test
     public void noStoreTest() {
-        cookieFactory.resetFactory();
+        cookieFactory.resetSystemInfo();
         assertEquals(0, cookieFactory.getStores().size());
     }
 
@@ -155,7 +154,7 @@ class CookieFactoryTest {
 
     @Test
     public void addingCustomerTest() {
-        cookieFactory.resetFactory();
+        cookieFactory.resetSystemInfo();
         try {
             cookieFactory.addCustomer(customerMock);
         } catch (AlreadyCreatedException e) {

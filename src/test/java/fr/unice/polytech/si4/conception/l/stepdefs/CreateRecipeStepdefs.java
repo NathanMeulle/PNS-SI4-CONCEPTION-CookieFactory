@@ -1,7 +1,9 @@
 package fr.unice.polytech.si4.conception.l.stepdefs;
 
 import fr.unice.polytech.si4.conception.l.*;
+import fr.unice.polytech.si4.conception.l.SystemInfo;
 import fr.unice.polytech.si4.conception.l.cookie.composition.Cooking;
+import fr.unice.polytech.si4.conception.l.cookie.composition.Dough;
 import fr.unice.polytech.si4.conception.l.cookie.composition.IngredientType;
 import fr.unice.polytech.si4.conception.l.cookie.composition.Mix;
 import fr.unice.polytech.si4.conception.l.exceptions.AlreadyCreatedException;
@@ -15,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class CreateRecipeStepdefs implements En {
 
-    private CookieFactory cookieFactory;
+    private SystemInfo systemInfo;
     private Cookie cookie;
     private int nbCookies;
 
@@ -27,28 +29,28 @@ public class CreateRecipeStepdefs implements En {
             manager.assignStore(store);
             List<Store> stores = new ArrayList<>();
             stores.add(store);
-            cookieFactory = CookieFactory.getInstance();
+            systemInfo = systemInfo.getInstance();
             for (Store s : stores) {
-                cookieFactory.addStore(s);
+                systemInfo.addStore(s);
             }
         });
 
         And("^a recipe of a cookie named \"([^\"]*)\"$", (String arg0) -> {
             List<Ingredient> ingredients = new ArrayList<>();
             ingredients.add(new Ingredient("Chocolate", 2, IngredientType.FLAVOR));
-            cookie = new Cookie(arg0, ingredients, Mix.MIXED, Cooking.CRUNCHY);
+            cookie = new Cookie(arg0, ingredients, new Dough("plain", 1),  Mix.MIXED, Cooking.CRUNCHY);
         });
         When("^the factory requests his number of recipe$", () -> {
-            nbCookies = cookieFactory.getCookies().size();
+            nbCookies = systemInfo.getCookies().size();
         });
         Then("^There is (\\d+) in his number of recipe$", (Integer arg0) -> {
             assertEquals(arg0.intValue(),nbCookies);
         });
         When("^the factory adds the recipe \"([^\"]*)\"$", (String arg0) -> {
-            cookieFactory.addCookie(cookie);
+            systemInfo.addCookie(cookie);
         });
         And("^The cookie \"([^\"]*)\" can't be add a second time$", (String arg0) -> {
-            assertThrows(AlreadyCreatedException.class, () -> cookieFactory.addCookie(cookie));
+            assertThrows(AlreadyCreatedException.class, () -> systemInfo.addCookie(cookie));
 
         });
     }

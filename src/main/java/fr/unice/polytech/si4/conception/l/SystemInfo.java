@@ -11,27 +11,27 @@ import java.util.Map;
  * @author nathan
  * Class containing our company, regrouping our stores, cookies, customers and managers
  */
-public class CookieFactory {
+public class SystemInfo {
 
     private List<Customer> customers;
     private List<Cookie> cookies;
     private List<Store> stores;
     private Cookie bestOfNational;
 
-    private CookieFactory() {
+    private SystemInfo() {
         this.cookies = new ArrayList<>();
         this.stores = new ArrayList<>();
         this.customers = new ArrayList<>();
         this.bestOfNational = null;
     }
 
-    private static final CookieFactory INSTANCE = new CookieFactory();
+    private static final SystemInfo INSTANCE = new SystemInfo();
 
-    public static CookieFactory getInstance() {
+    public static SystemInfo getInstance() {
         return INSTANCE;
     }
 
-    public void resetFactory() {
+    public void resetSystemInfo() {
         this.stores.clear();
         this.customers.clear();
         this.cookies.clear();

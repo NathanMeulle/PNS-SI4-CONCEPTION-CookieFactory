@@ -14,7 +14,7 @@ import static org.mockito.Mockito.when;
 
 public class OrderHistoryTest {
 
-    CookieFactory cookieFactory;
+    SystemInfo systemInfo;
     Store store1;
     Store store2;
     Cookie cookie1;
@@ -29,16 +29,16 @@ public class OrderHistoryTest {
 
     @BeforeEach
     void setup() throws AlreadyCreatedException {
-        cookieFactory = CookieFactory.getInstance();
-        cookieFactory.resetFactory();
+        systemInfo = SystemInfo.getInstance();
+        systemInfo.resetSystemInfo();
         orderHistory1 = new OrderHistory();
         orderHistory2 = new OrderHistory();
         store1 = mock(Store.class);
         store2 = mock(Store.class);
         when(store1.getOrderHistory()).thenReturn(orderHistory1);
         when(store2.getOrderHistory()).thenReturn(orderHistory2);
-        cookieFactory.addStore(store1);
-        cookieFactory.addStore(store2);
+        systemInfo.addStore(store1);
+        systemInfo.addStore(store2);
         cookie1 = mock(Cookie.class);
         cookie2 = mock(Cookie.class);
         cookie3 = mock(Cookie.class);
@@ -133,8 +133,8 @@ public class OrderHistoryTest {
         orderHistory1.addOrder(order1);
         orderHistory2.addOrder(order2);
 
-        assertEquals(4, cookieFactory.countNationalCookie().get(cookie1));
-        assertEquals(13, cookieFactory.countNationalCookie().get(cookie2));
+        assertEquals(4, systemInfo.countNationalCookie().get(cookie1));
+        assertEquals(13, systemInfo.countNationalCookie().get(cookie2));
     }
 
     @Test
@@ -190,9 +190,9 @@ public class OrderHistoryTest {
 
         orderHistory1.addOrder(order1);
         orderHistory1.addOrder(order2);
-        cookieFactory.updateBestOfCookie();
+        systemInfo.updateBestOfCookie();
 
-        assertEquals(cookie1, cookieFactory.getBestCookieNational());
+        assertEquals(cookie1, systemInfo.getBestCookieNational());
     }
 
     /**
@@ -217,9 +217,9 @@ public class OrderHistoryTest {
 
         orderHistory1.addOrder(order1);
         orderHistory1.addOrder(order2);
-        cookieFactory.updateBestOfCookie();
+        systemInfo.updateBestOfCookie();
 
-        assertEquals(cookie4, cookieFactory.getBestCookieNational());
+        assertEquals(cookie4, systemInfo.getBestCookieNational());
     }
 
 
@@ -255,8 +255,8 @@ public class OrderHistoryTest {
      */
     @Test
     void getNationalBestOfTest4() {
-        cookieFactory.updateBestOfCookie();
-        assertNull(cookieFactory.getBestCookieNational());
+        systemInfo.updateBestOfCookie();
+        assertNull(systemInfo.getBestCookieNational());
     }
 
 

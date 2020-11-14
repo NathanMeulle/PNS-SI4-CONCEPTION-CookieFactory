@@ -51,11 +51,11 @@ Feature: Pay Order
 
     Scenario: Order with a best of store cookie
       When an order of 3 cookie choco and 2 cookie vanilla
-      Then the customer pay "5.0" euros
+      Then the customer pay 10.0 euros
       And the cookiFactory update the bestOf
       Then cookie choco is the bestOfCookie
 
       When an order of 3 cookie choco and 2 cookie vanilla
-      Then the customer pay "4.7" euros
+      Then the customer pay 9.4 euros
 
 

@@ -1,6 +1,7 @@
 package fr.unice.polytech.si4.conception.l;
 
 import fr.unice.polytech.si4.conception.l.cookie.composition.Cooking;
+import fr.unice.polytech.si4.conception.l.cookie.composition.Dough;
 import fr.unice.polytech.si4.conception.l.cookie.composition.IngredientType;
 import fr.unice.polytech.si4.conception.l.cookie.composition.Mix;
 import fr.unice.polytech.si4.conception.l.exceptions.ErrorPreparingOrder;
@@ -54,11 +55,11 @@ class OrderTest {
         ingredients = new ArrayList<>();
         ingredients.add(chocolate);
         ingredients.add(mnm);
-        mnMChocoCookie = new Cookie("MnmsChoco", ingredients, Mix.TOPPED, Cooking.CRUNCHY);
+        mnMChocoCookie = new Cookie("MnmsChoco", ingredients, new Dough("plain", 0), Mix.TOPPED, Cooking.CRUNCHY);
 
         ingredients2 = new ArrayList<>();
         ingredients2.add(chocolate);
-        chocoCookie = new Cookie("Choco", ingredients2, Mix.TOPPED, Cooking.CRUNCHY);
+        chocoCookie = new Cookie("Choco", ingredients2, new Dough("plain", 0), Mix.TOPPED, Cooking.CRUNCHY);
 
         vincent = new AnonymousCustomer("vincent", "06");
 

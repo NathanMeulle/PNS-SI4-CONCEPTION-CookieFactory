@@ -2,6 +2,7 @@ package fr.unice.polytech.si4.conception.l.stepdefs;
 
 import fr.unice.polytech.si4.conception.l.*;
 import fr.unice.polytech.si4.conception.l.cookie.composition.Cooking;
+import fr.unice.polytech.si4.conception.l.cookie.composition.Dough;
 import fr.unice.polytech.si4.conception.l.cookie.composition.IngredientType;
 import fr.unice.polytech.si4.conception.l.cookie.composition.Mix;
 import io.cucumber.java8.En;
@@ -31,7 +32,7 @@ public class CreateOrderStepDef implements En {
         And("^a cookie of name \"([^\"]*)\"$", (String arg0) -> {
             List<Ingredient> ingredients = new ArrayList<>();
             ingredients.add(new Ingredient("Chocolate", 2, IngredientType.FLAVOR));
-            cookie = new Cookie(arg0, ingredients, Mix.MIXED, Cooking.CRUNCHY);
+            cookie = new Cookie(arg0, ingredients, new Dough("plain", 1),  Mix.MIXED, Cooking.CRUNCHY);
 
         });
         When("^the anonymous client create an order$", () -> {

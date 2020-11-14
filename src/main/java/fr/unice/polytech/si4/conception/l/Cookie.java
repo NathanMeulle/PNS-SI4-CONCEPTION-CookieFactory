@@ -2,6 +2,7 @@ package fr.unice.polytech.si4.conception.l;
 
 
 import fr.unice.polytech.si4.conception.l.cookie.composition.Cooking;
+import fr.unice.polytech.si4.conception.l.cookie.composition.Dough;
 import fr.unice.polytech.si4.conception.l.cookie.composition.Mix;
 
 import java.util.List;
@@ -15,6 +16,7 @@ public class Cookie {
 
     private String name;
     private double price;
+    private Dough dough;
     private Mix mix;
     private Cooking cooking;
     private List<Ingredient> ingredients;
@@ -23,21 +25,23 @@ public class Cookie {
      * Creates a cookie with a name and a price
      * @param name cookie's name
      */
-    public Cookie(String name, List<Ingredient> ingredients, Mix mix, Cooking cooking) {
+    public Cookie(String name, List<Ingredient> ingredients, Dough dough, Mix mix, Cooking cooking) {
         this.name = name;
         this.ingredients = ingredients;
+        this.dough = dough;
         this.price = calculPrice();
         this.mix = mix;
         this.cooking = cooking;
     }
 
     private int calculPrice() {
-        if(this.ingredients.isEmpty())
+        if (this.ingredients.isEmpty())
             return 0;
         int priceTmp = 0;
         for (Ingredient i : this.ingredients) {
-            priceTmp+= i.getPrice();
+            priceTmp += i.getPrice();
         }
+        priceTmp += this.dough.getPrice();
         return priceTmp;
     }
 

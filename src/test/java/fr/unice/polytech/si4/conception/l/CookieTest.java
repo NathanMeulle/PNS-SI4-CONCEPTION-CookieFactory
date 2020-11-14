@@ -1,6 +1,7 @@
 package fr.unice.polytech.si4.conception.l;
 
 import fr.unice.polytech.si4.conception.l.cookie.composition.Cooking;
+import fr.unice.polytech.si4.conception.l.cookie.composition.Dough;
 import fr.unice.polytech.si4.conception.l.cookie.composition.Mix;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -31,23 +32,23 @@ public class CookieTest {
 
     @Test
     void calculPriceTest0() {
-        cookie = new Cookie("", ingredients, Mix.MIXED, Cooking.CRUNCHY);
+        cookie = new Cookie("", ingredients, new Dough("plain", 1), Mix.MIXED, Cooking.CRUNCHY);
         assertEquals(0, cookie.getPrice());
     }
 
     @Test
     void calculPriceTest() {
         ingredients.add(ingredient1);
-        cookie = new Cookie("", ingredients, Mix.MIXED, Cooking.CRUNCHY);
-        assertEquals(3, cookie.getPrice());
+        cookie = new Cookie("", ingredients, new Dough("plain", 1), Mix.MIXED, Cooking.CRUNCHY);
+        assertEquals(4, cookie.getPrice());
     }
 
     @Test
     void calculPriceTest2() {
         ingredients.add(ingredient1);
         ingredients.add(ingredient2);
-        cookie = new Cookie("", ingredients, Mix.MIXED, Cooking.CRUNCHY);
-        assertEquals(7, cookie.getPrice());
+        cookie = new Cookie("", ingredients, new Dough("plain", 1), Mix.MIXED, Cooking.CRUNCHY);
+        assertEquals(8, cookie.getPrice());
     }
 
     @Test
@@ -55,8 +56,8 @@ public class CookieTest {
         ingredients.add(ingredient1);
         ingredients.add(ingredient2);
         ingredients.add(ingredient2);
-        cookie = new Cookie("", ingredients, Mix.MIXED, Cooking.CRUNCHY);
-        assertEquals(11, cookie.getPrice());
+        cookie = new Cookie("", ingredients, new Dough("plain", 1), Mix.MIXED, Cooking.CRUNCHY);
+        assertEquals(12, cookie.getPrice());
     }
 
 }

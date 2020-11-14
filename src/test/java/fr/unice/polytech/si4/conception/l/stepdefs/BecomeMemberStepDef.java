@@ -1,6 +1,6 @@
 package fr.unice.polytech.si4.conception.l.stepdefs;
 
-import fr.unice.polytech.si4.conception.l.CookieFactory;
+import fr.unice.polytech.si4.conception.l.SystemInfo;
 import fr.unice.polytech.si4.conception.l.Customer;
 import fr.unice.polytech.si4.conception.l.exceptions.AlreadyCreatedException;
 import io.cucumber.java8.En;
@@ -12,7 +12,7 @@ public class BecomeMemberStepDef implements En {
     private String name;
     private String phoneNumber;
     private String mail;
-    private CookieFactory cookieFactory;
+    private SystemInfo systemInfo;
     private Customer customerSubscribe;
     private String otherName;
     private String otherPhone;
@@ -20,7 +20,7 @@ public class BecomeMemberStepDef implements En {
 
     public BecomeMemberStepDef() {
         Given("^a cookieFactory$", () -> {
-            cookieFactory = CookieFactory.getInstance();
+            systemInfo = systemInfo.getInstance();
         });
 
         And("^A client named \"([^\"]*)\" with a phoneNumber \"([^\"]*)\" and with an email \"([^\"]*)\",$", (String arg0, String arg1, String arg2) -> {
@@ -34,15 +34,15 @@ public class BecomeMemberStepDef implements En {
          *  ********************************************************************************
          */
         When("^he fill a form in order to register and he submits it$", () -> {
-            cookieFactory.resetFactory();
-            cookieFactory.subscription(name, phoneNumber, mail);
+            systemInfo.resetSystemInfo();
+            systemInfo.subscription(name, phoneNumber, mail);
         });
         Then("^he becomes a member$", () -> {
-            assertNotNull(cookieFactory.getCustomerByMail(mail));
-            customerSubscribe = cookieFactory.getCustomerByMail(mail);
+            assertNotNull(systemInfo.getCustomerByMail(mail));
+            customerSubscribe = systemInfo.getCustomerByMail(mail);
         });
         And("^there is \"([^\"]*)\" in the list of customers$", (Integer arg0) -> {
-            assertEquals(arg0, cookieFactory.getCustomers().size());
+            assertEquals(arg0, systemInfo.getCustomers().size());
         });
         And("^with name : \"([^\"]*)\"$", (String arg0) -> {
             assertEquals(name, customerSubscribe.getName());
@@ -60,7 +60,7 @@ public class BecomeMemberStepDef implements En {
          */
 
         Then("^the email already exist is the database$", () -> {
-            assertTrue(cookieFactory.getCustomers().contains(cookieFactory.getCustomerByMail(otherMail)));
+            assertTrue(systemInfo.getCustomers().contains(systemInfo.getCustomerByMail(otherMail)));
         });
 
         When("^A client named \"([^\"]*)\" with a \"([^\"]*)\" and with a \"([^\"]*)\" wants to register$", (String arg0, String arg1, String arg2) -> {
@@ -71,11 +71,11 @@ public class BecomeMemberStepDef implements En {
 
         Then("^register \"([^\"]*)\"$", (String arg0) -> {
             if (arg0.equals("failure")) {
-                System.out.println(cookieFactory.getCustomers().get(0).getMail());
-                System.out.println(otherMail);
-                assertThrows(AlreadyCreatedException.class, () -> cookieFactory.subscription(otherName, otherPhone, otherMail));
+                java.lang.System.out.println(systemInfo.getCustomers().get(0).getMail());
+                java.lang.System.out.println(otherMail);
+                assertThrows(AlreadyCreatedException.class, () -> systemInfo.subscription(otherName, otherPhone, otherMail));
             } else {
-                assertDoesNotThrow(() -> cookieFactory.subscription(otherName, otherPhone, otherMail));
+                assertDoesNotThrow(() -> systemInfo.subscription(otherName, otherPhone, otherMail));
             }
         });
 

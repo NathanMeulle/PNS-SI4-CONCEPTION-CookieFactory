@@ -1,7 +1,9 @@
 package fr.unice.polytech.si4.conception.l.stepdefs;
 
 import fr.unice.polytech.si4.conception.l.*;
+import fr.unice.polytech.si4.conception.l.SystemInfo;
 import fr.unice.polytech.si4.conception.l.cookie.composition.Cooking;
+import fr.unice.polytech.si4.conception.l.cookie.composition.Dough;
 import fr.unice.polytech.si4.conception.l.cookie.composition.IngredientType;
 import fr.unice.polytech.si4.conception.l.cookie.composition.Mix;
 import io.cucumber.java8.En;
@@ -20,7 +22,7 @@ public class PayOrderStepdef implements En {
     Cookie cookie;
     Customer customer;
     Manager manager;
-    CookieFactory cookieFactory;
+    SystemInfo systemInfo;
     Cookie cookieChoco;
     Cookie cookieVanilla;
     Ingredient chocolate;
@@ -32,8 +34,8 @@ public class PayOrderStepdef implements En {
 
     public PayOrderStepdef() {
         Given("^a new cookieFactory$", () -> {
-            cookieFactory = CookieFactory.getInstance();
-            cookieFactory.resetFactory();
+            systemInfo = systemInfo.getInstance();
+            systemInfo.resetSystemInfo();
         });
 
         And("^a store$", () -> {
@@ -42,7 +44,7 @@ public class PayOrderStepdef implements En {
             kitchen = mock(Kitchen.class);
             store.setKitchen(kitchen);
             when(kitchen.canDo(any())).thenReturn(true);
-            cookieFactory.addStore(store);
+            systemInfo.addStore(store);
         });
         When("^a client subscribe to the loyalty program$", () -> {
             customer = new Customer("vincent", "06", "mail");
@@ -87,12 +89,12 @@ public class PayOrderStepdef implements En {
             chocolate = new Ingredient("Chocolate", 1, IngredientType.FLAVOR);
             ingredients1 = new ArrayList<>();
             ingredients1.add(chocolate);
-            cookieChoco = new Cookie("Choco", ingredients1, Mix.TOPPED, Cooking.CRUNCHY);
+            cookieChoco = new Cookie("Choco", ingredients1, new Dough("plain", 1), Mix.TOPPED, Cooking.CRUNCHY);
 
             vanilla = new Ingredient("Vanilla", 1, IngredientType.FLAVOR);
             ingredients2 = new ArrayList<>();
             ingredients2.add(chocolate);
-            cookieVanilla = new Cookie("Vanilla", ingredients2, Mix.TOPPED, Cooking.CRUNCHY);
+            cookieVanilla = new Cookie("Vanilla", ingredients2, new Dough("plain", 1), Mix.TOPPED, Cooking.CRUNCHY);
 
             customer.createOrder(store);
             customer.addCookie(cookieChoco, arg0);
@@ -101,14 +103,14 @@ public class PayOrderStepdef implements En {
             store.addToOrderHistory(customer.getOrder());
 
         });
-        Then("^the customer pay \"([^\"]*)\" euros$", (Double arg0) -> {
+        Then("^the customer pay (.+) euros$", (Double arg0) -> {
             assertEquals(arg0, customer.getPrice());
         });
         And("^the cookiFactory update the bestOf$", () -> {
-            cookieFactory.updateBestOfCookie();
+            systemInfo.updateBestOfCookie();
         });
         Then("^cookie choco is the bestOfCookie$", () -> {
-            assertEquals(cookieChoco, cookieFactory.getBestCookieNational());
+            assertEquals(cookieChoco, systemInfo.getBestCookieNational());
         });
 
 
