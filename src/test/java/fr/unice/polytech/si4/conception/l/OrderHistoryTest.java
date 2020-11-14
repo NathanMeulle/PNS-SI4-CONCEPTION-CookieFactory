@@ -190,6 +190,7 @@ public class OrderHistoryTest {
 
         orderHistory1.addOrder(order1);
         orderHistory1.addOrder(order2);
+        cookieFactory.updateBestOfCookie();
 
         assertEquals(cookie1, cookieFactory.getBestCookieNational());
     }
@@ -216,6 +217,7 @@ public class OrderHistoryTest {
 
         orderHistory1.addOrder(order1);
         orderHistory1.addOrder(order2);
+        cookieFactory.updateBestOfCookie();
 
         assertEquals(cookie4, cookieFactory.getBestCookieNational());
     }
@@ -253,6 +255,7 @@ public class OrderHistoryTest {
      */
     @Test
     void getNationalBestOfTest4() {
+        cookieFactory.updateBestOfCookie();
         assertNull(cookieFactory.getBestCookieNational());
     }
 
