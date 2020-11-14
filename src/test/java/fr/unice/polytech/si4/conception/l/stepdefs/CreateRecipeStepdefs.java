@@ -41,7 +41,7 @@ public class CreateRecipeStepdefs implements En {
         And("^a recipe of a cookie named \"([^\"]*)\"$", (String arg0) -> {
             List<Ingredient> ingredients = new ArrayList<>();
             ingredients.add(new Ingredient("Chocolate", 2, IngredientType.FLAVOR));
-            cookie = cookieFactory.createCookie(arg0, ingredients, new Dough("plain", 1),  Mix.MIXED, Cooking.CRUNCHY);
+            cookie = cookieFactory.createDefaultCookie(arg0, ingredients, new Dough("plain", 1),  Mix.MIXED, Cooking.CRUNCHY);
         });
         When("^the factory requests his number of recipe$", () -> {
             nbCookies = systemInfo.getCookies().size();

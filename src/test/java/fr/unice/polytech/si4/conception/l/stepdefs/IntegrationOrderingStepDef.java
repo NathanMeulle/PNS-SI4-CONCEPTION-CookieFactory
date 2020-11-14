@@ -60,14 +60,14 @@ public class IntegrationOrderingStepDef implements En {
         And("^A recipe \"([^\"]*)\" with ingredients \"([^\"]*)\"$", (String arg0, String arg1) -> {
             List<Ingredient> ingredients = new ArrayList<>();
             ingredients.add(chocolate);
-            chocoCookie = cookieFactory.createCookie(arg0, ingredients, new Dough("plain", 1),  Mix.TOPPED, Cooking.CRUNCHY);
+            chocoCookie = cookieFactory.createDefaultCookie(arg0, ingredients, new Dough("plain", 1),  Mix.TOPPED, Cooking.CRUNCHY);
             systemInfo.addCookie(chocoCookie);
         });
         And("^A recipe \"([^\"]*)\" with ingredients \"([^\"]*)\" and \"([^\"]*)\"$", (String arg0, String arg1, String arg2) -> {
             List<Ingredient> ingredients = new ArrayList<>();
             ingredients.add(chocolate);
             ingredients.add(mnm);
-            mnMChocoCookie = cookieFactory.createCookie(arg0, ingredients, new Dough("plain", 1),  Mix.TOPPED, Cooking.CRUNCHY);
+            mnMChocoCookie = cookieFactory.createDefaultCookie(arg0, ingredients, new Dough("plain", 1),  Mix.TOPPED, Cooking.CRUNCHY);
             systemInfo.addCookie(mnMChocoCookie);
         });
         When("^Add (\\d+) Chocolate and (\\d+) MnMs to the stock at store \"([^\"]*)\"$", (Integer arg0, Integer arg2, String arg4) -> {
@@ -113,7 +113,7 @@ public class IntegrationOrderingStepDef implements En {
             ingredients.add(ingredient1);
             ingredients.add(ingredient2);
             ingredients.add(ingredient3);
-            customCookie = cookieFactory.createCookie("custom", ingredients, new Dough("plain", 1),  Mix.TOPPED, Cooking.CRUNCHY);
+            customCookie = cookieFactory.createDefaultCookie("custom", ingredients, new Dough("plain", 1),  Mix.TOPPED, Cooking.CRUNCHY);
 
         });
         Then("^the user makes the order of his custom cookies$", () -> {

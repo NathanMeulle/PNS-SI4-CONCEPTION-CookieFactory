@@ -37,14 +37,14 @@ public class CookieTest {
 
     @Test
     void calculPriceTest0() {
-        cookie = cookieFactory.createCookie("", ingredients, new Dough("plain", 1), Mix.MIXED, Cooking.CRUNCHY);
+        cookie = cookieFactory.createDefaultCookie("", ingredients, new Dough("plain", 1), Mix.MIXED, Cooking.CRUNCHY);
         assertEquals(0, cookie.getPrice());
     }
 
     @Test
     void calculPriceTest() {
         ingredients.add(ingredient1);
-        cookie = cookieFactory.createCookie("", ingredients, new Dough("plain", 1), Mix.MIXED, Cooking.CRUNCHY);
+        cookie = cookieFactory.createDefaultCookie("", ingredients, new Dough("plain", 1), Mix.MIXED, Cooking.CRUNCHY);
         assertEquals(4, cookie.getPrice());
     }
 
@@ -52,7 +52,7 @@ public class CookieTest {
     void calculPriceTest2() {
         ingredients.add(ingredient1);
         ingredients.add(ingredient2);
-        cookie = cookieFactory.createCookie("", ingredients, new Dough("plain", 1), Mix.MIXED, Cooking.CRUNCHY);
+        cookie = cookieFactory.createDefaultCookie("", ingredients, new Dough("plain", 1), Mix.MIXED, Cooking.CRUNCHY);
         assertEquals(8, cookie.getPrice());
     }
 
@@ -61,7 +61,7 @@ public class CookieTest {
         ingredients.add(ingredient1);
         ingredients.add(ingredient2);
         ingredients.add(ingredient2);
-        cookie = cookieFactory.createCookie("", ingredients, new Dough("plain", 1), Mix.MIXED, Cooking.CRUNCHY);
+        cookie = cookieFactory.createDefaultCookie("", ingredients, new Dough("plain", 1), Mix.MIXED, Cooking.CRUNCHY);
         assertEquals(12, cookie.getPrice());
     }
 

@@ -14,7 +14,7 @@ import java.util.List;
  */
 public interface CookieFactoryInterface {
 
-    Cookie createCookie(String name, List<Ingredient> ingredients, Dough dough, Mix mix, Cooking cooking);
+    Cookie createDefaultCookie(String name, List<Ingredient> ingredients, Dough dough, Mix mix, Cooking cooking);
 
     Cookie createPersonnalizedCookie(String name,List<Ingredient> ingredients, Dough dough, Mix mix, Cooking cooking);
 

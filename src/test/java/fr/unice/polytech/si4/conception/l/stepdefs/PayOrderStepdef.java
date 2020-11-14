@@ -93,12 +93,12 @@ public class PayOrderStepdef implements En {
             chocolate = new Ingredient("Chocolate", 1, IngredientType.FLAVOR);
             ingredients1 = new ArrayList<>();
             ingredients1.add(chocolate);
-            cookieChoco = cookieFactory.createCookie("Choco", ingredients1, new Dough("plain", 1), Mix.TOPPED, Cooking.CRUNCHY);
+            cookieChoco = cookieFactory.createDefaultCookie("Choco", ingredients1, new Dough("plain", 1), Mix.TOPPED, Cooking.CRUNCHY);
 
             vanilla = new Ingredient("Vanilla", 1, IngredientType.FLAVOR);
             ingredients2 = new ArrayList<>();
             ingredients2.add(chocolate);
-            cookieVanilla = cookieFactory.createCookie("Vanilla", ingredients2, new Dough("plain", 1), Mix.TOPPED, Cooking.CRUNCHY);
+            cookieVanilla = cookieFactory.createDefaultCookie("Vanilla", ingredients2, new Dough("plain", 1), Mix.TOPPED, Cooking.CRUNCHY);
 
             customer.createOrder(store);
             customer.addCookie(cookieChoco, arg0);

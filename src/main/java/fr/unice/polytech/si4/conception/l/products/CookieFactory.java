@@ -15,12 +15,14 @@ import java.util.List;
 
 public class CookieFactory implements CookieFactoryInterface {
     @Override
-    public Cookie createCookie(String name, List<Ingredient> ingredients, Dough dough, Mix mix, Cooking cooking) {
+    public Cookie createDefaultCookie(String name, List<Ingredient> ingredients, Dough dough, Mix mix, Cooking cooking) {
+        //TODO method check(...) qui vérifie nb correct d'ingrédient (à appeler ici et implementer dans DefaultCookie)
         return new DefaultCookie(name, ingredients, dough, mix, cooking);
     }
 
     @Override
     public Cookie createPersonnalizedCookie(String name, List<Ingredient> ingredients, Dough dough, Mix mix, Cooking cooking) {
+        //TODO method check(...) qui vérifie que les ingrédients existent bien dans le SI + nb correct d'ingrédient (à appeler ici et implementer dans PersonnalizedCookie)
         return new PersonnalizedCookie(name, ingredients, dough, mix, cooking);
     }
 }

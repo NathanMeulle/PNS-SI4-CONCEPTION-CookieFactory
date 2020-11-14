@@ -62,11 +62,11 @@ class OrderTest {
         ingredients = new ArrayList<>();
         ingredients.add(chocolate);
         ingredients.add(mnm);
-        mnMChocoCookie = cookieFactory.createCookie("MnmsChoco", ingredients, new Dough("plain", 0), Mix.TOPPED, Cooking.CRUNCHY);
+        mnMChocoCookie = cookieFactory.createDefaultCookie("MnmsChoco", ingredients, new Dough("plain", 0), Mix.TOPPED, Cooking.CRUNCHY);
 
         ingredients2 = new ArrayList<>();
         ingredients2.add(chocolate);
-        chocoCookie = cookieFactory.createCookie("Choco", ingredients2, new Dough("plain", 0), Mix.TOPPED, Cooking.CRUNCHY);
+        chocoCookie = cookieFactory.createDefaultCookie("Choco", ingredients2, new Dough("plain", 0), Mix.TOPPED, Cooking.CRUNCHY);
 
         vincent = new AnonymousCustomer("vincent", "06");
 

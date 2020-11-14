@@ -37,7 +37,7 @@ public class CreateOrderStepDef implements En {
         And("^a cookie of name \"([^\"]*)\"$", (String arg0) -> {
             List<Ingredient> ingredients = new ArrayList<>();
             ingredients.add(new Ingredient("Chocolate", 2, IngredientType.FLAVOR));
-            cookie = cookieFactory.createCookie(arg0, ingredients, new Dough("plain", 1),  Mix.MIXED, Cooking.CRUNCHY);
+            cookie = cookieFactory.createDefaultCookie(arg0, ingredients, new Dough("plain", 1),  Mix.MIXED, Cooking.CRUNCHY);
 
         });
         When("^the anonymous client create an order$", () -> {
