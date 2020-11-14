@@ -45,6 +45,7 @@ class OrderTest {
         kitchen.assignStore(store);
         store.setKitchen(kitchen);
         chocolate = new Ingredient("Chocolate", 4, IngredientType.FLAVOR);
+
         mnm = new Ingredient("MnM", 7, IngredientType.FLAVOR);
 
         kitchen.incrementStock(chocolate, 5);

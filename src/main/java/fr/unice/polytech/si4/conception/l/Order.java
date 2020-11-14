@@ -86,7 +86,7 @@ public class Order {
         priceHT = 0.0; // on réinitialise le prix et on re parcourt tous les cookies
         cookies.forEach((cookie, quantity) -> {
             if (cookie.equals(cookieFactory.getBestCookieNational()) || cookie.equals(this.store.getBestCookie())) {
-                this.priceHT += cookie.getPrice() * quantity * 0.1;
+                this.priceHT += cookie.getPrice() * quantity * 0.9;
             }
             else {
                 this.priceHT += cookie.getPrice() * quantity;

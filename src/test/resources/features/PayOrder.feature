@@ -2,7 +2,7 @@
 Feature: Pay Order
 
   Background:
-    Given a cookieFactory
+    Given a new cookieFactory
     And a store
 
   Scenario: A registered client wants to use the loyalty program : Cookie counter
@@ -47,5 +47,15 @@ Feature: Pay Order
       | 31       | 2     | yes            | 1   | 55.8     | 0             |
       | 30       | 2     | yes            | 1.4 | 75.6     | 0             |
       | 31       | 2     | yes            | 1.4 | 78.12    | 0             |
+
+
+    Scenario: Order with a best of store cookie
+      When an order of 3 cookie choco and 2 cookie vanilla
+      Then the customer pay "5.0" euros
+      And the cookiFactory update the bestOf
+      Then cookie choco is the bestOfCookie
+
+      When an order of 3 cookie choco and 2 cookie vanilla
+      Then the customer pay "4.7" euros
 
 
