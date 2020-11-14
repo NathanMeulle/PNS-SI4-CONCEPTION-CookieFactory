@@ -1,8 +1,12 @@
 package fr.unice.polytech.si4.conception.l.stepdefs;
 
-import fr.unice.polytech.si4.conception.l.*;
+import fr.unice.polytech.si4.conception.l.customer.AnonymousCustomer;
 import fr.unice.polytech.si4.conception.l.exceptions.NotAlreadyCooked;
 import fr.unice.polytech.si4.conception.l.exceptions.NotPaid;
+import fr.unice.polytech.si4.conception.l.order.Order;
+import fr.unice.polytech.si4.conception.l.order.StateOrder;
+import fr.unice.polytech.si4.conception.l.store.Manager;
+import fr.unice.polytech.si4.conception.l.store.Store;
 import io.cucumber.java8.En;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
@@ -21,8 +25,8 @@ public class PickUpOrderStepdefs implements En {
         Given("^an order and an anonymous customer$", () -> {
             store = new Store(1, "adresse", 25, "06", "mail", mock(Manager.class));
             anonymousCustomer = new AnonymousCustomer("Bertrand", "06");
-            order = anonymousCustomer.createOrder(store);
-            order.setStore(store);
+            anonymousCustomer.createOrder(store);
+            order = anonymousCustomer.getOrder();
         });
 
         When("^an anonymous client pick up his order$", () -> {
