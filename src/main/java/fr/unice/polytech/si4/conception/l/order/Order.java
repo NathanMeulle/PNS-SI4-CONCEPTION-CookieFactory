@@ -245,6 +245,5 @@ public class Order {
     public int hashCode() {
         return Objects.hash(idOrder, date, store, customer);
     }
-
-
+    
 }
