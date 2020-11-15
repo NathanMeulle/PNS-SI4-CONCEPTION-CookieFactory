@@ -13,7 +13,10 @@ import fr.unice.polytech.si4.conception.l.exceptions.NotPaid;
 import fr.unice.polytech.si4.conception.l.products.Cookie;
 import fr.unice.polytech.si4.conception.l.store.Store;
 
-import java.util.*;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
 
 
 public class Order {
