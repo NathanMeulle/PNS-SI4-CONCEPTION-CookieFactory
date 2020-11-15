@@ -217,8 +217,7 @@ public class Order {
     public void isPaid() {
         this.isPaid = true;
     }
-
-
+    
     public boolean isAchievable() {
         return this.store.achievableCookie(cookies);
     }
@@ -245,5 +244,4 @@ public class Order {
     public int hashCode() {
         return Objects.hash(idOrder, date, store, customer);
     }
-    
 }
