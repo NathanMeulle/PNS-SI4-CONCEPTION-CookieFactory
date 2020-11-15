@@ -6,6 +6,7 @@ package fr.unice.polytech.si4.conception.l;
 import fr.unice.polytech.si4.conception.l.exceptions.ErrorPreparingOrder;
 import fr.unice.polytech.si4.conception.l.exceptions.NotAlreadyCooked;
 import fr.unice.polytech.si4.conception.l.exceptions.NotPaid;
+import fr.unice.polytech.si4.conception.l.exceptions.WrongPickUpTimeException;
 
 import java.util.*;
 
@@ -62,7 +63,7 @@ public class Order {
      * @param cookie   Cookie's type
      * @param quantity Cookie's quantity
      */
-    public void addCookie(Cookie cookie, int quantity) {
+     void addCookie(Cookie cookie, int quantity) {
         if (cookies.containsKey(cookie)) {
             int updatedQuantity = cookies.get(cookie) + quantity;
             cookies.replace(cookie, updatedQuantity);
@@ -93,10 +94,16 @@ public class Order {
      * When the customer pick up his order, it's put in OrderHistory
      * If order not ready, raise NotAlreadyCookedException
      */
-    public void pickedUp() throws NotAlreadyCooked, NotPaid {
+    public void pickedUp() throws NotAlreadyCooked, NotPaid, WrongPickUpTimeException {
+        Calendar cal = Calendar.getInstance();
+        Date date = cal.getTime();
         if (!isPaid) {
             throw new NotPaid("You did not pay");
         }
+
+        if (date.compareTo(pickUpTime) < 0)
+            throw new WrongPickUpTimeException("You're are way too early");
+
         if (this.getStateOrder().equals(StateOrder.COOKED)) {
             this.store.addToOrderHistory(this);
             Log.add("La commande " + this.idOrder + "a été retiré et est maintenant archivée.");
@@ -116,7 +123,7 @@ public class Order {
         this.setStateOrder(StateOrder.SUBMITTED);
         if (this.isAchievable()) {
             this.setStateOrder(StateOrder.VALIDATED);
-            Log.add("Order:" + this.getIdOrder() + " - Validated\n" + "Pick up time: " + pickUpTime.toString());
+            Log.add("Order:" + this.getIdOrder() + " - Validated\n" + "Created at:" + date + "\nPick up time: " + pickUpTime.toString());
             this.store.prepareOrder(this);
         } else {
             this.setStateOrder(StateOrder.REFUSED);
