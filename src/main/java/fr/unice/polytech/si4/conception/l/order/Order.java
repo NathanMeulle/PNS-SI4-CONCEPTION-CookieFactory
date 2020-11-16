@@ -18,77 +18,41 @@ import java.util.*;
 
 
 public class Order {
-    private int idOrder;
+
     private Date date;
     private Store store;
-    private double priceHT;
-    private double priceTTC;
     private Map<Cookie, Integer> cookies;
-    private AnonymousCustomer customer;
-
-    private boolean isPaid;
     private int nbCookies;
+    private int idOrder;
+    private AnonymousCustomer customer;
+    private boolean isPaid;
     private StateOrder stateOrder;
     private Date pickUpTime;
+
+    private double priceHT;
+    private double priceTTC;
+
 
     /**
      * Creates an order with an ID, a date of creation and the state Choice
      */
-    public Order() {
-        this.idOrder = generateIdOrder();
-        this.date = new Date();
-        this.cookies = new HashMap<>();
-        this.nbCookies = 0;
-        this.stateOrder = StateOrder.CHOICE;
-        this.isPaid = false;
-        this.pickUpTime = new Date();
-    }
-
-
-    /**
-     * Assign a customer or an anonymous customer
-     * @param customer
-     */
-    public void assignCustomer(AnonymousCustomer customer) {
-        this.customer = customer;
-    }
-
-
-    /**
-     * Generate a unique id that permits to recognize an order
-     *
-     * @return id
-     */
-    private int generateIdOrder() {
-        return hashCode();
-    }
-
-    /**
-     * Add a specific cookie to the order with a quantity. If the cookie is already present, increment its quantity
-     * Update price of the order
-     *
-     * @param cookie   Cookie's type
-     * @param quantity Cookie's quantity
-     */
-     public void addCookie(Cookie cookie, int quantity) {
-        if (cookies.containsKey(cookie)) {
-            int updatedQuantity = cookies.get(cookie) + quantity;
-            cookies.replace(cookie, updatedQuantity);
-            Log.add(String.format("Ajout de cookie : %s - quantité : %d", cookie.getName(), updatedQuantity));
-        } else {
-            cookies.put(cookie, quantity);
-            Log.add(String.format("Ajout de cookie : %s - quantité : %d", cookie.getName(), quantity));
-        }
-        this.nbCookies += quantity;
+    private Order(OrderBuilder builder) {
+        this.date = builder.date;
+        this.store = builder.store;
+        this.cookies = builder.cookies;
+        this.nbCookies = builder.nbCookies;
+        this.idOrder = builder.idOrder;
+        this.customer = builder.customer;
+        this.isPaid = builder.isPaid;
+        this.pickUpTime = builder.pickUpTime;
         this.calculatePrice();
     }
-
 
     /**
      * Calculate price of an order
      * Apply 10% in all cookies equal to the best of national or best of store cookie
      */
-    private void calculatePrice() {
+    public void calculatePrice() {
         SystemInfo systemInfo = SystemInfo.getInstance();
         priceHT = 0.0; // on réinitialise le prix et on re parcourt tous les cookies
         cookies.forEach((cookie, quantity) -> {
@@ -150,13 +114,6 @@ public class Order {
         }
     }
 
-    /**
-     * set the pickup time of this order
-     * @param time order pickup time
-     */
-    public void choosePickUpTime(Date time){
-        this.pickUpTime = time;
-    }
 
     /**
      * *******************************************************************************
@@ -250,4 +207,99 @@ public class Order {
     public int hashCode() {
         return Objects.hash(idOrder, date, store, customer);
     }
+
+
+    /**
+     * This class is the builder to construct the order
+     * @author Delmotte Vincent
+     * @author Nathan Meulle
+     * @patern Builder
+     */
+
+    public static class OrderBuilder {
+
+        private Date date;
+        private Store store;
+        private Map<Cookie, Integer> cookies;
+        private int nbCookies;
+        private int idOrder;
+        private AnonymousCustomer customer;
+        private boolean isPaid;
+        private StateOrder stateOrder;
+        private Date pickUpTime;
+
+
+        public OrderBuilder(Store store) {
+            if (store == null) {
+                throw new IllegalArgumentException("order must be created with a store");
+            }
+            this.date = new Date();
+            this.store = store;
+            this.cookies = new HashMap<>();
+            this.nbCookies = 0;
+            this.idOrder = generateIdOrder();
+            this.isPaid = false;
+            this.stateOrder = StateOrder.CHOICE;
+            this.pickUpTime = new Date();
+        }
+
+
+        /**
+         * Add a specific cookie to the order with a quantity. If the cookie is already present, increment its quantity
+         * Update price of the order
+         *
+         * @param cookie   Cookie's type
+         * @param quantity Cookie's quantity
+         */
+        public OrderBuilder addCookie(Cookie cookie, int quantity) {
+            if (cookies.containsKey(cookie)) {
+                int updatedQuantity = cookies.get(cookie) + quantity;
+                cookies.replace(cookie, updatedQuantity);
+                Log.add(String.format("Ajout de cookie : %s - quantité : %d", cookie.getName(), updatedQuantity));
+            } else {
+                cookies.put(cookie, quantity);
+                Log.add(String.format("Ajout de cookie : %s - quantité : %d", cookie.getName(), quantity));
+            }
+            this.nbCookies += quantity;
+            return this;
+        }
+
+        /**
+         * Assign a customer or an anonymous customer
+         * @param customer
+         */
+        public OrderBuilder assignCustomer(AnonymousCustomer customer) {
+            this.customer = customer;
+            return this;
+        }
+
+        /**
+         * set the pickup time of this order
+         * @param time order pickup time
+         */
+        public OrderBuilder choosePickUpTime(Date time){
+            this.pickUpTime = time;
+            return this;
+        }
+
+        /**
+         * Generate a unique id that permits to recognize an order
+         * @return id
+         */
+        private int generateIdOrder() {
+            return hashCode();
+        }
+
+        /**
+         * return an order create by the builder
+         * @return
+         */
+        public Order build() {
+            return new Order(this);
+        }
+
+    }
+
 }
+
+
