@@ -48,7 +48,7 @@ public class PickUpOrderStepdefs implements En {
             assertThrows(NotAlreadyCooked.class, () -> anonymousCustomer.pickUpOrder());
         });
         And("^the order is paid$", () -> {
-            order.isPaid();
+            order.paid();
         });
         And("^the order is not paid$", () -> {
         });

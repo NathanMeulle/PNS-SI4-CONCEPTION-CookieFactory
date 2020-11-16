@@ -4,18 +4,15 @@ package fr.unice.polytech.si4.conception.l.order;
  */
 
 
+import fr.unice.polytech.si4.conception.l.Log;
+import fr.unice.polytech.si4.conception.l.SystemInfo;
+import fr.unice.polytech.si4.conception.l.customer.AnonymousCustomer;
 import fr.unice.polytech.si4.conception.l.exceptions.ErrorPreparingOrder;
 import fr.unice.polytech.si4.conception.l.exceptions.NotAlreadyCooked;
 import fr.unice.polytech.si4.conception.l.exceptions.NotPaid;
 import fr.unice.polytech.si4.conception.l.exceptions.WrongPickUpTimeException;
-
-import fr.unice.polytech.si4.conception.l.Log;
-import fr.unice.polytech.si4.conception.l.SystemInfo;
-import fr.unice.polytech.si4.conception.l.customer.AnonymousCustomer;
-import fr.unice.polytech.si4.conception.l.customer.Customer;
 import fr.unice.polytech.si4.conception.l.products.Cookie;
 import fr.unice.polytech.si4.conception.l.store.Store;
-
 
 import java.util.*;
 
@@ -28,7 +25,7 @@ public class Order {
     private double priceTTC;
     private Map<Cookie, Integer> cookies;
     private AnonymousCustomer customer;
-    private boolean isDone;
+
     private boolean isPaid;
     private int nbCookies;
     private StateOrder stateOrder;
@@ -43,18 +40,19 @@ public class Order {
         this.cookies = new HashMap<>();
         this.nbCookies = 0;
         this.stateOrder = StateOrder.CHOICE;
-        this.isDone = false;
         this.isPaid = false;
         this.pickUpTime = new Date();
     }
 
-    public void assignAnonymousCustomer(AnonymousCustomer anonymousCustomer) {
-        this.customer = anonymousCustomer;
-    }
 
-    public void assignCustomer(Customer customer) {
+    /**
+     * Assign a customer or an anonymous customer
+     * @param customer
+     */
+    public void assignCustomer(AnonymousCustomer customer) {
         this.customer = customer;
     }
+
 
     /**
      * Generate a unique id that permits to recognize an order
@@ -218,19 +216,11 @@ public class Order {
         return customer;
     }
 
-    public boolean getIsDone() {
-        return isDone;
-    }
-
     public boolean getIsPaid() {
         return isPaid;
     }
 
-    public void isDone() {
-        this.isDone = true;
-    }
-
-    public void isPaid() {
+    public void paid() {
         this.isPaid = true;
     }
     

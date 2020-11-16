@@ -3,7 +3,8 @@ package fr.unice.polytech.si4.conception.l;
 import fr.unice.polytech.si4.conception.l.order.Order;
 import fr.unice.polytech.si4.conception.l.order.StateOrder;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Stock all the order made in a store

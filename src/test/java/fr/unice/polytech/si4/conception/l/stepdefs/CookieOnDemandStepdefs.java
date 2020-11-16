@@ -45,7 +45,7 @@ public class CookieOnDemandStepdefs implements En {
             Log.display();
         });
         Then("^\"([^\"]*)\" comes on time and retrieve her order$", (String arg0) -> {
-            order.isPaid();
+            order.paid();
             assertDoesNotThrow(() -> customer.pickUpOrder());
         });
         Then("^\"([^\"]*)\" comes hour earlier and she can't pick her order$", (String arg0) -> {
@@ -53,7 +53,7 @@ public class CookieOnDemandStepdefs implements En {
             calendar.add(Calendar.HOUR, +1);
             Date date = calendar.getTime();
             order.choosePickUpTime(date);
-            order.isPaid();
+            order.paid();
             assertThrows(WrongPickUpTimeException.class, () -> customer.pickUpOrder());
         });
 
