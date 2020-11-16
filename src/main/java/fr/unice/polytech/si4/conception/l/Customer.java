@@ -1,6 +1,9 @@
 package fr.unice.polytech.si4.conception.l;
 
 import fr.unice.polytech.si4.conception.l.exceptions.ErrorPreparingOrder;
+import fr.unice.polytech.si4.conception.l.exceptions.NotAlreadyCooked;
+import fr.unice.polytech.si4.conception.l.exceptions.NotPaid;
+import fr.unice.polytech.si4.conception.l.exceptions.WrongPickUpTimeException;
 
 import java.util.Objects;
 
@@ -49,6 +52,10 @@ public class Customer extends AnonymousCustomer implements CustomerInterface {
     public void decrementeNbCookie() {
         this.order.applyDiscount();
         this.nbCookieOrdered = 0;
+    }
+
+    public void pickUpOrder() throws NotAlreadyCooked, NotPaid, WrongPickUpTimeException {
+        this.order.pickedUp();
     }
 
 

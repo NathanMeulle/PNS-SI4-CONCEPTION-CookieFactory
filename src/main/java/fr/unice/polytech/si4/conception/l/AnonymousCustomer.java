@@ -3,6 +3,7 @@ package fr.unice.polytech.si4.conception.l;
 import fr.unice.polytech.si4.conception.l.exceptions.ErrorPreparingOrder;
 import fr.unice.polytech.si4.conception.l.exceptions.NotAlreadyCooked;
 import fr.unice.polytech.si4.conception.l.exceptions.NotPaid;
+import fr.unice.polytech.si4.conception.l.exceptions.WrongPickUpTimeException;
 
 import java.util.Objects;
 
@@ -37,7 +38,7 @@ public class AnonymousCustomer implements CustomerInterface{
         this.order.submit();
     }
 
-    public void pickUpOrder() throws NotAlreadyCooked, NotPaid {
+    public void pickUpOrder() throws NotAlreadyCooked, NotPaid, WrongPickUpTimeException {
         this.order.pickedUp();
     }
 
