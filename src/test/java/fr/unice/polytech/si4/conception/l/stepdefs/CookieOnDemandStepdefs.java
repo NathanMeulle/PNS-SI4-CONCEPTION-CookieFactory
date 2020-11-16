@@ -1,11 +1,14 @@
 package fr.unice.polytech.si4.conception.l.stepdefs;
 
 import fr.unice.polytech.si4.conception.l.*;
+import fr.unice.polytech.si4.conception.l.customer.Customer;
 import fr.unice.polytech.si4.conception.l.exceptions.WrongPickUpTimeException;
+import fr.unice.polytech.si4.conception.l.order.Order;
+import fr.unice.polytech.si4.conception.l.store.Kitchen;
+import fr.unice.polytech.si4.conception.l.store.Manager;
+import fr.unice.polytech.si4.conception.l.store.Store;
 import io.cucumber.java8.En;
 
-import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
 import java.util.Calendar;
 import java.util.Date;
 import static org.junit.jupiter.api.Assertions.*;
@@ -13,21 +16,21 @@ import static org.junit.jupiter.api.Assertions.*;
 public class CookieOnDemandStepdefs implements En {
     private Customer customer;
     private Store store;
-    private CookieFactory cookieFactory;
+    private SystemInfo systemInfo;
     private Order order;
     private Kitchen kitchen;
 
     public CookieOnDemandStepdefs() {
         Given("^a registered client named \"([^\"]*)\" with email \"([^\"]*)\" and phone \"([^\"]*)\"$", (String arg0, String arg1, String arg2) -> {
-            cookieFactory = CookieFactory.getInstance();
-            cookieFactory.resetFactory();
+            systemInfo = SystemInfo.getInstance();
+            systemInfo.resetSystemInfo();
             customer = new Customer(arg0, arg2, arg1);
             kitchen = new Kitchen();
             kitchen.assignStore(store);
             store = new Store(1, "", 5, "", "", new Manager(1, ""));
             store.setKitchen(kitchen);
-            cookieFactory.addCustomer(customer);
-            cookieFactory.addStore(store);
+            systemInfo.addCustomer(customer);
+            systemInfo.addStore(store);
         });
         When("^\"([^\"]*)\" place an order$", (String arg0) -> {
             customer.createOrder(store);

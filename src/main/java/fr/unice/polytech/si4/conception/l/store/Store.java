@@ -1,6 +1,11 @@
-package fr.unice.polytech.si4.conception.l;
+package fr.unice.polytech.si4.conception.l.store;
 
-import fr.unice.polytech.si4.conception.l.util.schedule.Schedule;
+import fr.unice.polytech.si4.conception.l.Log;
+import fr.unice.polytech.si4.conception.l.customer.AnonymousCustomer;
+import fr.unice.polytech.si4.conception.l.order.Order;
+import fr.unice.polytech.si4.conception.l.order.StateOrder;
+import fr.unice.polytech.si4.conception.l.products.Cookie;
+import fr.unice.polytech.si4.conception.l.store.schedule.Schedule;
 
 import java.util.Map;
 import java.util.Objects;
@@ -16,6 +21,7 @@ public class Store {
     private Schedule schedule;
     private Kitchen kitchen;
     private OrderHistory orderHistory;
+    private Cookie bestOfStore;
 
     public Store(int id, String address, double tax, String phone, String mail, Manager manager) {
         this.id = id;
@@ -29,10 +35,13 @@ public class Store {
         this.kitchen = new Kitchen();
         this.kitchen.assignStore(this);
         this.orderHistory = new OrderHistory();
+        this.bestOfStore = null;
+
     }
 
     public void addToOrderHistory(Order order) {
         this.orderHistory.addOrder(order);
+        this.bestOfStore = orderHistory.getBestCookieStore();
     }
 
 
@@ -81,7 +90,7 @@ public class Store {
                 schedule.equals(store.schedule);
     }
 
-    boolean achievableCookie(Map<Cookie, Integer> cookies){
+    public boolean achievableCookie(Map<Cookie, Integer> cookies){
         return this.kitchen.canDo(cookies);
     }
 
@@ -91,7 +100,7 @@ public class Store {
      * The store notify the client
      * @param order
      */
-    void prepareOrder(Order order){
+    public void prepareOrder(Order order){
         this.kitchen.prepareCookies(order.getCookies());
         order.isDone();
         order.setStateOrder(StateOrder.COOKED);
@@ -137,6 +146,11 @@ public class Store {
 
     public OrderHistory getOrderHistory() {
         return this.orderHistory;
+    }
+
+
+    public Cookie getBestCookie() {
+        return this.bestOfStore;
     }
 
 

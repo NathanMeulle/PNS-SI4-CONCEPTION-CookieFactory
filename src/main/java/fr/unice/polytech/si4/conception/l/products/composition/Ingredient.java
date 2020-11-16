@@ -1,7 +1,5 @@
-package fr.unice.polytech.si4.conception.l;
+package fr.unice.polytech.si4.conception.l.products.composition;
 
-
-import fr.unice.polytech.si4.conception.l.cookie.composition.IngredientType;
 
 import java.util.Objects;
 
@@ -56,12 +54,4 @@ public class Ingredient {
         return Objects.hash(name, price, type);
     }
 
-    @Override
-    public String toString() {
-        return "Ingredient{" +
-                "name='" + name + '\'' +
-                ", price=" + price +
-                ", type=" + type +
-                '}';
-    }
 }

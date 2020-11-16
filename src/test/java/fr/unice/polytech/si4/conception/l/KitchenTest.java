@@ -1,5 +1,8 @@
 package fr.unice.polytech.si4.conception.l;
 
+import fr.unice.polytech.si4.conception.l.products.Cookie;
+import fr.unice.polytech.si4.conception.l.products.composition.Ingredient;
+import fr.unice.polytech.si4.conception.l.store.Kitchen;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -43,7 +46,7 @@ public class KitchenTest {
     }
 
     @Test
-    void decrementeStockTest() {
+    void decrementStockTest() {
         kitchen.incrementStock(ingredient, 5);
         assertEquals(5, kitchen.getQuantity(ingredient));
         kitchen.decrementStock(ingredient, 3);

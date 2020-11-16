@@ -1,16 +1,21 @@
-package fr.unice.polytech.si4.conception.l;
+package fr.unice.polytech.si4.conception.l.customer;
 
 import fr.unice.polytech.si4.conception.l.exceptions.ErrorPreparingOrder;
 import fr.unice.polytech.si4.conception.l.exceptions.NotAlreadyCooked;
 import fr.unice.polytech.si4.conception.l.exceptions.NotPaid;
 import fr.unice.polytech.si4.conception.l.exceptions.WrongPickUpTimeException;
 
+import fr.unice.polytech.si4.conception.l.order.Order;
+import fr.unice.polytech.si4.conception.l.products.Cookie;
+import fr.unice.polytech.si4.conception.l.store.Store;
+
 import java.util.Objects;
 
 /**
  * Class of an AnonynousCustomer
  */
-public class AnonymousCustomer implements CustomerInterface{
+public class AnonymousCustomer implements CustomerInterface {
+
 
     private String phoneNumber;
     private String name;
@@ -85,13 +90,4 @@ public class AnonymousCustomer implements CustomerInterface{
         this.order = order;
     }
 
-
-    @Override
-    public String toString() {
-        return "AnonymousCustomer{" +
-                "phoneNumber='" + phoneNumber + '\'' +
-                ", name='" + name + '\'' +
-                ", order=" + order +
-                '}';
-    }
 }

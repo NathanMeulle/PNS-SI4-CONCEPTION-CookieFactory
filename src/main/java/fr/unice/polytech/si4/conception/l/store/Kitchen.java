@@ -1,7 +1,10 @@
-package fr.unice.polytech.si4.conception.l;
+package fr.unice.polytech.si4.conception.l.store;
 
 
+import fr.unice.polytech.si4.conception.l.Log;
 import fr.unice.polytech.si4.conception.l.exceptions.OutOfStockException;
+import fr.unice.polytech.si4.conception.l.products.Cookie;
+import fr.unice.polytech.si4.conception.l.products.composition.Ingredient;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -88,7 +91,7 @@ public class Kitchen {
      * @param ingredient : ingredient to evaluate
      * @return : an int of the quantity of the ingredient
      */
-    int getQuantity(Ingredient ingredient) {
+    public int getQuantity(Ingredient ingredient) {
         if (stock.containsKey(ingredient)) {
             return stock.get(ingredient);
         }
@@ -128,7 +131,7 @@ public class Kitchen {
      * @param ingredient : store to assign
      * @param n : number of ingredient
      */
-    void decrementStock(Ingredient ingredient, int n){
+    public void decrementStock(Ingredient ingredient, int n){
         if(getQuantity(ingredient) > n)
             this.stock.put(ingredient, (getQuantity(ingredient) - n));
         else
@@ -153,7 +156,7 @@ public class Kitchen {
      *
      * @param cookieList : List of Ingredients
      */
-    void prepareCookies(Map<Cookie, Integer> cookieList) {
+    public void prepareCookies(Map<Cookie, Integer> cookieList) {
         decrementStock(requireIngredients(cookieList));
     }
 

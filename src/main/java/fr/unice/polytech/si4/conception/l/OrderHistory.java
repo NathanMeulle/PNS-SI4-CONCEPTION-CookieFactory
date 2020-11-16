@@ -1,5 +1,8 @@
 package fr.unice.polytech.si4.conception.l;
 
+import fr.unice.polytech.si4.conception.l.order.Order;
+import fr.unice.polytech.si4.conception.l.order.StateOrder;
+
 import java.util.*;
 
 /**

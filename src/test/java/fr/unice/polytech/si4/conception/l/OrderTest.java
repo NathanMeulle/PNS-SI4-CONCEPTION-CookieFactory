@@ -1,9 +1,15 @@
 package fr.unice.polytech.si4.conception.l;
 
-import fr.unice.polytech.si4.conception.l.cookie.composition.Cooking;
-import fr.unice.polytech.si4.conception.l.cookie.composition.IngredientType;
-import fr.unice.polytech.si4.conception.l.cookie.composition.Mix;
+import fr.unice.polytech.si4.conception.l.customer.AnonymousCustomer;
+import fr.unice.polytech.si4.conception.l.customer.Customer;
 import fr.unice.polytech.si4.conception.l.exceptions.ErrorPreparingOrder;
+import fr.unice.polytech.si4.conception.l.order.Order;
+import fr.unice.polytech.si4.conception.l.products.Cookie;
+import fr.unice.polytech.si4.conception.l.products.CookieFactory;
+import fr.unice.polytech.si4.conception.l.products.composition.*;
+import fr.unice.polytech.si4.conception.l.store.Kitchen;
+import fr.unice.polytech.si4.conception.l.store.Manager;
+import fr.unice.polytech.si4.conception.l.store.Store;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -29,12 +35,17 @@ class OrderTest {
     Cookie mnMChocoCookie;
     Cookie chocoCookie;
     AnonymousCustomer vincent;
+    CookieFactory cookieFactory;
+
 
 
     @BeforeEach
     void setup() {
+        cookieFactory = new CookieFactory();
         storeMock = mock(Store.class);
         when(storeMock.getTax()).thenReturn(1.0);
+
+        AnonymousCustomer aCustomer = new AnonymousCustomer("Petrovitch", "065065045");
         cookieChocoMock = mock(Cookie.class);
         cookieVanilleMock = mock(Cookie.class);
         managerMock = mock(Manager.class);
@@ -45,6 +56,7 @@ class OrderTest {
         kitchen.assignStore(store);
         store.setKitchen(kitchen);
         chocolate = new Ingredient("Chocolate", 4, IngredientType.FLAVOR);
+
         mnm = new Ingredient("MnM", 7, IngredientType.FLAVOR);
 
         kitchen.incrementStock(chocolate, 5);
@@ -53,11 +65,11 @@ class OrderTest {
         ingredients = new ArrayList<>();
         ingredients.add(chocolate);
         ingredients.add(mnm);
-        mnMChocoCookie = new Cookie("MnmsChoco", ingredients, Mix.TOPPED, Cooking.CRUNCHY);
+        mnMChocoCookie = cookieFactory.createDefaultCookie("MnmsChoco", ingredients, new Dough("plain", 0), Mix.TOPPED, Cooking.CRUNCHY);
 
         ingredients2 = new ArrayList<>();
         ingredients2.add(chocolate);
-        chocoCookie = new Cookie("Choco", ingredients2, Mix.TOPPED, Cooking.CRUNCHY);
+        chocoCookie = cookieFactory.createDefaultCookie("Choco", ingredients2, new Dough("plain", 0), Mix.TOPPED, Cooking.CRUNCHY);
 
         vincent = new AnonymousCustomer("vincent", "06");
 
@@ -96,11 +108,9 @@ class OrderTest {
 
     @Test
     void isAchievableTest() {
-
         vincent.createOrder(store);
         vincent.addCookie(chocoCookie, 7);
         vincent.addCookie(mnMChocoCookie, 1);
-
         assertThrows(ErrorPreparingOrder.class, () -> vincent.makeOrder());
     }
 
@@ -151,5 +161,6 @@ class OrderTest {
         customer.addCookie(mnMChocoCookie, 4);
 
         assertEquals(168.48, customer.getPrice(), 0.01);
+
     }
 }

@@ -1,12 +1,21 @@
-package fr.unice.polytech.si4.conception.l;
+package fr.unice.polytech.si4.conception.l.order;
 /** Represents an Order
  * @author Delmotte Vincent
  */
+
 
 import fr.unice.polytech.si4.conception.l.exceptions.ErrorPreparingOrder;
 import fr.unice.polytech.si4.conception.l.exceptions.NotAlreadyCooked;
 import fr.unice.polytech.si4.conception.l.exceptions.NotPaid;
 import fr.unice.polytech.si4.conception.l.exceptions.WrongPickUpTimeException;
+
+import fr.unice.polytech.si4.conception.l.Log;
+import fr.unice.polytech.si4.conception.l.SystemInfo;
+import fr.unice.polytech.si4.conception.l.customer.AnonymousCustomer;
+import fr.unice.polytech.si4.conception.l.customer.Customer;
+import fr.unice.polytech.si4.conception.l.products.Cookie;
+import fr.unice.polytech.si4.conception.l.store.Store;
+
 
 import java.util.*;
 
@@ -63,7 +72,7 @@ public class Order {
      * @param cookie   Cookie's type
      * @param quantity Cookie's quantity
      */
-     void addCookie(Cookie cookie, int quantity) {
+     public void addCookie(Cookie cookie, int quantity) {
         if (cookies.containsKey(cookie)) {
             int updatedQuantity = cookies.get(cookie) + quantity;
             cookies.replace(cookie, updatedQuantity);
@@ -77,11 +86,22 @@ public class Order {
     }
 
 
-
+    /**
+     * Calculate price of an order
+     * Apply 10% in all cookies equal to the best of national or best of store cookie
+     */
     private void calculatePrice() {
+        SystemInfo systemInfo = SystemInfo.getInstance();
         priceHT = 0.0; // on réinitialise le prix et on re parcourt tous les cookies
-        cookies.forEach((cookie, quantity) ->
-            this.priceHT += cookie.getPrice() * quantity);
+        cookies.forEach((cookie, quantity) -> {
+                    if (cookie.equals(systemInfo.getBestCookieNational()) || cookie.equals(this.store.getBestCookie())) {
+                        this.priceHT += cookie.getPrice() * quantity * 0.9;
+                    } else {
+                        this.priceHT += cookie.getPrice() * quantity;
+                    }
+
+        }
+           );
         this.priceTTC = priceHT * getStore().getTax();
         Log.add(String.format("La commande id:%d coûte %f€ HT", this.getIdOrder(), this.priceTTC));
     }
@@ -213,7 +233,7 @@ public class Order {
     public void isPaid() {
         this.isPaid = true;
     }
-
+    
     public boolean isAchievable() {
         return this.store.achievableCookie(cookies);
     }
@@ -240,6 +260,4 @@ public class Order {
     public int hashCode() {
         return Objects.hash(idOrder, date, store, customer);
     }
-
-
 }

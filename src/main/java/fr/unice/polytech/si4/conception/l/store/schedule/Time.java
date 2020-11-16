@@ -1,4 +1,4 @@
-package fr.unice.polytech.si4.conception.l.util.schedule;
+package fr.unice.polytech.si4.conception.l.store.schedule;
 
 import java.util.Date;
 
