@@ -28,7 +28,6 @@ public class Order {
     private boolean isPaid;
     private StateOrder stateOrder;
     private Date pickUpTime;
-
     private double priceHT;
     private double priceTTC;
 
@@ -45,28 +44,8 @@ public class Order {
         this.customer = builder.customer;
         this.isPaid = builder.isPaid;
         this.pickUpTime = builder.pickUpTime;
-        this.calculatePrice();
     }
 
-    /**
-     * Calculate price of an order
-     * Apply 10% in all cookies equal to the best of national or best of store cookie
-     */
-    public void calculatePrice() {
-        SystemInfo systemInfo = SystemInfo.getInstance();
-        priceHT = 0.0; // on réinitialise le prix et on re parcourt tous les cookies
-        cookies.forEach((cookie, quantity) -> {
-                    if (cookie.equals(systemInfo.getBestCookieNational()) || cookie.equals(this.store.getBestCookie())) {
-                        this.priceHT += cookie.getPrice() * quantity * 0.9;
-                    } else {
-                        this.priceHT += cookie.getPrice() * quantity;
-                    }
-
-        }
-           );
-        this.priceTTC = priceHT * getStore().getTax();
-        Log.add(String.format("La commande id:%d coûte %f€ HT", this.getIdOrder(), this.priceTTC));
-    }
 
     public void applyDiscount() {
         this.priceTTC *= 0.9;
@@ -180,7 +159,7 @@ public class Order {
     public void paid() {
         this.isPaid = true;
     }
-    
+
     public boolean isAchievable() {
         return this.store.achievableCookie(cookies);
     }
@@ -227,6 +206,9 @@ public class Order {
         private boolean isPaid;
         private StateOrder stateOrder;
         private Date pickUpTime;
+        private double priceHT;
+        private double priceTTC;
+
 
 
         public OrderBuilder(Store store) {
@@ -261,7 +243,28 @@ public class Order {
                 Log.add(String.format("Ajout de cookie : %s - quantité : %d", cookie.getName(), quantity));
             }
             this.nbCookies += quantity;
+            calculatePrice();
             return this;
+        }
+
+        /**
+         * Calculate price of an order
+         * Apply 10% in all cookies equal to the best of national or best of store cookie
+         */
+        public void calculatePrice() {
+            SystemInfo systemInfo = SystemInfo.getInstance();
+            priceHT = 0.0; // on réinitialise le prix et on re parcourt tous les cookies
+            cookies.forEach((cookie, quantity) -> {
+                        if (cookie.equals(systemInfo.getBestCookieNational()) || cookie.equals(this.store.getBestCookie())) {
+                            this.priceHT += cookie.getPrice() * quantity * 0.9;
+                        } else {
+                            this.priceHT += cookie.getPrice() * quantity;
+                        }
+
+                    }
+            );
+            this.priceTTC = priceHT * store.getTax();
+            Log.add(String.format("La commande id:%d coûte %f€ HT", idOrder, this.priceTTC));
         }
 
         /**
@@ -297,6 +300,18 @@ public class Order {
         public Order build() {
             return new Order(this);
         }
+
+        public Map<Cookie, Integer> getCookies() {
+            return cookies;
+        }
+
+        public int getNbCookies() {
+            return this.nbCookies;
+        }
+        public double getPriceTTC() {
+            return priceTTC;
+        }
+
 
     }
 

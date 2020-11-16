@@ -46,7 +46,7 @@ public class AnonymousCustomer implements CustomerInterface {
 
     @Override
     public double getPrice() {
-        return this.order.getPriceTTC();
+        return this.orderBuilder.getPriceTTC();
     }
 
 

@@ -21,7 +21,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 class OrderTest {
-    Order order;
+    Order.OrderBuilder orderBuilder;
     Cookie cookieChocoMock;
     Cookie cookieVanilleMock;
     Store storeMock;
@@ -80,9 +80,9 @@ class OrderTest {
     void addCookieTest() {
         vincent.createOrder(storeMock);
         vincent.addCookie(cookieChocoMock, 1);
-        order = vincent.getOrder();
-        assertEquals(1, order.getCookies().get(cookieChocoMock));
-        assertEquals(1, order.getNbCookies());
+        orderBuilder = vincent.getOrderBuilder();
+        assertEquals(1, orderBuilder.getCookies().get(cookieChocoMock));
+        assertEquals(1, orderBuilder.getNbCookies());
     }
 
     @Test
@@ -90,9 +90,9 @@ class OrderTest {
         vincent.createOrder(storeMock);
         vincent.addCookie(cookieChocoMock, 1);
         vincent.addCookie(cookieChocoMock, 1);
-        order = vincent.getOrder();
-        assertEquals(2, order.getCookies().get(cookieChocoMock));
-        assertEquals(2, order.getNbCookies());
+        orderBuilder = vincent.getOrderBuilder();
+        assertEquals(2, orderBuilder.getCookies().get(cookieChocoMock));
+        assertEquals(2, orderBuilder.getNbCookies());
     }
 
     @Test
@@ -100,10 +100,10 @@ class OrderTest {
         vincent.createOrder(storeMock);
         vincent.addCookie(cookieChocoMock, 1);
         vincent.addCookie(cookieVanilleMock, 3);
-        order = vincent.getOrder();
-        assertEquals(1, order.getCookies().get(cookieChocoMock));
-        assertEquals(3, order.getCookies().get(cookieVanilleMock));
-        assertEquals(4, order.getNbCookies());
+        orderBuilder = vincent.getOrderBuilder();
+        assertEquals(1, orderBuilder.getCookies().get(cookieChocoMock));
+        assertEquals(3, orderBuilder.getCookies().get(cookieVanilleMock));
+        assertEquals(4, orderBuilder.getNbCookies());
     }
 
     @Test
