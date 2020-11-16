@@ -7,7 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 
-public class CustomerTest {
+class CustomerTest {
 
     Customer customer1;
     Customer customer2;
