@@ -47,9 +47,7 @@ public class Order {
     }
 
 
-    public void applyDiscount() {
-        this.priceTTC *= 0.9;
-    }
+
 
     /**
      * When the customer pick up his order, it's put in OrderHistory
@@ -291,6 +289,10 @@ public class Order {
          */
         private int generateIdOrder() {
             return hashCode();
+        }
+
+        public void applyDiscount() {
+            this.priceTTC *= 0.9;
         }
 
         /**

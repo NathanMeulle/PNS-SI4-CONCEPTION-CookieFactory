@@ -26,6 +26,7 @@ public class PickUpOrderStepdefs implements En {
             store = new Store(1, "adresse", 25, "06", "mail", mock(Manager.class));
             anonymousCustomer = new AnonymousCustomer("Bertrand", "06");
             anonymousCustomer.createOrder(store);
+            anonymousCustomer.makeOrder();
             order = anonymousCustomer.getOrder();
         });
 

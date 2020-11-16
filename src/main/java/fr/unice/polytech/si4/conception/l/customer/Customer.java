@@ -37,7 +37,7 @@ public class Customer extends AnonymousCustomer implements CustomerInterface {
 
 
     public void decrementeNbCookie() {
-        super.getOrder().applyDiscount();
+        getOrderBuilder().applyDiscount();
         this.nbCookieOrdered = 0;
     }
 
