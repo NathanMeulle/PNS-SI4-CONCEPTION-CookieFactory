@@ -24,6 +24,7 @@ public class CreateOrderStepDef implements En {
     private AnonymousCustomer anonymousCustomer;
     private Customer customer;
     private CookieFactory cookieFactory;
+    private Order.OrderBuilder orderBuilder;
 
     public CreateOrderStepDef() {
         Given("^a store, an anonymous customer and a customer$", () -> {
@@ -49,16 +50,14 @@ public class CreateOrderStepDef implements En {
         });
         When("^the anonymous client add one cookie to his order$", () -> {
             anonymousCustomer.addCookie(cookie,1);
-            order = anonymousCustomer.getOrder();
-            nbCookies = order.getCookies().get(cookie);
+            nbCookies = anonymousCustomer.getOrderBuilder().getCookies().get(cookie);
         });
         When("^the customer create an order$", () -> {
             customer.createOrder(store);
         });
         And("^the customer add (\\d+) cookie to his order$", (Integer arg0) -> {
             customer.addCookie(cookie,arg0);
-            order = customer.getOrder();
-            nbCookies = order.getCookies().get(cookie);
+            nbCookies = customer.getOrderBuilder().getCookies().get(cookie);
         });
     }
 
