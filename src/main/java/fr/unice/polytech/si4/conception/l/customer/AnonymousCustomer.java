@@ -3,6 +3,7 @@ package fr.unice.polytech.si4.conception.l.customer;
 import fr.unice.polytech.si4.conception.l.exceptions.ErrorPreparingOrder;
 import fr.unice.polytech.si4.conception.l.exceptions.NotAlreadyCooked;
 import fr.unice.polytech.si4.conception.l.exceptions.NotPaid;
+import fr.unice.polytech.si4.conception.l.exceptions.WrongPickUpTimeException;
 import fr.unice.polytech.si4.conception.l.order.Order;
 import fr.unice.polytech.si4.conception.l.products.Cookie;
 import fr.unice.polytech.si4.conception.l.store.Store;
@@ -17,6 +18,7 @@ public class AnonymousCustomer implements CustomerInterface {
 
     private String phoneNumber;
     private String name;
+    private Order.OrderBuilder orderBuilder;
     private Order order;
 
     public AnonymousCustomer(String name, String phoneNumber) {
@@ -25,29 +27,26 @@ public class AnonymousCustomer implements CustomerInterface {
     }
 
     public void createOrder(Store store){
-        this.order = new Order();
-        this.order.setStore(store);
-        this.order.assignAnonymousCustomer(this);
+        this.orderBuilder = new Order.OrderBuilder(store).assignCustomer(this);
     }
-
 
     @Override
     public void addCookie(Cookie cookie, int quantity) {
-        this.order.addCookie(cookie, quantity);
+        this.orderBuilder.addCookie(cookie, quantity);
     }
 
-
     public void makeOrder() throws ErrorPreparingOrder {
+        this.order = this.orderBuilder.build();
         this.order.submit();
     }
 
-    public void pickUpOrder() throws NotAlreadyCooked, NotPaid {
+    public void pickUpOrder() throws NotAlreadyCooked, NotPaid, WrongPickUpTimeException {
         this.order.pickedUp();
     }
 
     @Override
     public double getPrice() {
-        return this.order.getPriceTTC();
+        return this.orderBuilder.getPriceTTC();
     }
 
 
@@ -84,7 +83,12 @@ public class AnonymousCustomer implements CustomerInterface {
         return order;
     }
 
+    public Order.OrderBuilder getOrderBuilder() {
+        return orderBuilder;
+    }
+
     public void setOrder(Order order) {
         this.order = order;
     }
+
 }
