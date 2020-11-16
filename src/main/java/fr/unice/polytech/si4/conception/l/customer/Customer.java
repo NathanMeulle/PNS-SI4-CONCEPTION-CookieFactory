@@ -10,7 +10,6 @@ import fr.unice.polytech.si4.conception.l.products.composition.Dough;
 import fr.unice.polytech.si4.conception.l.products.composition.Ingredient;
 import fr.unice.polytech.si4.conception.l.products.composition.Mix;
 import fr.unice.polytech.si4.conception.l.store.Store;
-import fr.unice.polytech.si4.conception.l.products.CookieFactory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +22,7 @@ public class Customer extends AnonymousCustomer implements CustomerInterface {
     private boolean loyaltyProgram;
     private int nbCookieOrdered;
     private Order order;
-    private FactoryCustomerSide catalogue;
+    private FactoryCustomerSide factoryCustomerSide;
 
     public Customer(String name, String phoneNumber, String mail) {
         super(name, phoneNumber);
@@ -93,14 +92,14 @@ public class Customer extends AnonymousCustomer implements CustomerInterface {
      * @param factoryCustomerSide : the proxy of the CookieFactory
      */
     public void createCookie(ISystemInfo factoryCustomerSide){
-        if(catalogue == null){
-            catalogue = (FactoryCustomerSide) factoryCustomerSide;
+        if(this.factoryCustomerSide == null){
+            this.factoryCustomerSide = (FactoryCustomerSide) factoryCustomerSide;
         }
-        catalogue.createCookiePersonalized(nameChoice(), ingredientsChoice(), doughChoice(),mixChoice(), cookingChoice());
+        this.factoryCustomerSide.createCookiePersonalized(nameChoice(), ingredientsChoice(), doughChoice(),mixChoice(), cookingChoice());
     }
 
     private Dough doughChoice() {
-        List<Ingredient> doughList = catalogue.getDough();
+        List<Ingredient> doughList = factoryCustomerSide.getDough();
         ////////////////////////////// Choice first by default //////////////////////////////
         return (Dough)doughList.get(0);
     }
@@ -108,20 +107,20 @@ public class Customer extends AnonymousCustomer implements CustomerInterface {
     public List<Ingredient> ingredientsChoice(){
 
         List<Ingredient> ingredientsChoose = new ArrayList<>();
-        if(catalogue.getFlavor().size() > 0) ingredientsChoose.add(flavorChoice());
-        if(catalogue.getTopping().size() > 0) ingredientsChoose.addAll(toppingChoice());
+        if(factoryCustomerSide.getFlavor().size() > 0) ingredientsChoose.add(flavorChoice());
+        if(factoryCustomerSide.getTopping().size() > 0) ingredientsChoose.addAll(toppingChoice());
 
         return ingredientsChoose;
     }
 
     private Ingredient flavorChoice() {
-        List<Ingredient> flavorList = catalogue.getFlavor();
+        List<Ingredient> flavorList = factoryCustomerSide.getFlavor();
         ////////////////////////////// Choice first by default //////////////////////////////
         return flavorList.get(0);
     }
 
     private List<Ingredient> toppingChoice() {
-        List<Ingredient> toppingList = catalogue.getTopping();
+        List<Ingredient> toppingList = factoryCustomerSide.getTopping();
         ////////////////////////////// Choice the 3 first by default //////////////////////////////
         if(toppingList.size() >= 3){
             return toppingList.subList(0,3);
