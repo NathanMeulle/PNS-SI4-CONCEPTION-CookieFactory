@@ -18,6 +18,7 @@ public class AnonymousCustomer implements CustomerInterface {
 
     private String phoneNumber;
     private String name;
+    private Order.OrderBuilder orderBuilder;
     private Order order;
 
     public AnonymousCustomer(String name, String phoneNumber) {
@@ -26,19 +27,16 @@ public class AnonymousCustomer implements CustomerInterface {
     }
 
     public void createOrder(Store store){
-        this.order = new Order();
-        this.order.setStore(store);
-        this.order.assignCustomer(this);
+        this.orderBuilder = new Order.OrderBuilder(store).assignCustomer(this);
     }
-
 
     @Override
     public void addCookie(Cookie cookie, int quantity) {
-        this.order.addCookie(cookie, quantity);
+        this.orderBuilder.addCookie(cookie, quantity);
     }
 
-
     public void makeOrder() throws ErrorPreparingOrder {
+        this.order = this.orderBuilder.build();
         this.order.submit();
     }
 
