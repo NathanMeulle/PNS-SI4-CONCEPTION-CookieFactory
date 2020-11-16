@@ -44,8 +44,8 @@ class OrderTest {
         cookieFactory = new CookieFactory();
         storeMock = mock(Store.class);
         when(storeMock.getTax()).thenReturn(1.0);
-        AnonymousCustomer aCustomer = new AnonymousCustomer("Petrovitch", "065065045");
 
+        AnonymousCustomer aCustomer = new AnonymousCustomer("Petrovitch", "065065045");
         cookieChocoMock = mock(Cookie.class);
         cookieVanilleMock = mock(Cookie.class);
         managerMock = mock(Manager.class);

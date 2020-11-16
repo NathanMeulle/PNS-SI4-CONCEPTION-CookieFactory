@@ -3,20 +3,21 @@ package fr.unice.polytech.si4.conception.l.order;
  * @author Delmotte Vincent
  */
 
+
+import fr.unice.polytech.si4.conception.l.exceptions.ErrorPreparingOrder;
+import fr.unice.polytech.si4.conception.l.exceptions.NotAlreadyCooked;
+import fr.unice.polytech.si4.conception.l.exceptions.NotPaid;
+import fr.unice.polytech.si4.conception.l.exceptions.WrongPickUpTimeException;
+
 import fr.unice.polytech.si4.conception.l.Log;
 import fr.unice.polytech.si4.conception.l.SystemInfo;
 import fr.unice.polytech.si4.conception.l.customer.AnonymousCustomer;
 import fr.unice.polytech.si4.conception.l.customer.Customer;
-import fr.unice.polytech.si4.conception.l.exceptions.ErrorPreparingOrder;
-import fr.unice.polytech.si4.conception.l.exceptions.NotAlreadyCooked;
-import fr.unice.polytech.si4.conception.l.exceptions.NotPaid;
 import fr.unice.polytech.si4.conception.l.products.Cookie;
 import fr.unice.polytech.si4.conception.l.store.Store;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
+
+import java.util.*;
 
 
 public class Order {
@@ -31,6 +32,7 @@ public class Order {
     private boolean isPaid;
     private int nbCookies;
     private StateOrder stateOrder;
+    private Date pickUpTime;
 
     /**
      * Creates an order with an ID, a date of creation and the state Choice
@@ -43,6 +45,7 @@ public class Order {
         this.stateOrder = StateOrder.CHOICE;
         this.isDone = false;
         this.isPaid = false;
+        this.pickUpTime = new Date();
     }
 
     public void assignAnonymousCustomer(AnonymousCustomer anonymousCustomer) {
@@ -69,7 +72,7 @@ public class Order {
      * @param cookie   Cookie's type
      * @param quantity Cookie's quantity
      */
-    public void addCookie(Cookie cookie, int quantity) {
+     public void addCookie(Cookie cookie, int quantity) {
         if (cookies.containsKey(cookie)) {
             int updatedQuantity = cookies.get(cookie) + quantity;
             cookies.replace(cookie, updatedQuantity);
@@ -111,10 +114,16 @@ public class Order {
      * When the customer pick up his order, it's put in OrderHistory
      * If order not ready, raise NotAlreadyCookedException
      */
-    public void pickedUp() throws NotAlreadyCooked, NotPaid {
+    public void pickedUp() throws NotAlreadyCooked, NotPaid, WrongPickUpTimeException {
+        Calendar cal = Calendar.getInstance();
+        Date date = cal.getTime();
         if (!isPaid) {
             throw new NotPaid("You did not pay");
         }
+
+        if (date.compareTo(pickUpTime) < 0)
+            throw new WrongPickUpTimeException("You're are way too early");
+
         if (this.getStateOrder().equals(StateOrder.COOKED)) {
             this.store.addToOrderHistory(this);
             Log.add("La commande " + this.idOrder + "a été retiré et est maintenant archivée.");
@@ -134,7 +143,7 @@ public class Order {
         this.setStateOrder(StateOrder.SUBMITTED);
         if (this.isAchievable()) {
             this.setStateOrder(StateOrder.VALIDATED);
-            Log.add("Order:" + this.getIdOrder() + " - Validated");
+            Log.add("Order:" + this.getIdOrder() + " - Validated\n" + "Created at:" + date + "\nPick up time: " + pickUpTime.toString());
             this.store.prepareOrder(this);
         } else {
             this.setStateOrder(StateOrder.REFUSED);
@@ -143,6 +152,13 @@ public class Order {
         }
     }
 
+    /**
+     * set the pickup time of this order
+     * @param time order pickup time
+     */
+    public void choosePickUpTime(Date time){
+        this.pickUpTime = time;
+    }
 
     /**
      * *******************************************************************************

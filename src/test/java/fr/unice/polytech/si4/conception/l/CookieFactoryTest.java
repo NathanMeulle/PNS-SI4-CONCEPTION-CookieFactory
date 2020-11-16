@@ -13,15 +13,13 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.mock;
 
-class SystemInfoTest {
+class CookieFactoryTest {
 
     String name;
     String phoneNumber;
     String mail;
     SystemInfo systemInfo;
     Log log;
-    private List<Cookie> cookies;
-    private List<Store> stores;
     private Cookie cookieMock;
     private Store storeMock;
     private Customer customerMock;
@@ -29,11 +27,12 @@ class SystemInfoTest {
     @BeforeEach
     void setUp() {
 
-        name = new String("Esteve");
-        phoneNumber = new String("0658601237");
-        mail = new String("estevet@hotmail.fr");
+        name = "Esteve";
+        phoneNumber = "0658601237";
+        mail = "estevet@hotmail.fr";
         systemInfo = SystemInfo.getInstance();
         log = new Log();
+
         cookieMock = mock(Cookie.class);
         storeMock = mock(Store.class);
         customerMock = mock(Customer.class);
@@ -62,7 +61,10 @@ class SystemInfoTest {
         String phoneCustomer1 = "phone1";
         String mailCustomer1 = "mail1";
         try {
+            System.out.println(systemInfo.getCustomers());
             systemInfo.addCustomer(new Customer(nameCustomer1, phoneCustomer1, mailCustomer1));
+            System.out.println(systemInfo.getCustomers());
+
         } catch (AlreadyCreatedException e) {
             e.printStackTrace();
         }
@@ -95,6 +97,7 @@ class SystemInfoTest {
     @Test
     void noCookieTest() {
         systemInfo.resetSystemInfo();
+
         assertEquals(0, systemInfo.getCookies().size());
     }
 
@@ -122,6 +125,7 @@ class SystemInfoTest {
     }
 
     @Test
+
     void noStoreTest() {
         systemInfo.resetSystemInfo();
         assertEquals(0, systemInfo.getStores().size());
@@ -129,13 +133,13 @@ class SystemInfoTest {
 
     @Test
     void addingStoreTest() {
-        systemInfo.resetSystemInfo();
         try {
             systemInfo.addStore(storeMock);
         } catch (AlreadyCreatedException e) {
             e.printStackTrace();
         }
         assertEquals(1, systemInfo.getStores().size());
+
     }
 
     @Test
