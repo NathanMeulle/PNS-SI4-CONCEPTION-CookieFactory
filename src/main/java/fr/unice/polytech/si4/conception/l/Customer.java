@@ -17,6 +17,7 @@ public class Customer extends AnonymousCustomer{
     private int nbCookieOrdered;
     private FactoryCustomerSide catalogue;
 
+
     public Customer(String name, String phoneNumber, String mail) {
         super(name,phoneNumber);
         this.mail = mail;
@@ -43,11 +44,19 @@ public class Customer extends AnonymousCustomer{
      *  ********************************************************************************
      */
 
-    public void accessCatalogue(FactoryCustomerSide factoryCustomerSide){
-        catalogue = factoryCustomerSide;
-    }
-
-    public void createCookie(){
+    /**
+     * Method for that the customer could create a cookie. As the composition of the cookie depend of
+     * the will of the customer, we determine a default comportment for this customer (For the tests).
+     * By deafault this customer will choose the first ingredients available for each type (except
+     * for the Topping ingredients where, if it's possible, he will choose the 3 first topping ingredients or
+     * the 2 first topping ingredients, etc...). Also, he will choose the Mixed Mix and the Crunchy Cooking.
+     * After that, the customer will submit his cookie to the cookieFactory by the FactoryCustomerSide (catalogue)
+     * @param factoryCustomerSide : the proxy of the CookieFactory
+     */
+    public void createCookie(FactoryCustomerSide factoryCustomerSide){
+        if(catalogue == null){
+            catalogue = factoryCustomerSide;
+        }
         Cookie cookie = new Cookie(nameChoice(), ingredientsChoice(), mixChoice(), cookingChoice());
         catalogue.submitCookie(cookie);
     }
@@ -75,9 +84,7 @@ public class Customer extends AnonymousCustomer{
     }
 
     private List<Ingredient> toppingChoice() {
-        System.out.println(catalogue.getIngredients());
         List<Ingredient> toppingList = catalogue.getTopping();
-        System.out.println(toppingList);
         ////////////////////////////// Choice the 3 first by default //////////////////////////////
         if(toppingList.size() >= 3){
             return toppingList.subList(0,3);
