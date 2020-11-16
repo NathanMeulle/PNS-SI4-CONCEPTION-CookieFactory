@@ -24,6 +24,8 @@ public class CreateRecipeStepdefs implements En {
 
     public CreateRecipeStepdefs() {
 
+        ////////////////////////// Background //////////////////////////
+
         Given("^a factory with a store$", () -> {
 
             Manager manager = new Manager(1, "Nathan");
@@ -44,12 +46,18 @@ public class CreateRecipeStepdefs implements En {
             ingredients.add(new Ingredient("Chocolate", 2, IngredientType.FLAVOR));
             cookie = cookieFactory.createDefaultCookie(arg0, ingredients, new Dough("plain", 1),  Mix.MIXED, Cooking.CRUNCHY);
         });
+
+        ////////////////////////// Scenario_1 //////////////////////////
+
         When("^the factory requests his number of recipe$", () -> {
             nbCookies = systemInfo.getCookies().size();
         });
         Then("^There is (\\d+) in his number of recipe$", (Integer arg0) -> {
             assertEquals(arg0.intValue(),nbCookies);
         });
+
+        ////////////////////////// Scenario_2 //////////////////////////
+
         When("^the factory adds the recipe \"([^\"]*)\"$", (String arg0) -> {
             systemInfo.addCookie(cookie);
         });

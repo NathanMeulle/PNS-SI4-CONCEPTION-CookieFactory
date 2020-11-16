@@ -5,8 +5,11 @@ import fr.unice.polytech.si4.conception.l.customer.AnonymousCustomer;
 import fr.unice.polytech.si4.conception.l.order.Order;
 import fr.unice.polytech.si4.conception.l.order.StateOrder;
 import fr.unice.polytech.si4.conception.l.products.Cookie;
+import fr.unice.polytech.si4.conception.l.products.composition.Ingredient;
 import fr.unice.polytech.si4.conception.l.store.schedule.Schedule;
 
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
@@ -116,6 +119,17 @@ public class Store {
         return Objects.hash(getId(), getAddress(), getTax(), getPhone(), getMail(), manager, schedule);
     }
 
+    /**
+     * This method add a new ingredients to the kitchen of the store
+     * !!!!!!!!!!!!!! WARNING !!!!!!!!!!!!!! @Esteve Thibaut
+     * @param ingredientList
+     */
+    public void addNewIngredients(List<Ingredient> ingredientList){
+        for (Ingredient ing : ingredientList){
+            kitchen.incrementStock(ing,0);
+        }
+    }
+
     public Manager getManager() {
         return manager;
     }
@@ -135,6 +149,13 @@ public class Store {
     public Kitchen getKitchen() {
         return kitchen;
     }
+
+    public Map<Ingredient, Integer> getStock() {
+
+        return kitchen.getStock();
+    }
+
+
 
     public void setOrderHistory(OrderHistory orderHistory) {
         this.orderHistory = orderHistory;

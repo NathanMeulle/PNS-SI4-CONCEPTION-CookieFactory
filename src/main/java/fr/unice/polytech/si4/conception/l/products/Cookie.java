@@ -24,6 +24,7 @@ public abstract class Cookie {
     private Cooking cooking;
     private List<Ingredient> ingredients;
 
+
     /**
      * Creates a cookie with :
      * @param name name of the cookie
@@ -110,6 +111,17 @@ public abstract class Cookie {
                 getMix() == cookie.getMix() &&
                 getCooking() == cookie.getCooking() &&
                 Objects.equals(getIngredients(), cookie.getIngredients());
+    }
+
+    @Override
+    public String toString() {
+        return "Cookie{" +
+                "name='" + name + '\'' +
+                ", price=" + price +
+                ", mix=" + mix +
+                ", cooking=" + cooking +
+                ", ingredients=" + ingredients +
+                '}';
     }
 
     @Override

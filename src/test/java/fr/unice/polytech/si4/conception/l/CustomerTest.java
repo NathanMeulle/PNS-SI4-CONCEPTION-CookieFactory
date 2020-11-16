@@ -1,21 +1,96 @@
 package fr.unice.polytech.si4.conception.l;
 
-import fr.unice.polytech.si4.conception.l.customer.Customer;
+
+import fr.unice.polytech.si4.conception.l.products.composition.Ingredient;
+import fr.unice.polytech.si4.conception.l.products.composition.IngredientType;
+import fr.unice.polytech.si4.conception.l.products.composition.Mix;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import fr.unice.polytech.si4.conception.l.customer.Customer;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 
 public class CustomerTest {
 
-    Customer customer1;
-    Customer customer2;
+    private Customer customer1;
+    private Customer customer2;
+    private SystemInfo SystemInfo;
+
+    Ingredient ingredientDoughMock1;
+    Ingredient ingredientDoughMock2;
+    Ingredient ingredientFlavorMock1;
+    Ingredient ingredientToppingMock1;
+    Ingredient ingredientToppingMock2;
+    Ingredient ingredientToppingMock3;
+    List<Ingredient> ingredientList;
 
 
     /**
      * Dès que des attributs (mail OU phone) sont identiques, les clients sont identiques
      */
+
+    @BeforeEach
+    void setUp(){
+
+        customer1 = new Customer("Charlie", "06", "charlie@mail.com");
+        SystemInfo = fr.unice.polytech.si4.conception.l.SystemInfo.getInstance();
+        SystemInfo.resetSystemInfo();
+
+        ingredientDoughMock1 = mock(Ingredient.class);
+        when(ingredientDoughMock1.getType()).thenReturn(IngredientType.DOUGH);
+        when(ingredientDoughMock1.getPrice()).thenReturn(3);
+        ingredientDoughMock2 = mock(Ingredient.class);
+        when(ingredientDoughMock2.getType()).thenReturn(IngredientType.DOUGH);
+        when(ingredientDoughMock2.getPrice()).thenReturn(1);
+        ingredientFlavorMock1 = mock(Ingredient.class);
+        when(ingredientFlavorMock1.getType()).thenReturn(IngredientType.FLAVOR);
+        when(ingredientFlavorMock1.getPrice()).thenReturn(4);
+        ingredientToppingMock1 = mock(Ingredient.class);
+        when(ingredientToppingMock1.getType()).thenReturn(IngredientType.TOPPING);
+        when(ingredientToppingMock1.getPrice()).thenReturn(5);
+        ingredientToppingMock2 = mock(Ingredient.class);
+        when(ingredientToppingMock2.getType()).thenReturn(IngredientType.TOPPING);
+        when(ingredientToppingMock2.getPrice()).thenReturn(1);
+        ingredientToppingMock3 = mock(Ingredient.class);
+        when(ingredientToppingMock3.getType()).thenReturn(IngredientType.TOPPING);
+        when(ingredientToppingMock3.getPrice()).thenReturn(7);
+        ingredientList = new ArrayList<>();
+        ingredientList.add(ingredientDoughMock1);
+        ingredientList.add(ingredientDoughMock2);
+        ingredientList.add(ingredientFlavorMock1);
+        ingredientList.add(ingredientToppingMock1);
+        ingredientList.add(ingredientToppingMock2);
+        ingredientList.add(ingredientToppingMock3);
+
+        SystemInfo.newIngredient(ingredientList);
+    }
+
+    @Test
+    void createCookieDefaultTest() {
+        /*
+        List<Ingredient> ingredientList = new ArrayList<>();
+        ingredientList.add(ingredientDoughMock1);
+        ingredientList.add(ingredientFlavorMock1);
+        ingredientList.add(ingredientToppingMock1);
+        ingredientList.add(ingredientToppingMock2);
+        ingredientList.add(ingredientToppingMock3);
+        Cookie cookieExpected = new Cookie("CookiePersoByDefault", ingredientList, Mix.MIXED, Cooking.CRUNCHY);
+
+
+        customer1.createCookie(SystemInfo.generateProxy());
+        Cookie cookieCreated = SystemInfo.getCookies().get(0);
+
+        assertEquals(cookieExpected, cookieCreated);
+         */
+    }
+
 
     @Test
     void equalTest() {

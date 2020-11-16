@@ -3,45 +3,80 @@ package fr.unice.polytech.si4.conception.l;
 import fr.unice.polytech.si4.conception.l.customer.Customer;
 import fr.unice.polytech.si4.conception.l.exceptions.AlreadyCreatedException;
 import fr.unice.polytech.si4.conception.l.products.Cookie;
+import fr.unice.polytech.si4.conception.l.products.composition.Ingredient;
+import fr.unice.polytech.si4.conception.l.products.composition.IngredientType;
+import fr.unice.polytech.si4.conception.l.store.Manager;
 import fr.unice.polytech.si4.conception.l.store.Store;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.mock;
 
-class SystemInfoTest {
+class CookieFactoryTest {
 
     String name;
     String phoneNumber;
     String mail;
     SystemInfo systemInfo;
+    private List<Cookie> cookies;
+    private List<Store> stores;
     private Cookie cookieMock;
     private Store storeMock;
     private Customer customerMock;
+    private Ingredient ingredient1;
+    private Ingredient ingredient2;
+    private Store realStore1;
+    private Store realStore2;
 
     @BeforeEach
     void setUp() {
-
         name = new String("Esteve");
         phoneNumber = new String("0658601237");
         mail = new String("estevet@hotmail.fr");
         systemInfo = SystemInfo.getInstance();
         systemInfo.resetSystemInfo();
+        cookies = new ArrayList<>();
+        stores = new ArrayList<>();
         cookieMock = mock(Cookie.class);
         storeMock = mock(Store.class);
         customerMock = mock(Customer.class);
+        ingredient1 = new Ingredient("Nuts", 1, IngredientType.TOPPING);
+        ingredient2 = new Ingredient("stanpe", 2, IngredientType.FLAVOR);
+        //ingredientMock1 = mock(Ingredient.class);
+        //ingredientMock2 = mock(Ingredient.class);
+        realStore1 = new Store(1, "addr", 2, "00", "mail", mock(Manager.class));
+        realStore2 = new Store(2, "ad", 3, "04", "email", mock(Manager.class));
+    }
+
+    @Test
+    void newIngredientTest() throws AlreadyCreatedException {
+        systemInfo.addStore(realStore1);
+        systemInfo.newIngredient(ingredient1);
+        assertTrue(realStore1.getStock().containsKey(ingredient1));
+    }
+
+    @Test
+    void newIngredientTestList() throws AlreadyCreatedException {
+        systemInfo.addStore(realStore1);
+        systemInfo.addStore(realStore2);
+        List<Ingredient> listIngredient = new ArrayList<>();
+        listIngredient.add(ingredient1);
+        listIngredient.add(ingredient2);
+        systemInfo.newIngredient(listIngredient);
+        assertTrue(realStore1.getStock().containsKey(ingredient1) && realStore1.getStock().containsKey(ingredient2));
+        assertTrue(realStore2.getStock().containsKey(ingredient1) && realStore2.getStock().containsKey(ingredient2));
     }
 
     @Test
     void subscription() {
-        try {
+        try{
             systemInfo.subscription(name, phoneNumber, mail);
-        } catch (AlreadyCreatedException ignored) {
-        }
+        } catch (AlreadyCreatedException ignored){}
 
         assertEquals(1, systemInfo.getCustomers().size());
 
@@ -54,57 +89,46 @@ class SystemInfoTest {
 
     @Test
     void getCustomerByMail() {
-        systemInfo.resetSystemInfo();
-        String nameCustomer1 = "name1";
-        String phoneCustomer1 = "phone1";
-        String mailCustomer1 = "mail1";
-        try {
-            systemInfo.addCustomer(new Customer(nameCustomer1, phoneCustomer1, mailCustomer1));
-        } catch (AlreadyCreatedException e) {
+        try{
+            systemInfo.addCustomer(new Customer(name, phoneNumber, mail));
+        } catch (AlreadyCreatedException e){
             e.printStackTrace();
         }
 
-        assertEquals(nameCustomer1, systemInfo.getCustomerByMail(mailCustomer1).getName());
-        assertEquals(phoneCustomer1, systemInfo.getCustomerByMail(mailCustomer1).getPhoneNumber());
-        assertEquals(mailCustomer1, systemInfo.getCustomerByMail(mailCustomer1).getMail());
-
+        assertEquals(name, systemInfo.getCustomerByMail(mail).getName());
+        assertEquals(phoneNumber, systemInfo.getCustomerByMail(mail).getPhoneNumber());
+        assertEquals(mail, systemInfo.getCustomerByMail(mail).getMail());
     }
 
     @Test
     void getCustomerByTel() {
-        systemInfo.resetSystemInfo();
-        String nameCustomer = "name";
-        String phoneCustomer = "phone";
-        String mailCustomer = "mail";
-        Customer customer = new Customer(nameCustomer, phoneCustomer, mailCustomer);
-        try {
-            systemInfo.addCustomer(customer);
-        } catch (AlreadyCreatedException e) {
+        try{
+            systemInfo.addCustomer(new Customer(name, phoneNumber, mail));
+        } catch (AlreadyCreatedException e){
             e.printStackTrace();
         }
 
-        assertEquals(nameCustomer, systemInfo.getCustomerByTel(phoneCustomer).getName());
-        assertEquals(phoneCustomer, systemInfo.getCustomerByTel(phoneCustomer).getPhoneNumber());
-        assertEquals(mailCustomer, systemInfo.getCustomerByTel(phoneCustomer).getMail());
+        assertEquals(name, systemInfo.getCustomerByTel(phoneNumber).getName());
+        assertEquals(phoneNumber, systemInfo.getCustomerByTel(phoneNumber).getPhoneNumber());
+        assertEquals(mail, systemInfo.getCustomerByTel(phoneNumber).getMail());
     }
-
 
     @Test
     void noCookieTest() {
-        systemInfo.resetSystemInfo();
+
         assertEquals(0, systemInfo.getCookies().size());
+
     }
 
     @Test
     void addingCookieTest() {
-        systemInfo.resetSystemInfo();
-
         try {
             systemInfo.addCookie(cookieMock);
         } catch (AlreadyCreatedException e) {
             e.printStackTrace();
         }
         assertEquals(1, systemInfo.getCookies().size());
+
     }
 
     @Test
@@ -114,13 +138,12 @@ class SystemInfoTest {
         } catch (AlreadyCreatedException e) {
             e.printStackTrace();
         }
-        assertThrows(AlreadyCreatedException.class, () -> systemInfo.addCookie(cookieMock));
+        assertThrows(AlreadyCreatedException.class ,  () -> systemInfo.addCookie(cookieMock));
 
     }
 
     @Test
     void noStoreTest() {
-        systemInfo.resetSystemInfo();
         assertEquals(0, systemInfo.getStores().size());
     }
 
@@ -142,7 +165,7 @@ class SystemInfoTest {
         } catch (AlreadyCreatedException e) {
             e.printStackTrace();
         }
-        assertThrows(AlreadyCreatedException.class, () -> systemInfo.addStore(storeMock));
+        assertThrows(AlreadyCreatedException.class ,  () -> systemInfo.addStore(storeMock));
 
     }
 
@@ -154,13 +177,13 @@ class SystemInfoTest {
 
     @Test
     void addingCustomerTest() {
-        systemInfo.resetSystemInfo();
         try {
             systemInfo.addCustomer(customerMock);
         } catch (AlreadyCreatedException e) {
             e.printStackTrace();
         }
         assertEquals(1, systemInfo.getCustomers().size());
+
     }
 
     @Test
@@ -170,7 +193,7 @@ class SystemInfoTest {
         } catch (AlreadyCreatedException e) {
             e.printStackTrace();
         }
-        assertThrows(AlreadyCreatedException.class, () -> systemInfo.addCustomer(customerMock));
+        assertThrows(AlreadyCreatedException.class ,  () -> systemInfo.addCustomer(customerMock));
 
     }
 }

@@ -4,6 +4,7 @@ import fr.unice.polytech.si4.conception.l.customer.Customer;
 import fr.unice.polytech.si4.conception.l.exceptions.AlreadyCreatedException;
 import fr.unice.polytech.si4.conception.l.order.Order;
 import fr.unice.polytech.si4.conception.l.products.Cookie;
+import fr.unice.polytech.si4.conception.l.products.composition.Ingredient;
 import fr.unice.polytech.si4.conception.l.store.Store;
 
 import java.util.ArrayList;
@@ -16,11 +17,12 @@ import java.util.Map;
  * Class containing our company, regrouping our stores, cookies, customers and managers
  * @Patern Singleton
  */
-public class SystemInfo {
+public class SystemInfo implements ISystemInfo {
 
     private List<Customer> customers;
     private List<Cookie> cookies;
     private List<Store> stores;
+    private List<Ingredient> ingredients;
     private Cookie bestOfNational;
 
     private SystemInfo() {
@@ -28,6 +30,7 @@ public class SystemInfo {
         this.cookies = new ArrayList<>();
         this.stores = new ArrayList<>();
         this.customers = new ArrayList<>();
+        this.ingredients = new ArrayList<>();
         this.bestOfNational = null;
     }
 
@@ -41,7 +44,7 @@ public class SystemInfo {
         this.stores.clear();
         this.customers.clear();
         this.cookies.clear();
-
+        this.ingredients.clear();
     }
 
     /**
@@ -74,6 +77,37 @@ public class SystemInfo {
     }
 
     /**
+     * Add a new ingredients in the stock of each store.
+     * As there is already the method newIngredient for a list of Ingredient
+     * and because this method have more chances to be use, we just convert the ingredient in param
+     * into a list of one element ingredient and call le method newIngredient(List<Ingredient> ingredientList)
+     * @param ingredient : the ingredient which we want to had into the catalogue of CookieFactory
+     */
+    public void newIngredient(Ingredient ingredient){
+        List<Ingredient> oneIngredientList = new ArrayList<>();
+        oneIngredientList.add(ingredient);
+        newIngredient(oneIngredientList);
+    }
+
+    /**
+     * Add a new list of ingredients in the stock of each stores.
+     * @param ingredientList : the list of ingredients which we want to had into the catalogue of CookieFactory
+     */
+    public void newIngredient(List<Ingredient> ingredientList){
+        ingredients.addAll(ingredientList);
+        for (Store s : stores){
+
+            try{
+                s.addNewIngredients(ingredientList);
+            }
+            catch (NullPointerException e){
+                Log.add(e.toString());
+            }
+        }
+    }
+
+
+    /**
      * create and add a customer to the customer list. If it already exists, returns an exception.
      *
      * @param name        : name of the customer
@@ -99,6 +133,17 @@ public class SystemInfo {
             customers.add(customer);
         }
     }
+
+    /**
+     * Generate a proxy version of the CookieFactory named FactoryCustomerSide.
+     * The FactoryCustomerSide give just access to the cookies, stores and ingredients
+     * but within unmodifiableList
+     * @return : an instance of class FactoryCustomerSide
+     */
+    public FactoryCustomerSide generateProxy(){
+        return new FactoryCustomerSide();
+    }
+
 
     /**
      * *******************************************************************************
@@ -139,12 +184,19 @@ public class SystemInfo {
         return null;
     }
 
+    @Override
     public List<Cookie> getCookies() {
         return cookies;
     }
 
+    @Override
     public List<Store> getStores() {
         return stores;
+    }
+
+    @Override
+    public List<Ingredient> getIngredients() {
+        return ingredients;
     }
 
     public void updateBestOfCookie() {
