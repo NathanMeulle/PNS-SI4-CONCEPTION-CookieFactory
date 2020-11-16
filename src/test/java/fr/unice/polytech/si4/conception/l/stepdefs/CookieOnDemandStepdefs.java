@@ -19,6 +19,7 @@ public class CookieOnDemandStepdefs implements En {
     private SystemInfo systemInfo;
     private Order order;
     private Kitchen kitchen;
+    private Order.OrderBuilder orderBuilder;
 
     public CookieOnDemandStepdefs() {
         Given("^a registered client named \"([^\"]*)\" with email \"([^\"]*)\" and phone \"([^\"]*)\"$", (String arg0, String arg1, String arg2) -> {
@@ -32,13 +33,14 @@ public class CookieOnDemandStepdefs implements En {
             systemInfo.addCustomer(customer);
             systemInfo.addStore(store);
         });
+
         When("^\"([^\"]*)\" place an order$", (String arg0) -> {
             customer.createOrder(store);
-            order = customer.getOrder();
+            orderBuilder = customer.getOrderBuilder();
         });
         And("^she choose to pick her cookies at \"([^\"]*)\":\"([^\"]*)\":\"([^\"]*)\" on the same day$", (String arg0, String arg1, String arg2) -> {
             Date pickuptime = new Date();
-            order.choosePickUpTime(pickuptime);
+            orderBuilder.choosePickUpTime(pickuptime);
         });
         And("her order is sent to the store$", () -> {
             customer.makeOrder();
@@ -52,7 +54,8 @@ public class CookieOnDemandStepdefs implements En {
             Calendar calendar = Calendar.getInstance();
             calendar.add(Calendar.HOUR, +1);
             Date date = calendar.getTime();
-            order.choosePickUpTime(date);
+            orderBuilder.choosePickUpTime(date);
+            customer.makeOrder();
             order.paid();
             assertThrows(WrongPickUpTimeException.class, () -> customer.pickUpOrder());
         });

@@ -83,6 +83,10 @@ public class AnonymousCustomer implements CustomerInterface {
         return order;
     }
 
+    public Order.OrderBuilder getOrderBuilder() {
+        return orderBuilder;
+    }
+
     public void setOrder(Order order) {
         this.order = order;
     }
