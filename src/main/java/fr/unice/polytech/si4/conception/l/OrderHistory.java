@@ -8,7 +8,7 @@ import java.util.*;
 
 public class OrderHistory {
 
-    private List<Order> listOrder;
+    private ArrayList<Order> listOrder;
 
     /**
      * An orderHistory is attached to a specific store and it's create when the store is create

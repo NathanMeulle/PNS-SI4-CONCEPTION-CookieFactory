@@ -35,7 +35,7 @@ public class Order {
         this.stateOrder = StateOrder.CHOICE;
         this.isDone = false;
         this.isPaid = false;
-        this.pickUpTime = null;
+        this.pickUpTime = new Date();
     }
 
     public void assignAnonymousCustomer(AnonymousCustomer anonymousCustomer) {
