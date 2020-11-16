@@ -19,6 +19,7 @@ public class Cookie {
     private Cooking cooking;
     private List<Ingredient> ingredients;
 
+
     /**
      * Creates a cookie with a name and a price
      * @param name cookie's name
