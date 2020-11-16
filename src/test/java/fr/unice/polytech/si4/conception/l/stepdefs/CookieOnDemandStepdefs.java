@@ -33,36 +33,25 @@ public class CookieOnDemandStepdefs implements En {
             customer.createOrder(store);
             order = customer.getOrder();
         });
-        Then("^she choose to pick her cookies at \"([^\"]*)\":\"([^\"]*)\":\"([^\"]*)\"PM on the same day$", (String arg0, String arg1, String arg2) -> {
-            Calendar cal = Calendar.getInstance();
-
-            cal.set(Calendar.MONTH, LocalDateTime.now().getMonthValue()-1);
-            cal.set(Calendar.DAY_OF_MONTH, LocalDateTime.now().getDayOfMonth());
-            cal.set(Calendar.YEAR, LocalDateTime.now().getYear());
-
-            cal.set(Calendar.HOUR_OF_DAY, Integer.parseInt(arg0));
-            cal.set(Calendar.MINUTE, Integer.parseInt(arg1));
-            cal.set(Calendar.SECOND, Integer.parseInt(arg2));
-
-            Date pickuptime = cal.getTime();
+        And("^she choose to pick her cookies at \"([^\"]*)\":\"([^\"]*)\":\"([^\"]*)\" on the same day$", (String arg0, String arg1, String arg2) -> {
+            Date pickuptime = new Date();
             order.choosePickUpTime(pickuptime);
         });
-        And("an order is sent to the store$", () -> {
+        And("her order is sent to the store$", () -> {
             customer.makeOrder();
             Log.display();
         });
-        Then("^\"([^\"]*)\" comes at \"([^\"]*)\":\"([^\"]*)\":\"([^\"]*)\" and retrieve her order$", (String arg0, String arg1, String arg2, String arg3) -> {
+        Then("^\"([^\"]*)\" comes on time and retrieve her order$", (String arg0) -> {
             order.isPaid();
-            customer.pickUpOrder();
+            assertDoesNotThrow(() -> customer.pickUpOrder());
         });
         Then("^\"([^\"]*)\" comes hour earlier and she can't pick her order$", (String arg0) -> {
-            Calendar cal = Calendar.getInstance();
-            Date date = cal.getTime();
-            if (date.getHours() >= 15){
-                order.isPaid();
-                assertDoesNotThrow(() ->customer.pickUpOrder());
-            } else
-                assertThrows(WrongPickUpTimeException.class, () -> customer.pickUpOrder());
+            Calendar calendar = Calendar.getInstance();
+            calendar.add(Calendar.HOUR, +1);
+            Date date = calendar.getTime();
+            order.choosePickUpTime(date);
+            order.isPaid();
+            assertThrows(WrongPickUpTimeException.class, () -> customer.pickUpOrder());
         });
 
     }
