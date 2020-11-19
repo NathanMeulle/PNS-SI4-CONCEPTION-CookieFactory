@@ -2,8 +2,11 @@ package fr.unice.polytech.si4.conception.l;
 
 import fr.unice.polytech.si4.conception.l.customer.Customer;
 import fr.unice.polytech.si4.conception.l.exceptions.AlreadyCreatedException;
+import fr.unice.polytech.si4.conception.l.exceptions.InvalidNumberIngredient;
+import fr.unice.polytech.si4.conception.l.exceptions.InvalidTypeIngredient;
 import fr.unice.polytech.si4.conception.l.exceptions.NotFindException;
 import fr.unice.polytech.si4.conception.l.products.Cookie;
+import fr.unice.polytech.si4.conception.l.products.CookieFactory;
 import fr.unice.polytech.si4.conception.l.products.composition.Ingredient;
 import fr.unice.polytech.si4.conception.l.products.composition.IngredientType;
 import fr.unice.polytech.si4.conception.l.store.Manager;
@@ -16,6 +19,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
 
 class CookieFactoryTest {
 
@@ -32,12 +36,20 @@ class CookieFactoryTest {
     private Ingredient ingredient2;
     private Store realStore1;
     private Store realStore2;
+    private Ingredient chocolateFlavor;
+    private Ingredient vanillaFlavor;
+    private Ingredient kitkatTopping;
+    private Ingredient mnmsTopping;
+    private Ingredient daimTopping;
+    private Ingredient speculosTopping;
+    private CookieFactory cookieFactory;
 
     @BeforeEach
     void setUp() {
-        name = new String("Esteve");
-        phoneNumber = new String("0658601237");
-        mail = new String("estevet@hotmail.fr");
+        cookieFactory = new CookieFactory();
+        name = "Esteve";
+        phoneNumber = "0658601237";
+        mail = "estevet@hotmail.fr";
         systemInfo = SystemInfo.getInstance();
         systemInfo.resetSystemInfo();
         cookies = new ArrayList<>();
@@ -51,6 +63,13 @@ class CookieFactoryTest {
         //ingredientMock2 = mock(Ingredient.class);
         realStore1 = new Store(1, "addr", 2, "00", "mail", mock(Manager.class));
         realStore2 = new Store(2, "ad", 3, "04", "email", mock(Manager.class));
+
+        chocolateFlavor = new Ingredient("vanille", 1, IngredientType.FLAVOR);
+        vanillaFlavor = new Ingredient("chocolate", 1, IngredientType.FLAVOR);
+        mnmsTopping = new Ingredient("mnms", 1, IngredientType.TOPPING);
+        kitkatTopping = new Ingredient("kitkat", 1, IngredientType.TOPPING);
+        daimTopping = new Ingredient("daim", 1, IngredientType.TOPPING);
+        speculosTopping = new Ingredient("speculos", 1, IngredientType.TOPPING);
     }
 
 
@@ -193,6 +212,42 @@ class CookieFactoryTest {
             e.printStackTrace();
         }
         assertThrows(AlreadyCreatedException.class ,  () -> systemInfo.addCustomer(customerMock));
+    }
 
+    @Test
+    void checkIngredientsValid() {
+        List<Ingredient> ingredients = new ArrayList<>();
+        ingredients.add(chocolateFlavor);
+        ingredients.add(mnmsTopping);
+        assertDoesNotThrow(() -> cookieFactory.checkIngredients(ingredients));
+    }
+
+    @Test
+    void checkIngredientsInvalidType() {
+        List<Ingredient> ingredients = new ArrayList<>();
+        ingredients.add(chocolateFlavor);
+        ingredients.add(mnmsTopping);
+        ingredients.add(new Ingredient("mauvaisType", 1, IngredientType.DOUGH));
+        assertThrows(InvalidTypeIngredient.class, () -> cookieFactory.checkIngredients(ingredients));
+    }
+
+    @Test
+    void checkIngredientsInvalidNumberFlavor() {
+        List<Ingredient> ingredients = new ArrayList<>();
+        ingredients.add(chocolateFlavor);
+        ingredients.add(vanillaFlavor);
+        ingredients.add(mnmsTopping);
+        assertThrows(InvalidNumberIngredient.class, () -> cookieFactory.checkIngredients(ingredients));
+    }
+
+    @Test
+    void checkIngredientsInvalidNumberTopping() {
+        List<Ingredient> ingredients = new ArrayList<>();
+        ingredients.add(chocolateFlavor);
+        ingredients.add(kitkatTopping);
+        ingredients.add(mnmsTopping);
+        ingredients.add(daimTopping);
+        ingredients.add(speculosTopping);
+        assertThrows(InvalidNumberIngredient.class, () -> cookieFactory.checkIngredients(ingredients));
     }
 }
