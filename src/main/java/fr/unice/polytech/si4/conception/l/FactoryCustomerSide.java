@@ -1,5 +1,6 @@
 package fr.unice.polytech.si4.conception.l;
 
+import fr.unice.polytech.si4.conception.l.exceptions.AlreadyCreatedException;
 import fr.unice.polytech.si4.conception.l.exceptions.InvalidNumberIngredient;
 import fr.unice.polytech.si4.conception.l.exceptions.InvalidTypeIngredient;
 import fr.unice.polytech.si4.conception.l.products.Cookie;
@@ -37,8 +38,8 @@ public  class FactoryCustomerSide implements ISystemInfo {
      * @param mix : the mix of the cookie
      * @param cooking : the way of cooking of the cookie
      */
-    public Cookie createCookiePersonalized(String name, List<Ingredient> ingredientList, Dough dough, Mix mix, Cooking cooking) throws InvalidTypeIngredient, InvalidNumberIngredient {
-        return cookieFactory.createPersonnalizedCookie(name, ingredientList, dough, mix, cooking);
+    public void createCookiePersonalized(String name, List<Ingredient> ingredientList, Dough dough, Mix mix, Cooking cooking) throws InvalidTypeIngredient, InvalidNumberIngredient, AlreadyCreatedException {
+        systemInfo.addCookie(cookieFactory.createPersonnalizedCookie(name, ingredientList, dough, mix, cooking));
     }
 
     @Override

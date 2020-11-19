@@ -90,6 +90,12 @@ public class SystemInfo implements ISystemInfo {
         }
     }
 
+    public void newIngredient(Ingredient ingredient) throws AlreadyCreatedException {
+        List<Ingredient> ingredientList = new ArrayList<>();
+        ingredientList.add(ingredient);
+        newIngredient(ingredientList);
+    }
+
 
     /**
      * create and add a customer to the customer list. If it already exists, returns an exception.
@@ -171,6 +177,15 @@ public class SystemInfo implements ISystemInfo {
     @Override
     public List<Cookie> getCookies() {
         return cookies;
+    }
+
+    public Cookie getCookieByName(String name) throws NotFindException {
+        for(Cookie cookie : cookies){
+            if(cookie.getName().equals(name)){
+                return cookie;
+            }
+        }
+        throw new NotFindException("cookie not found");
     }
 
     @Override

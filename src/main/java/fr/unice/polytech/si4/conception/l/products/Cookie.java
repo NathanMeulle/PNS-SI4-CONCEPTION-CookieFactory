@@ -76,6 +76,8 @@ public abstract class Cookie {
         return mix;
     }
 
+    public Dough getDough() { return dough; }
+
     public void setMix(Mix mix) {
         this.mix = mix;
     }

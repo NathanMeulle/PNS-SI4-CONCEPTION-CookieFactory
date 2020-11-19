@@ -1,10 +1,20 @@
 package fr.unice.polytech.si4.conception.l.customer;
 
+import fr.unice.polytech.si4.conception.l.FactoryCustomerSide;
+import fr.unice.polytech.si4.conception.l.ISystemInfo;
+import fr.unice.polytech.si4.conception.l.exceptions.AlreadyCreatedException;
 import fr.unice.polytech.si4.conception.l.exceptions.ErrorPreparingOrder;
+import fr.unice.polytech.si4.conception.l.exceptions.InvalidNumberIngredient;
+import fr.unice.polytech.si4.conception.l.exceptions.InvalidTypeIngredient;
 import fr.unice.polytech.si4.conception.l.order.Order;
 import fr.unice.polytech.si4.conception.l.products.Cookie;
+import fr.unice.polytech.si4.conception.l.products.composition.Cooking;
+import fr.unice.polytech.si4.conception.l.products.composition.Dough;
+import fr.unice.polytech.si4.conception.l.products.composition.Ingredient;
+import fr.unice.polytech.si4.conception.l.products.composition.Mix;
 import fr.unice.polytech.si4.conception.l.store.Store;
 
+import java.util.List;
 import java.util.Objects;
 
 public class Customer extends AnonymousCustomer implements CustomerInterface {
@@ -14,6 +24,7 @@ public class Customer extends AnonymousCustomer implements CustomerInterface {
     private boolean loyaltyProgram;
     private int nbCookieOrdered;
     private Order order;
+    private FactoryCustomerSide factoryCustomerSide;
 
     public Customer(String name, String phoneNumber, String mail) {
         super(name, phoneNumber);
@@ -66,6 +77,19 @@ public class Customer extends AnonymousCustomer implements CustomerInterface {
     @Override
     public int hashCode() {
         return Objects.hash(super.hashCode(), getMail());
+    }
+
+    /**
+     * *******************************************************************************
+     * Cookie creation
+     * ********************************************************************************
+     */
+
+    public void createCookie(ISystemInfo factoryCustomerSide, String name, List<Ingredient> ingredients, Dough dough, Mix mix, Cooking cooking) throws InvalidNumberIngredient, InvalidTypeIngredient, AlreadyCreatedException {
+        if(this.factoryCustomerSide==null){
+            this.factoryCustomerSide = (FactoryCustomerSide)factoryCustomerSide;
+        }
+        this.factoryCustomerSide.createCookiePersonalized(name, ingredients, dough, mix, cooking);
     }
 
     /**

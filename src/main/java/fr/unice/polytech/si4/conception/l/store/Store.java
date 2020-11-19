@@ -113,6 +113,15 @@ public class Store {
         Log.add(" A sms was sent to "+ anonymousCustomer.getName() +" to come and collect his order. ");
     }
 
+    /**
+     * Increment the stock of the kitchen with the ingredient in param
+     * @param ingredient : ingredient to increment
+     * @param n : number of ingredient
+     */
+    public void incrementStock(Ingredient ingredient, int n){
+        kitchen.incrementStock(ingredient, n);
+    }
+
     @Override
     public int hashCode() {
         return Objects.hash(getId(), getAddress(), getTax(), getPhone(), getMail(), manager, schedule);
