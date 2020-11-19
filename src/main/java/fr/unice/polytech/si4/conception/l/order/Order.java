@@ -14,7 +14,10 @@ import fr.unice.polytech.si4.conception.l.exceptions.WrongPickUpTimeException;
 import fr.unice.polytech.si4.conception.l.products.Cookie;
 import fr.unice.polytech.si4.conception.l.store.Store;
 
-import java.util.*;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
 
 
 public class Order {
@@ -53,13 +56,13 @@ public class Order {
      * When the customer pick up his order, it's put in OrderHistory
      * If order not ready, raise NotAlreadyCookedException
      */
-    public void pickedUp() throws NotAlreadyCooked, NotPaid, WrongPickUpTimeException {
-        Calendar cal = Calendar.getInstance();
-        Date date = cal.getTime();
+    public void pickedUp(Date date) throws NotAlreadyCooked, NotPaid, WrongPickUpTimeException {
         if (!isPaid) {
             throw new NotPaid("You did not pay");
         }
 
+        System.out.println(date);
+        System.out.println(pickUpTime);
         if (date.compareTo(pickUpTime) < 0)
             throw new WrongPickUpTimeException("You're are way too early");
 
@@ -278,8 +281,11 @@ public class Order {
          * set the pickup time of this order
          * @param time order pickup time
          */
-        public OrderBuilder choosePickUpTime(Date time){
-            this.pickUpTime = time;
+        public OrderBuilder choosePickUpTime(Date time) throws WrongPickUpTimeException {
+            if (!store.getSchedule().checkIsOpen(time))
+                throw new WrongPickUpTimeException("Store is closed");
+            else
+                this.pickUpTime = time;
             return this;
         }
 

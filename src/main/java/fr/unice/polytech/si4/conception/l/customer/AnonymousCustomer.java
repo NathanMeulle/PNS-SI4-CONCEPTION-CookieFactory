@@ -8,6 +8,7 @@ import fr.unice.polytech.si4.conception.l.order.Order;
 import fr.unice.polytech.si4.conception.l.products.Cookie;
 import fr.unice.polytech.si4.conception.l.store.Store;
 
+import java.util.Date;
 import java.util.Objects;
 
 /**
@@ -40,8 +41,8 @@ public class AnonymousCustomer implements CustomerInterface {
         this.order.submit();
     }
 
-    public void pickUpOrder() throws NotAlreadyCooked, NotPaid, WrongPickUpTimeException {
-        this.order.pickedUp();
+    public void pickUpOrder(Date date) throws NotAlreadyCooked, NotPaid, WrongPickUpTimeException {
+        this.order.pickedUp(date);
     }
 
     @Override
