@@ -59,7 +59,7 @@ public class PayOrderStepdef implements En {
             when(cookie.getPrice()).thenReturn(1.0);
             customer.createOrder(store);
             customer.addCookie(cookie, arg0);
-            customer.makeOrder();
+            customer.submitOrder();
         });
         Then("^there is (\\d+) in the cookie counter$", (Integer arg0) -> {
             assertEquals(arg0, customer.getNbCookieOrdered());
@@ -77,7 +77,7 @@ public class PayOrderStepdef implements En {
             when(cookie.getPrice()).thenReturn(price);
             customer.createOrder(store);
             customer.addCookie(cookie, arg0);
-            customer.makeOrder();
+            customer.submitOrder();
         });
         Then("^he must pay \"([^\"]*)\"$", (Double arg0) -> {
             assertEquals(arg0, customer.getPrice(), 0.01);
@@ -102,7 +102,7 @@ public class PayOrderStepdef implements En {
             customer.createOrder(store);
             customer.addCookie(cookieChoco, arg0);
             customer.addCookie(cookieVanilla, arg1);
-            customer.makeOrder();
+            customer.submitOrder();
             store.addToOrderHistory(customer.getOrder());
 
         });

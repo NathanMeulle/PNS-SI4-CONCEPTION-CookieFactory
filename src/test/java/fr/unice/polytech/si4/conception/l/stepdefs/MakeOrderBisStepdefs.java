@@ -54,11 +54,11 @@ public class MakeOrderBisStepdefs implements En {
             kitchen.incrementStock(chocolate ,arg0);
         });
         Then("^order is done$", () -> {
-            assertDoesNotThrow(() -> anonymousCustomer.makeOrder());
+            assertDoesNotThrow(() -> anonymousCustomer.submitOrder());
         });
 
         Then("^order is cancel$", () -> {
-            assertThrows(ErrorPreparingOrder.class, () -> anonymousCustomer.makeOrder());
+            assertThrows(ErrorPreparingOrder.class, () -> anonymousCustomer.submitOrder());
         });
 
     }

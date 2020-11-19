@@ -82,14 +82,14 @@ public class IntegrationOrderingStepDef implements En {
             vincent.createOrder(store);
             vincent.addCookie(chocoCookie, arg1);
             vincent.addCookie(mnMChocoCookie, arg3);
-            assertDoesNotThrow(()->vincent.makeOrder());
+            assertDoesNotThrow(()->vincent.submitOrder());
         });
         And("^The client \"([^\"]*)\" try to create an order of (\\d+) \"([^\"]*)\" and (\\d+) \"([^\"]*)\" at store \"([^\"]*)\"$", (String arg0, Integer arg1, String arg2, Integer arg3, String arg4, String arg5) -> {
             store = systemInfo.getStoreByAddress(arg5);
             vincent.createOrder(store);
             vincent.addCookie(chocoCookie, arg1);
             vincent.addCookie(mnMChocoCookie, arg3);
-            assertThrows(ErrorPreparingOrder.class, ()-> vincent.makeOrder());
+            assertThrows(ErrorPreparingOrder.class, ()-> vincent.submitOrder());
         });
         Then("^The client \"([^\"]*)\" has (\\d+) order$", (String arg0, Integer arg1) -> {
             assertNotNull(vincent.getOrder());
@@ -103,7 +103,7 @@ public class IntegrationOrderingStepDef implements En {
         When("^The user makes an order of (\\d+) \"([^\"]*)\"$", (Integer arg0, String arg1) -> {
             vincent.createOrder(store);
             vincent.addCookie(chocoCookie, arg0);
-            vincent.makeOrder();
+            vincent.submitOrder();
         });
         When("^the user creates his custom recipe composed of \"([^\"]*)\", \"([^\"]*)\" and \"([^\"]*)\" and is TOPPED and CRUNCHY$", (String arg0, String arg1, String arg2) -> {
             List<Ingredient> ingredients = new ArrayList<>();
@@ -122,7 +122,7 @@ public class IntegrationOrderingStepDef implements En {
         Then("^the user makes the order of his custom cookies$", () -> {
             vincent.createOrder(store);
             vincent.addCookie(customCookie, 1);
-            vincent.makeOrder();
+            vincent.submitOrder();
         });
         And("^the store starts making the order$", () -> {
             assertEquals(StateOrder.COOKED, vincent.getOrder().getStateOrder());

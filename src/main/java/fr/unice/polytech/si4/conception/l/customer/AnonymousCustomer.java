@@ -37,7 +37,7 @@ public class AnonymousCustomer implements CustomerInterface {
     }
 
 
-    public void makeOrder() throws ErrorPreparingOrder {
+    public void submitOrder() throws ErrorPreparingOrder {
         this.order.submit();
     }
 
@@ -82,9 +82,5 @@ public class AnonymousCustomer implements CustomerInterface {
 
     public Order getOrder() {
         return order;
-    }
-
-    public void setOrder(Order order) {
-        this.order = order;
     }
 }

@@ -111,7 +111,7 @@ class OrderTest {
         vincent.createOrder(store);
         vincent.addCookie(chocoCookie, 7);
         vincent.addCookie(mnMChocoCookie, 1);
-        assertThrows(ErrorPreparingOrder.class, () -> vincent.makeOrder());
+        assertThrows(ErrorPreparingOrder.class, () -> vincent.submitOrder());
     }
 
     @Test
@@ -119,7 +119,7 @@ class OrderTest {
         vincent.createOrder(store);
         vincent.addCookie(chocoCookie, 4);
         vincent.addCookie(mnMChocoCookie, 1);
-        assertDoesNotThrow(() -> vincent.makeOrder());
+        assertDoesNotThrow(() -> vincent.submitOrder());
     }
 
     @Test
@@ -127,7 +127,7 @@ class OrderTest {
         vincent.createOrder(store);
         vincent.addCookie(chocoCookie, 4);
         vincent.addCookie(mnMChocoCookie, 2);
-        assertThrows(ErrorPreparingOrder.class, () -> vincent.makeOrder());
+        assertThrows(ErrorPreparingOrder.class, () -> vincent.submitOrder());
     }
 
     @Test

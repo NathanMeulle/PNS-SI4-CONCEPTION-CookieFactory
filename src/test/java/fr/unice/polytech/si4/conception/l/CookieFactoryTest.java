@@ -2,6 +2,7 @@ package fr.unice.polytech.si4.conception.l;
 
 import fr.unice.polytech.si4.conception.l.customer.Customer;
 import fr.unice.polytech.si4.conception.l.exceptions.AlreadyCreatedException;
+import fr.unice.polytech.si4.conception.l.exceptions.NotFindException;
 import fr.unice.polytech.si4.conception.l.products.Cookie;
 import fr.unice.polytech.si4.conception.l.products.composition.Ingredient;
 import fr.unice.polytech.si4.conception.l.products.composition.IngredientType;
@@ -14,7 +15,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.mock;
 
 class CookieFactoryTest {
@@ -53,24 +53,6 @@ class CookieFactoryTest {
         realStore2 = new Store(2, "ad", 3, "04", "email", mock(Manager.class));
     }
 
-    @Test
-    void newIngredientTest() throws AlreadyCreatedException {
-        systemInfo.addStore(realStore1);
-        systemInfo.newIngredient(ingredient1);
-        assertTrue(realStore1.getStock().containsKey(ingredient1));
-    }
-
-    @Test
-    void newIngredientTestList() throws AlreadyCreatedException {
-        systemInfo.addStore(realStore1);
-        systemInfo.addStore(realStore2);
-        List<Ingredient> listIngredient = new ArrayList<>();
-        listIngredient.add(ingredient1);
-        listIngredient.add(ingredient2);
-        systemInfo.newIngredient(listIngredient);
-        assertTrue(realStore1.getStock().containsKey(ingredient1) && realStore1.getStock().containsKey(ingredient2));
-        assertTrue(realStore2.getStock().containsKey(ingredient1) && realStore2.getStock().containsKey(ingredient2));
-    }
 
     @Test
     void subscription() {
@@ -80,8 +62,13 @@ class CookieFactoryTest {
 
         assertEquals(1, systemInfo.getCustomers().size());
 
-        Customer customerSubscribe = systemInfo.getCustomerByMail(mail);
-
+        Customer customerSubscribe = null;
+        try {
+            customerSubscribe = systemInfo.getCustomerByMail(mail);
+        } catch (NotFindException e) {
+            e.printStackTrace();
+        }
+        assertNotNull(customerSubscribe);
         assertEquals(name, customerSubscribe.getName());
         assertEquals(phoneNumber, customerSubscribe.getPhoneNumber());
         assertEquals(mail, customerSubscribe.getMail());
@@ -94,10 +81,16 @@ class CookieFactoryTest {
         } catch (AlreadyCreatedException e){
             e.printStackTrace();
         }
-
-        assertEquals(name, systemInfo.getCustomerByMail(mail).getName());
-        assertEquals(phoneNumber, systemInfo.getCustomerByMail(mail).getPhoneNumber());
-        assertEquals(mail, systemInfo.getCustomerByMail(mail).getMail());
+        Customer c = null;
+        try {
+             c = systemInfo.getCustomerByMail(mail);
+        } catch (NotFindException e) {
+            e.printStackTrace();
+        }
+        assertNotNull(c);
+        assertEquals(name, c.getName());
+        assertEquals(phoneNumber, c.getPhoneNumber());
+        assertEquals(mail, c.getMail());
     }
 
     @Test
@@ -107,10 +100,16 @@ class CookieFactoryTest {
         } catch (AlreadyCreatedException e){
             e.printStackTrace();
         }
-
-        assertEquals(name, systemInfo.getCustomerByTel(phoneNumber).getName());
-        assertEquals(phoneNumber, systemInfo.getCustomerByTel(phoneNumber).getPhoneNumber());
-        assertEquals(mail, systemInfo.getCustomerByTel(phoneNumber).getMail());
+        Customer c = null;
+        try {
+            c = systemInfo.getCustomerByTel(phoneNumber);
+        } catch (NotFindException e) {
+            e.printStackTrace();
+        }
+        assertNotNull(c);
+        assertEquals(name, c.getName());
+        assertEquals(phoneNumber, c.getPhoneNumber());
+        assertEquals(mail, c.getMail());
     }
 
     @Test

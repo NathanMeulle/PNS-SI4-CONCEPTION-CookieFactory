@@ -1,6 +1,7 @@
 # Created by nathan at 07/11/2020
 Feature: Ordering
   All steps for a client to order
+## TODO Rename
 
   Background:
     Given An anonymous client called "Vincent" with the phoneNumber "0612345678"
@@ -26,7 +27,7 @@ Feature: Ordering
     Then The client "Vincent" has 0 order
 
 
-  Scenario: 3  :Make order of custom cookies
+  Scenario: Make order of custom cookies
     When the user creates his custom recipe composed of "nutella", "pistachio" and "peanut" and is TOPPED and CRUNCHY
     Then the user makes the order of his custom cookies
     And the store starts making the order

@@ -8,7 +8,6 @@ import fr.unice.polytech.si4.conception.l.products.Cookie;
 import fr.unice.polytech.si4.conception.l.products.composition.Ingredient;
 import fr.unice.polytech.si4.conception.l.store.schedule.Schedule;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -117,17 +116,6 @@ public class Store {
     @Override
     public int hashCode() {
         return Objects.hash(getId(), getAddress(), getTax(), getPhone(), getMail(), manager, schedule);
-    }
-
-    /**
-     * This method add a new ingredients to the kitchen of the store
-     * !!!!!!!!!!!!!! WARNING !!!!!!!!!!!!!! @Esteve Thibaut
-     * @param ingredientList
-     */
-    public void addNewIngredients(List<Ingredient> ingredientList){
-        for (Ingredient ing : ingredientList){
-            kitchen.incrementStock(ing,0);
-        }
     }
 
     public Manager getManager() {

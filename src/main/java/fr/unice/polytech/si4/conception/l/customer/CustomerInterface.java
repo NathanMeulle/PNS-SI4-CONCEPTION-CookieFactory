@@ -11,7 +11,7 @@ public interface CustomerInterface {
 
     void createOrder(Store store);
 
-    void makeOrder() throws ErrorPreparingOrder;
+    void submitOrder() throws ErrorPreparingOrder;
 
     void addCookie(Cookie cookie, int quantity);
 

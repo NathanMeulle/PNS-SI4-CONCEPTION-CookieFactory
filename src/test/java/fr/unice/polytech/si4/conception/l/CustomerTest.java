@@ -1,12 +1,12 @@
 package fr.unice.polytech.si4.conception.l;
 
 
+import fr.unice.polytech.si4.conception.l.customer.Customer;
+import fr.unice.polytech.si4.conception.l.exceptions.AlreadyCreatedException;
 import fr.unice.polytech.si4.conception.l.products.composition.Ingredient;
 import fr.unice.polytech.si4.conception.l.products.composition.IngredientType;
-import fr.unice.polytech.si4.conception.l.products.composition.Mix;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import fr.unice.polytech.si4.conception.l.customer.Customer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,7 +37,7 @@ public class CustomerTest {
      */
 
     @BeforeEach
-    void setUp(){
+    void setUp() throws AlreadyCreatedException {
 
         customer1 = new Customer("Charlie", "06", "charlie@mail.com");
         SystemInfo = fr.unice.polytech.si4.conception.l.SystemInfo.getInstance();
@@ -68,7 +68,7 @@ public class CustomerTest {
         ingredientList.add(ingredientToppingMock1);
         ingredientList.add(ingredientToppingMock2);
         ingredientList.add(ingredientToppingMock3);
-
+        //TODO à revoir...
         SystemInfo.newIngredient(ingredientList);
     }
 

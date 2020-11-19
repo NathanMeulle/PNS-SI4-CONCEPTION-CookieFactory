@@ -1,23 +1,24 @@
 package fr.unice.polytech.si4.conception.l;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
 import fr.unice.polytech.si4.conception.l.products.Cookie;
 import fr.unice.polytech.si4.conception.l.products.CookieFactory;
 import fr.unice.polytech.si4.conception.l.products.composition.*;
 import fr.unice.polytech.si4.conception.l.store.Store;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
+ * @author Thibaut
  * This class is the Customer side of the CookieFactory, indeed the customer shouldn't
  * get access to all the value of the CookieFactory, so this class serves as a proxy
+ * @Patern Proxy
  */
 public  class FactoryCustomerSide implements ISystemInfo {
 
-    SystemInfo systemInfo;
-    List<Ingredient> ingredientList;
-    CookieFactory cookieFactory;
+    private SystemInfo systemInfo;
+    private List<Ingredient> ingredientList;
+    private CookieFactory cookieFactory;
 
     public FactoryCustomerSide() {
         this.systemInfo = SystemInfo.getInstance();
@@ -34,41 +35,23 @@ public  class FactoryCustomerSide implements ISystemInfo {
      * @param mix : the mix of the cookie
      * @param cooking : the way of cooking of the cookie
      */
-    public void createCookiePersonalized(String name, List<Ingredient> ingredientList, Dough dough, Mix mix, Cooking cooking){
-        Cookie cookieCreated = cookieFactory.createPersonnalizedCookie(name, ingredientList, dough, mix, cooking);
-        submitCookie(cookieCreated);
-    }
-
-    /**
-     * Method to submit the cookie att the SystemInfo.
-     * This method catch a AlreadyCreatedException if the cookie is already
-     * created and add this exception to the Log.
-     * @param cookie : The cookie to submit
-     */
-    private void submitCookie(Cookie cookie){
-        try {
-            systemInfo.addCookie(cookie);
-        } catch (Exception e){
-            Log.add(e.toString());
-        }
+    public Cookie createCookiePersonalized(String name, List<Ingredient> ingredientList, Dough dough, Mix mix, Cooking cooking) {
+        return cookieFactory.createPersonnalizedCookie(name, ingredientList, dough, mix, cooking);
     }
 
     @Override
     public List<Cookie> getCookies() {
         return List.copyOf(systemInfo.getCookies());
-        //return Collections.unmodifiableList(systemInfo.getCookies());
     }
 
     @Override
     public List<Store> getStores() {
         return List.copyOf(systemInfo.getStores());
-        //return Collections.unmodifiableList(systemInfo.getStores());
     }
 
     @Override
     public List<Ingredient> getIngredients() {
         return List.copyOf(systemInfo.getIngredients());
-        //return Collections.unmodifiableList(systemInfo.getIngredients());
     }
 
     /**
@@ -105,16 +88,13 @@ public  class FactoryCustomerSide implements ISystemInfo {
      * @return a list of ingredient corresponding to the ingredientType
      */
     public List<Ingredient> ingredientOfType(IngredientType ingredientType){
-
         List<Ingredient> listReturned = new ArrayList<>();
         for (Ingredient ingredient : ingredientList){
-            if(ingredient.getType() == ingredientType){
+            if(ingredient.getType().equals(ingredientType)){
                 listReturned.add(ingredient);
             }
         }
-
         return List.copyOf(listReturned);
-        //return Collections.unmodifiableList(listReturned);
     }
 
 }

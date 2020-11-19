@@ -1,16 +1,16 @@
 package fr.unice.polytech.si4.conception.l;
 
 import fr.unice.polytech.si4.conception.l.customer.Customer;
+import fr.unice.polytech.si4.conception.l.exceptions.AlreadyCreatedException;
 import fr.unice.polytech.si4.conception.l.products.composition.Ingredient;
 import fr.unice.polytech.si4.conception.l.products.composition.IngredientType;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -32,7 +32,7 @@ class FactoryCustomerSideTest {
     List<Ingredient> ingredientList;
 
     @BeforeEach
-    void setUp() {
+    void setUp() throws AlreadyCreatedException {
         customer = new Customer("Charlie", "06", "charlie@mail.com");
         systemInfo = SystemInfo.getInstance();
         systemInfo.resetSystemInfo();
@@ -60,7 +60,7 @@ class FactoryCustomerSideTest {
         ingredientList.add(ingredientToppingMock1);
         ingredientList.add(ingredientToppingMock2);
         ingredientList.add(ingredientToppingMock3);
-
+        //TODO à revoir
         systemInfo.newIngredient(ingredientList);
     }
 

@@ -13,9 +13,9 @@ import java.util.List;
  */
 public interface ISystemInfo {
 
-    public List<Cookie> getCookies();
+    List<Cookie> getCookies();
 
-    public List<Store> getStores();
+    List<Store> getStores();
 
-    public List<Ingredient> getIngredients();
+    List<Ingredient> getIngredients();
 }

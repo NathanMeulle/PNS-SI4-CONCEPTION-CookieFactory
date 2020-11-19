@@ -72,10 +72,6 @@ public abstract class Cookie {
         return price;
     }
 
-    public void setPrice(int price) {
-        this.price = price;
-    }
-
     public Mix getMix() {
         return mix;
     }
@@ -90,6 +86,10 @@ public abstract class Cookie {
 
     public void setCooking(Cooking cooking) {
         this.cooking = cooking;
+    }
+
+    public void setDough(Dough dough) {
+        this.dough = dough;
     }
 
     public List<Ingredient> getIngredients() {
@@ -111,17 +111,6 @@ public abstract class Cookie {
                 getMix() == cookie.getMix() &&
                 getCooking() == cookie.getCooking() &&
                 Objects.equals(getIngredients(), cookie.getIngredients());
-    }
-
-    @Override
-    public String toString() {
-        return "Cookie{" +
-                "name='" + name + '\'' +
-                ", price=" + price +
-                ", mix=" + mix +
-                ", cooking=" + cooking +
-                ", ingredients=" + ingredients +
-                '}';
     }
 
     @Override

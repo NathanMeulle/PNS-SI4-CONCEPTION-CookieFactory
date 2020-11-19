@@ -2,15 +2,13 @@ package fr.unice.polytech.si4.conception.l;
 
 import fr.unice.polytech.si4.conception.l.customer.Customer;
 import fr.unice.polytech.si4.conception.l.exceptions.AlreadyCreatedException;
+import fr.unice.polytech.si4.conception.l.exceptions.NotFindException;
 import fr.unice.polytech.si4.conception.l.products.Cookie;
 import fr.unice.polytech.si4.conception.l.store.Store;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 
 class SystemInfoTest {
@@ -45,8 +43,13 @@ class SystemInfoTest {
 
         assertEquals(1, systemInfo.getCustomers().size());
 
-        Customer customerSubscribe = systemInfo.getCustomerByMail(mail);
-
+        Customer customerSubscribe = null;
+        try {
+            customerSubscribe = systemInfo.getCustomerByMail(mail);
+        } catch (NotFindException e) {
+            e.printStackTrace();
+        }
+        assertNotNull(customerSubscribe);
         assertEquals(name, customerSubscribe.getName());
         assertEquals(phoneNumber, customerSubscribe.getPhoneNumber());
         assertEquals(mail, customerSubscribe.getMail());
@@ -63,10 +66,19 @@ class SystemInfoTest {
         } catch (AlreadyCreatedException e) {
             e.printStackTrace();
         }
+        Customer c = null;
+        try {
+            c = systemInfo.getCustomerByMail(mailCustomer1);
+        } catch (NotFindException e) {
+            e.printStackTrace();
+        }
+        assertNotNull(c);
+        assertEquals(nameCustomer1, c.getName());
+        assertEquals(phoneCustomer1, c.getPhoneNumber());
+        assertEquals(mailCustomer1, c.getMail());
 
-        assertEquals(nameCustomer1, systemInfo.getCustomerByMail(mailCustomer1).getName());
-        assertEquals(phoneCustomer1, systemInfo.getCustomerByMail(mailCustomer1).getPhoneNumber());
-        assertEquals(mailCustomer1, systemInfo.getCustomerByMail(mailCustomer1).getMail());
+        assertThrows(NotFindException.class, () -> systemInfo.getCustomerByMail("null"));
+
 
     }
 
@@ -82,10 +94,19 @@ class SystemInfoTest {
         } catch (AlreadyCreatedException e) {
             e.printStackTrace();
         }
+        Customer c = null;
+        try {
+            c = systemInfo.getCustomerByTel(phoneCustomer);
+        } catch (NotFindException e) {
+            e.printStackTrace();
+        }
+        assertNotNull(c);
+        assertEquals(nameCustomer, c.getName());
+        assertEquals(phoneCustomer,c.getPhoneNumber());
+        assertEquals(mailCustomer, c.getMail());
 
-        assertEquals(nameCustomer, systemInfo.getCustomerByTel(phoneCustomer).getName());
-        assertEquals(phoneCustomer, systemInfo.getCustomerByTel(phoneCustomer).getPhoneNumber());
-        assertEquals(mailCustomer, systemInfo.getCustomerByTel(phoneCustomer).getMail());
+        assertThrows(NotFindException.class, () -> systemInfo.getCustomerByTel("09"));
+
     }
 
 

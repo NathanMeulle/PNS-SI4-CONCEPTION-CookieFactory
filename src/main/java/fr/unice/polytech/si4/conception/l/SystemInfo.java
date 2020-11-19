@@ -2,7 +2,7 @@ package fr.unice.polytech.si4.conception.l;
 
 import fr.unice.polytech.si4.conception.l.customer.Customer;
 import fr.unice.polytech.si4.conception.l.exceptions.AlreadyCreatedException;
-import fr.unice.polytech.si4.conception.l.order.Order;
+import fr.unice.polytech.si4.conception.l.exceptions.NotFindException;
 import fr.unice.polytech.si4.conception.l.products.Cookie;
 import fr.unice.polytech.si4.conception.l.products.composition.Ingredient;
 import fr.unice.polytech.si4.conception.l.store.Store;
@@ -60,12 +60,12 @@ public class SystemInfo implements ISystemInfo {
         }
     }
 
-    public Store getStoreByAddress(String address) {
+    public Store getStoreByAddress(String address) throws NotFindException {
         for (Store s : stores) {
             if (s.getAddress().equals(address))
                 return s;
         }
-        return null;
+        throw new NotFindException("address not find");
     }
 
     public void addCookie(Cookie cookie) throws AlreadyCreatedException {
@@ -77,31 +77,15 @@ public class SystemInfo implements ISystemInfo {
     }
 
     /**
-     * Add a new ingredients in the stock of each store.
-     * As there is already the method newIngredient for a list of Ingredient
-     * and because this method have more chances to be use, we just convert the ingredient in param
-     * into a list of one element ingredient and call le method newIngredient(List<Ingredient> ingredientList)
-     * @param ingredient : the ingredient which we want to had into the catalogue of CookieFactory
-     */
-    public void newIngredient(Ingredient ingredient){
-        List<Ingredient> oneIngredientList = new ArrayList<>();
-        oneIngredientList.add(ingredient);
-        newIngredient(oneIngredientList);
-    }
-
-    /**
      * Add a new list of ingredients in the stock of each stores.
      * @param ingredientList : the list of ingredients which we want to had into the catalogue of CookieFactory
      */
-    public void newIngredient(List<Ingredient> ingredientList){
-        ingredients.addAll(ingredientList);
-        for (Store s : stores){
-
-            try{
-                s.addNewIngredients(ingredientList);
-            }
-            catch (NullPointerException e){
-                Log.add(e.toString());
+    public void newIngredient(List<Ingredient> ingredientList) throws AlreadyCreatedException {
+        for (Ingredient i : ingredientList){
+            if (ingredients.contains(i)) {
+                throw new AlreadyCreatedException("Ingredient already exists");
+            } else {
+                ingredients.add(i);
             }
         }
     }
@@ -162,12 +146,12 @@ public class SystemInfo implements ISystemInfo {
      * @return the customer if he exists in the databse
      */
 
-    public Customer getCustomerByMail(String mail) {
+    public Customer getCustomerByMail(String mail) throws NotFindException {
         for (Customer c : customers) {
             if (c.getMail().equals(mail))
                 return c;
         }
-        return null;
+        throw new NotFindException("mail not find");
     }
 
     /**
@@ -176,12 +160,12 @@ public class SystemInfo implements ISystemInfo {
      * @param numTel customer identifier
      * @return the customer if he exists in the databse
      */
-    public Customer getCustomerByTel(String numTel) {
+    public Customer getCustomerByTel(String numTel) throws NotFindException {
         for (Customer c : customers) {
             if (c.getPhoneNumber().equals(numTel))
                 return c;
         }
-        return null;
+        throw new NotFindException("tel not find");
     }
 
     @Override
@@ -207,14 +191,13 @@ public class SystemInfo implements ISystemInfo {
     public Map<Cookie, Integer> countNationalCookie() {
         Map<Cookie, Integer> totalCookie = new HashMap<>();
         for (Store store : getStores()) {
-            for (Order order : store.getOrderHistory().getRecentOrders()) { //TODO Nathan refacto avoid duplicate code
-                for (Cookie c : order.getCookies().keySet()) {
-                    if (totalCookie.containsKey(c)) {
-                        int updatedQuantity = totalCookie.get(c) + order.getCookies().get(c);
-                        totalCookie.replace(c, updatedQuantity);
-                    } else {
-                        totalCookie.put(c, order.getCookies().get(c));
-                    }
+            Map<Cookie, Integer> m = store.getOrderHistory().countStoreCookie(store.getOrderHistory().getRecentOrders());
+            for (Cookie c : m.keySet()) {
+                if (totalCookie.containsKey(c)) {
+                    int updatedQuantity = totalCookie.get(c) + m.get(c);
+                    totalCookie.replace(c, updatedQuantity);
+                } else {
+                    totalCookie.put(c, m.get(c));
                 }
             }
         }

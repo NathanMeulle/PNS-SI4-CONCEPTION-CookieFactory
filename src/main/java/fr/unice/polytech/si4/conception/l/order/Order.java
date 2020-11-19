@@ -16,7 +16,6 @@ import fr.unice.polytech.si4.conception.l.store.Store;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 
 public class Order {
@@ -178,10 +177,6 @@ public class Order {
         return priceTTC;
     }
 
-    public void setPriceHT(double priceHT) {
-        this.priceHT = priceHT;
-    }
-
     public Map<Cookie, Integer> getCookies() {
         return cookies;
     }
@@ -217,7 +212,7 @@ public class Order {
     public void isPaid() {
         this.isPaid = true;
     }
-    
+
     public boolean isAchievable() {
         return this.store.achievableCookie(cookies);
     }
@@ -226,22 +221,5 @@ public class Order {
         return this.nbCookies;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Order order = (Order) o;
-        return idOrder == order.idOrder &&
-                priceHT == order.priceHT &&
-                nbCookies == order.nbCookies &&
-                date.equals(order.date) &&
-                store.equals(order.store) &&
-                cookies.equals(order.cookies) &&
-                customer.equals(order.customer);
-    }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(idOrder, date, store, customer);
-    }
 }
