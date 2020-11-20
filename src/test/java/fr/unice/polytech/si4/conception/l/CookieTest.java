@@ -16,7 +16,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-public class CookieTest {
+class CookieTest {
 
     private Ingredient ingredient1;
     private Ingredient ingredient2;

@@ -4,123 +4,65 @@ package fr.unice.polytech.si4.conception.l.order;
  */
 
 
+import fr.unice.polytech.si4.conception.l.Log;
+import fr.unice.polytech.si4.conception.l.SystemInfo;
+import fr.unice.polytech.si4.conception.l.customer.AnonymousCustomer;
 import fr.unice.polytech.si4.conception.l.exceptions.ErrorPreparingOrder;
 import fr.unice.polytech.si4.conception.l.exceptions.NotAlreadyCooked;
 import fr.unice.polytech.si4.conception.l.exceptions.NotPaid;
 import fr.unice.polytech.si4.conception.l.exceptions.WrongPickUpTimeException;
-
-import fr.unice.polytech.si4.conception.l.Log;
-import fr.unice.polytech.si4.conception.l.SystemInfo;
-import fr.unice.polytech.si4.conception.l.customer.AnonymousCustomer;
-import fr.unice.polytech.si4.conception.l.customer.Customer;
 import fr.unice.polytech.si4.conception.l.products.Cookie;
 import fr.unice.polytech.si4.conception.l.store.Store;
 
-
-import java.util.*;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
 
 
 public class Order {
-    private int idOrder;
+
     private Date date;
     private Store store;
-    private double priceHT;
-    private double priceTTC;
     private Map<Cookie, Integer> cookies;
-    private AnonymousCustomer customer;
-    private boolean isDone;
-    private boolean isPaid;
     private int nbCookies;
+    private int idOrder;
+    private AnonymousCustomer customer;
+    private boolean isPaid;
     private StateOrder stateOrder;
     private Date pickUpTime;
+    private double priceHT;
+    private double priceTTC;
+
 
     /**
      * Creates an order with an ID, a date of creation and the state Choice
      */
-    public Order() {
-        this.idOrder = generateIdOrder();
-        this.date = new Date();
-        this.cookies = new HashMap<>();
-        this.nbCookies = 0;
-        this.stateOrder = StateOrder.CHOICE;
-        this.isDone = false;
-        this.isPaid = false;
-        this.pickUpTime = new Date();
-    }
-
-    public void assignAnonymousCustomer(AnonymousCustomer anonymousCustomer) {
-        this.customer = anonymousCustomer;
-    }
-
-    public void assignCustomer(Customer customer) {
-        this.customer = customer;
-    }
-
-    /**
-     * Generate a unique id that permits to recognize an order
-     *
-     * @return id
-     */
-    private int generateIdOrder() {
-        return hashCode();
-    }
-
-    /**
-     * Add a specific cookie to the order with a quantity. If the cookie is already present, increment its quantity
-     * Update price of the order
-     *
-     * @param cookie   Cookie's type
-     * @param quantity Cookie's quantity
-     */
-     public void addCookie(Cookie cookie, int quantity) {
-        if (cookies.containsKey(cookie)) {
-            int updatedQuantity = cookies.get(cookie) + quantity;
-            cookies.replace(cookie, updatedQuantity);
-            Log.add(String.format("Ajout de cookie : %s - quantité : %d", cookie.getName(), updatedQuantity));
-        } else {
-            cookies.put(cookie, quantity);
-            Log.add(String.format("Ajout de cookie : %s - quantité : %d", cookie.getName(), quantity));
-        }
-        this.nbCookies += quantity;
-        this.calculatePrice();
+    private Order(OrderBuilder builder) {
+        this.date = builder.date;
+        this.store = builder.store;
+        this.cookies = builder.cookies;
+        this.nbCookies = builder.nbCookies;
+        this.idOrder = builder.idOrder;
+        this.customer = builder.customer;
+        this.isPaid = builder.isPaid;
+        this.pickUpTime = builder.pickUpTime;
     }
 
 
-    /**
-     * Calculate price of an order
-     * Apply 10% in all cookies equal to the best of national or best of store cookie
-     */
-    private void calculatePrice() {
-        SystemInfo systemInfo = SystemInfo.getInstance();
-        priceHT = 0.0; // on réinitialise le prix et on re parcourt tous les cookies
-        cookies.forEach((cookie, quantity) -> {
-                    if (cookie.equals(systemInfo.getBestCookieNational()) || cookie.equals(this.store.getBestCookie())) {
-                        this.priceHT += cookie.getPrice() * quantity * 0.9;
-                    } else {
-                        this.priceHT += cookie.getPrice() * quantity;
-                    }
 
-        }
-           );
-        this.priceTTC = priceHT * getStore().getTax();
-        Log.add(String.format("La commande id:%d coûte %f€ HT", this.getIdOrder(), this.priceTTC));
-    }
-
-    public void applyDiscount() {
-        this.priceTTC *= 0.9;
-    }
 
     /**
      * When the customer pick up his order, it's put in OrderHistory
      * If order not ready, raise NotAlreadyCookedException
      */
-    public void pickedUp() throws NotAlreadyCooked, NotPaid, WrongPickUpTimeException {
-        Calendar cal = Calendar.getInstance();
-        Date date = cal.getTime();
+    public void pickedUp(Date date) throws NotAlreadyCooked, NotPaid, WrongPickUpTimeException {
         if (!isPaid) {
             throw new NotPaid("You did not pay");
         }
 
+        System.out.println(date);
+        System.out.println(pickUpTime);
         if (date.compareTo(pickUpTime) < 0)
             throw new WrongPickUpTimeException("You're are way too early");
 
@@ -152,13 +94,6 @@ public class Order {
         }
     }
 
-    /**
-     * set the pickup time of this order
-     * @param time order pickup time
-     */
-    public void choosePickUpTime(Date time){
-        this.pickUpTime = time;
-    }
 
     /**
      * *******************************************************************************
@@ -218,22 +153,14 @@ public class Order {
         return customer;
     }
 
-    public boolean getIsDone() {
-        return isDone;
-    }
-
     public boolean getIsPaid() {
         return isPaid;
     }
 
-    public void isDone() {
-        this.isDone = true;
-    }
-
-    public void isPaid() {
+    public void paid() {
         this.isPaid = true;
     }
-    
+
     public boolean isAchievable() {
         return this.store.achievableCookie(cookies);
     }
@@ -260,4 +187,142 @@ public class Order {
     public int hashCode() {
         return Objects.hash(idOrder, date, store, customer);
     }
+
+
+    /**
+     * This class is the builder to construct the order
+     * @author Delmotte Vincent
+     * @author Nathan Meulle
+     * @patern Builder
+     */
+
+    public static class OrderBuilder {
+
+        private Date date;
+        private Store store;
+        private Map<Cookie, Integer> cookies;
+        private int nbCookies;
+        private int idOrder;
+        private AnonymousCustomer customer;
+        private boolean isPaid;
+        private StateOrder stateOrder;
+        private Date pickUpTime;
+        private double priceHT;
+        private double priceTTC;
+
+
+
+        public OrderBuilder(Store store) {
+            if (store == null) {
+                throw new IllegalArgumentException("order must be created with a store");
+            }
+            this.date = new Date();
+            this.store = store;
+            this.cookies = new HashMap<>();
+            this.nbCookies = 0;
+            this.idOrder = generateIdOrder();
+            this.isPaid = false;
+            this.stateOrder = StateOrder.CHOICE;
+            this.pickUpTime = new Date();
+        }
+
+
+        /**
+         * Add a specific cookie to the order with a quantity. If the cookie is already present, increment its quantity
+         * Update price of the order
+         *
+         * @param cookie   Cookie's type
+         * @param quantity Cookie's quantity
+         */
+        public OrderBuilder addCookie(Cookie cookie, int quantity) {
+            if (cookies.containsKey(cookie)) {
+                int updatedQuantity = cookies.get(cookie) + quantity;
+                cookies.replace(cookie, updatedQuantity);
+                Log.add(String.format("Ajout de cookie : %s - quantité : %d", cookie.getName(), updatedQuantity));
+            } else {
+                cookies.put(cookie, quantity);
+                Log.add(String.format("Ajout de cookie : %s - quantité : %d", cookie.getName(), quantity));
+            }
+            this.nbCookies += quantity;
+            calculatePrice();
+            return this;
+        }
+
+        /**
+         * Calculate price of an order
+         * Apply 10% in all cookies equal to the best of national or best of store cookie
+         */
+        public void calculatePrice() {
+            SystemInfo systemInfo = SystemInfo.getInstance();
+            priceHT = 0.0; // on réinitialise le prix et on re parcourt tous les cookies
+            cookies.forEach((cookie, quantity) -> {
+                        if (cookie.equals(systemInfo.getBestCookieNational()) || cookie.equals(this.store.getBestCookie())) {
+                            this.priceHT += cookie.getPrice() * quantity * 0.9;
+                        } else {
+                            this.priceHT += cookie.getPrice() * quantity;
+                        }
+
+                    }
+            );
+            this.priceTTC = priceHT * store.getTax();
+            Log.add(String.format("La commande id:%d coûte %f€ HT", idOrder, this.priceTTC));
+        }
+
+        /**
+         * Assign a customer or an anonymous customer
+         * @param customer
+         */
+        public OrderBuilder assignCustomer(AnonymousCustomer customer) {
+            this.customer = customer;
+            return this;
+        }
+
+        /**
+         * set the pickup time of this order
+         * @param time order pickup time
+         */
+        public OrderBuilder choosePickUpTime(Date time) throws WrongPickUpTimeException {
+            if (!store.getSchedule().checkIsOpen(time))
+                throw new WrongPickUpTimeException("Store is closed");
+            else
+                this.pickUpTime = time;
+            return this;
+        }
+
+        /**
+         * Generate a unique id that permits to recognize an order
+         * @return id
+         */
+        private int generateIdOrder() {
+            return hashCode();
+        }
+
+        public void applyDiscount() {
+            this.priceTTC *= 0.9;
+        }
+
+        /**
+         * return an order create by the builder
+         * @return
+         */
+        public Order build() {
+            return new Order(this);
+        }
+
+        public Map<Cookie, Integer> getCookies() {
+            return cookies;
+        }
+
+        public int getNbCookies() {
+            return this.nbCookies;
+        }
+        public double getPriceTTC() {
+            return priceTTC;
+        }
+
+
+    }
+
 }
+
+
