@@ -7,5 +7,9 @@ public enum Day {
     THURSDAY,
     FRIDAY,
     SATURDAY,
-    SUNDAY
+    SUNDAY;
+
+    public static Day getDayFromInt(int i) {
+       return Day.values()[i];
+    }
 }
