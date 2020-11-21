@@ -148,13 +148,13 @@ class SystemInfoTest {
 
     @Test
     void addingStoreTest() {
+        systemInfo.resetSystemInfo();
         try {
             systemInfo.addStore(storeMock);
         } catch (AlreadyCreatedException e) {
             e.printStackTrace();
         }
         assertEquals(1, systemInfo.getStores().size());
-
     }
 
     @Test

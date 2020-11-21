@@ -10,14 +10,17 @@ import fr.unice.polytech.si4.conception.l.products.CookieFactory;
 import fr.unice.polytech.si4.conception.l.products.composition.Ingredient;
 import fr.unice.polytech.si4.conception.l.products.composition.IngredientType;
 import fr.unice.polytech.si4.conception.l.store.Manager;
+import fr.unice.polytech.si4.conception.l.products.Cookie;
 import fr.unice.polytech.si4.conception.l.store.Store;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import static org.junit.jupiter.api.Assertions.*;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 import static org.mockito.Mockito.mock;
 
 class CookieFactoryTest {
@@ -74,9 +77,10 @@ class CookieFactoryTest {
 
     @Test
     void subscription() {
-        try{
+        try {
             systemInfo.subscription(name, phoneNumber, mail);
-        } catch (AlreadyCreatedException ignored){}
+        } catch (AlreadyCreatedException ignored) {
+        }
 
         assertEquals(1, systemInfo.getCustomers().size());
 
@@ -87,6 +91,8 @@ class CookieFactoryTest {
             e.printStackTrace();
         }
         assertNotNull(customerSubscribe);
+        assertEquals(1, systemInfo.getCustomers().size());
+
         assertEquals(name, customerSubscribe.getName());
         assertEquals(phoneNumber, customerSubscribe.getPhoneNumber());
         assertEquals(mail, customerSubscribe.getMail());
@@ -94,14 +100,14 @@ class CookieFactoryTest {
 
     @Test
     void getCustomerByMail() {
-        try{
+        try {
             systemInfo.addCustomer(new Customer(name, phoneNumber, mail));
-        } catch (AlreadyCreatedException e){
+        } catch (AlreadyCreatedException e) {
             e.printStackTrace();
         }
         Customer c = null;
         try {
-             c = systemInfo.getCustomerByMail(mail);
+            c = systemInfo.getCustomerByMail(mail);
         } catch (NotFindException e) {
             e.printStackTrace();
         }
@@ -113,9 +119,9 @@ class CookieFactoryTest {
 
     @Test
     void getCustomerByTel() {
-        try{
+        try {
             systemInfo.addCustomer(new Customer(name, phoneNumber, mail));
-        } catch (AlreadyCreatedException e){
+        } catch (AlreadyCreatedException e) {
             e.printStackTrace();
         }
         Customer c = null;
@@ -132,20 +138,19 @@ class CookieFactoryTest {
 
     @Test
     void noCookieTest() {
-
+        systemInfo.resetSystemInfo();
         assertEquals(0, systemInfo.getCookies().size());
-
     }
 
     @Test
     void addingCookieTest() {
+        systemInfo.resetSystemInfo();
         try {
             systemInfo.addCookie(cookieMock);
         } catch (AlreadyCreatedException e) {
             e.printStackTrace();
         }
         assertEquals(1, systemInfo.getCookies().size());
-
     }
 
     @Test
@@ -155,12 +160,13 @@ class CookieFactoryTest {
         } catch (AlreadyCreatedException e) {
             e.printStackTrace();
         }
-        assertThrows(AlreadyCreatedException.class ,  () -> systemInfo.addCookie(cookieMock));
+        assertThrows(AlreadyCreatedException.class, () -> systemInfo.addCookie(cookieMock));
 
     }
 
     @Test
     void noStoreTest() {
+        systemInfo.resetSystemInfo();
         assertEquals(0, systemInfo.getStores().size());
     }
 
@@ -182,25 +188,23 @@ class CookieFactoryTest {
         } catch (AlreadyCreatedException e) {
             e.printStackTrace();
         }
-        assertThrows(AlreadyCreatedException.class ,  () -> systemInfo.addStore(storeMock));
-
+        assertThrows(AlreadyCreatedException.class, () -> systemInfo.addStore(storeMock));
     }
 
     @Test
     void nCustomerTest() {
         assertEquals(0, systemInfo.getCustomers().size());
-
     }
 
     @Test
     void addingCustomerTest() {
+        systemInfo.resetSystemInfo();
         try {
             systemInfo.addCustomer(customerMock);
         } catch (AlreadyCreatedException e) {
             e.printStackTrace();
         }
         assertEquals(1, systemInfo.getCustomers().size());
-
     }
 
     @Test
@@ -210,7 +214,7 @@ class CookieFactoryTest {
         } catch (AlreadyCreatedException e) {
             e.printStackTrace();
         }
-        assertThrows(AlreadyCreatedException.class ,  () -> systemInfo.addCustomer(customerMock));
+        assertThrows(AlreadyCreatedException.class, () -> systemInfo.addCustomer(customerMock));
     }
 
     @Test

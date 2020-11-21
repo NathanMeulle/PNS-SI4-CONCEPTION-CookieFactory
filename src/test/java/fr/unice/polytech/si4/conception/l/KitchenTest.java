@@ -15,7 +15,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 
-public class KitchenTest {
+class KitchenTest {
     Kitchen kitchen;
     Ingredient ingredient;
     List<Ingredient> ingredients;

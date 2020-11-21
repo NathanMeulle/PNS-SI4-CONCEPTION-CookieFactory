@@ -1,19 +1,18 @@
 package fr.unice.polytech.si4.conception.l.customer;
 
-import fr.unice.polytech.si4.conception.l.exceptions.ErrorPreparingOrder;
-import fr.unice.polytech.si4.conception.l.order.Order;
+import fr.unice.polytech.si4.conception.l.exceptions.NotAlreadyCooked;
+import fr.unice.polytech.si4.conception.l.exceptions.NotPaid;
+import fr.unice.polytech.si4.conception.l.exceptions.WrongPickUpTimeException;
 import fr.unice.polytech.si4.conception.l.products.Cookie;
-import fr.unice.polytech.si4.conception.l.store.Store;
 
+import java.util.Date;
 import java.util.Objects;
 
 public class Customer extends AnonymousCustomer implements CustomerInterface {
 
-
     private String mail;
     private boolean loyaltyProgram;
     private int nbCookieOrdered;
-    private Order order;
 
     public Customer(String name, String phoneNumber, String mail) {
         super(name, phoneNumber);
@@ -22,21 +21,10 @@ public class Customer extends AnonymousCustomer implements CustomerInterface {
         this.nbCookieOrdered = 0;
     }
 
-    @Override
-    public void createOrder(Store store){
-        this.order = new Order();
-        this.order.setStore(store);
-        this.order.assignCustomer(this);
-    }
-
-    @Override
-    public void submitOrder() throws ErrorPreparingOrder {
-        this.order.submit();
-    }
 
     @Override
     public void addCookie(Cookie cookie, int quantity) {
-        order.addCookie(cookie, quantity);
+        super.addCookie(cookie,quantity);
         if(loyaltyProgram) incrementCookieOrdered(quantity);
         if(loyaltyProgram && nbCookieOrdered >=30) {
             decrementeNbCookie();
@@ -50,8 +38,12 @@ public class Customer extends AnonymousCustomer implements CustomerInterface {
 
 
     public void decrementeNbCookie() {
-        this.order.applyDiscount();
+        getOrderBuilder().applyDiscount();
         this.nbCookieOrdered = 0;
+    }
+
+    public void pickUpOrder(Date date) throws NotAlreadyCooked, NotPaid, WrongPickUpTimeException {
+        super.getOrder().pickedUp(date);
     }
 
 
@@ -75,21 +67,12 @@ public class Customer extends AnonymousCustomer implements CustomerInterface {
      * ********************************************************************************
      */
 
-
     public String getMail() {
         return mail;
     }
 
-    public Order getOrder() {
-        return order;
-    }
-
     public void setMail(String mail) {
         this.mail = mail;
-    }
-
-    public boolean isLoyaltyProgram() {
-        return loyaltyProgram;
     }
 
     public void setLoyaltyProgram(boolean loyaltyProgram) {
@@ -98,15 +81,6 @@ public class Customer extends AnonymousCustomer implements CustomerInterface {
 
     public int getNbCookieOrdered() {
         return nbCookieOrdered;
-    }
-
-    public void setNbCookieOrdered(int nbCookieOrdered) {
-        this.nbCookieOrdered = nbCookieOrdered;
-    }
-
-    @Override
-    public double getPrice() {
-        return this.order.getPriceTTC();
     }
 
 }

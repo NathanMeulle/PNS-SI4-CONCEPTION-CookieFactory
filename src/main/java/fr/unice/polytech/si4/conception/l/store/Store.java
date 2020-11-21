@@ -103,7 +103,6 @@ public class Store {
      */
     public void prepareOrder(Order order){
         this.kitchen.prepareCookies(order.getCookies());
-        order.isDone();
         order.setStateOrder(StateOrder.COOKED);
         notify(order.getCustomer());
     }
