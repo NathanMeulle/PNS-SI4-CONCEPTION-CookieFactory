@@ -66,10 +66,7 @@ public class PayOrderStepdef implements En {
         });
         When("^a client subscribe or not to the \"([^\"]*)\"$", (String arg0) -> {
             customer = new Customer("vincent", "06", "mail");
-            if(arg0.equals("yes"))
-                customer.setLoyaltyProgram(true);
-            else
-                customer.setLoyaltyProgram(false);
+            customer.setLoyaltyProgram(arg0.equals("yes"));
 
         });
         And("^he makes an order of \"([^\"]*)\" cookie costing \"([^\"]*)\" at a store with \"([^\"]*)\"$", (Integer arg0, Double price, Double tax) -> {

@@ -15,14 +15,12 @@ public class Schedule implements Comparator<Date> {
 
     public Schedule(){
         openingHours = new EnumMap<>(Day.class);
-        Time t = new Time(8, 0,0, 18, 0,0);
-        openingHours.put(Day.MONDAY, t);
-        openingHours.put(Day.TUESDAY, t);
-        openingHours.put(Day.WEDNESDAY, t);
-        openingHours.put(Day.THURSDAY, t);
-        openingHours.put(Day.FRIDAY, t);
-        openingHours.put(Day.SATURDAY, t);
-        openingHours.put(Day.SUNDAY, t);
+
+        for (int i = 0; i < 7; i++){
+            Time t = new Time(8, 0,0, 18, 0,0);
+            t.setDayOfTheWeek(i);
+            openingHours.put(Day.getDayFromInt(i), t);
+        }
     }
     /**
      * Creates a working schedule for a Store
@@ -30,13 +28,12 @@ public class Schedule implements Comparator<Date> {
      */
     public Schedule(Time openTime){
         openingHours = new EnumMap<>(Day.class);
-        openingHours.put(Day.MONDAY, openTime);
-        openingHours.put(Day.TUESDAY, openTime);
-        openingHours.put(Day.WEDNESDAY, openTime);
-        openingHours.put(Day.THURSDAY,openTime);
-        openingHours.put(Day.FRIDAY, openTime);
-        openingHours.put(Day.SATURDAY, openTime);
-        openingHours.put(Day.SUNDAY, openTime);
+
+        for (int i = 0; i < 7; i++){
+            Time openT = new Time(openTime);
+            openT.setDayOfTheWeek(i);
+            openingHours.put(Day.getDayFromInt(i), openT);
+        }
     }
 
     /** ********************************************************************************
