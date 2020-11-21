@@ -24,6 +24,7 @@ public abstract class Cookie {
     private Cooking cooking;
     private List<Ingredient> ingredients;
 
+
     /**
      * Creates a cookie with :
      * @param name name of the cookie
@@ -71,13 +72,11 @@ public abstract class Cookie {
         return price;
     }
 
-    public void setPrice(int price) {
-        this.price = price;
-    }
-
     public Mix getMix() {
         return mix;
     }
+
+    public Dough getDough() { return dough; }
 
     public void setMix(Mix mix) {
         this.mix = mix;
@@ -89,6 +88,10 @@ public abstract class Cookie {
 
     public void setCooking(Cooking cooking) {
         this.cooking = cooking;
+    }
+
+    public void setDough(Dough dough) {
+        this.dough = dough;
     }
 
     public List<Ingredient> getIngredients() {

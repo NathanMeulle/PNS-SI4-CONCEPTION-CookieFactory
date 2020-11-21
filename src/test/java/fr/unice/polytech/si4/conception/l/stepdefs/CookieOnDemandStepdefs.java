@@ -51,14 +51,14 @@ public class CookieOnDemandStepdefs implements En {
             assertDoesNotThrow(() -> orderBuilder.choosePickUpTime(pickuptime));
         });
         And("her order is sent to the store$", () -> {
-            customer.makeOrder();
+            customer.submitOrder();
             Log.display();
         });
         Then("^\"([^\"]*)\" comes at \"([^\"]*)\":\"([^\"]*)\":\"([^\"]*)\" and retrieve her order$", (String arg0, String arg1, String arg2, String arg3) -> {
             Calendar cal = new GregorianCalendar(LocalDateTime.now().getYear(), LocalDateTime.now().getMonthValue()-1, LocalDateTime.now().getDayOfMonth(), Integer.parseInt(arg1), Integer.parseInt(arg2), Integer.parseInt(arg3));
 
             Date pickuptime = cal.getTime();
-            customer.makeOrder();
+            customer.submitOrder();
             customer.getOrder().paid();
             assertDoesNotThrow(() -> customer.pickUpOrder(pickuptime));
         });
@@ -67,7 +67,7 @@ public class CookieOnDemandStepdefs implements En {
             Calendar cal = new GregorianCalendar(LocalDateTime.now().getYear(), LocalDateTime.now().getMonthValue()-1, LocalDateTime.now().getDayOfMonth(), Integer.parseInt(arg1), Integer.parseInt(arg2), Integer.parseInt(arg3));
 
             Date pickuptime = cal.getTime();
-            customer.makeOrder();
+            customer.submitOrder();
             customer.getOrder().paid();
             assertThrows(WrongPickUpTimeException.class, () -> customer.pickUpOrder(pickuptime));
         });
@@ -93,7 +93,7 @@ public class CookieOnDemandStepdefs implements En {
         Then("^her order is sent to the store : \"([^\"]*)\"$", (String arg0) -> {
             if(arg0.equals("yes")) {
                 assertDoesNotThrow(() -> orderBuilder.choosePickUpTime(datePickUp));
-                customer.makeOrder();
+                customer.submitOrder();
                 customer.getOrder().paid();
             }
             else

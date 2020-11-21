@@ -2,12 +2,24 @@ package fr.unice.polytech.si4.conception.l;
 
 import fr.unice.polytech.si4.conception.l.customer.Customer;
 import fr.unice.polytech.si4.conception.l.exceptions.AlreadyCreatedException;
+import fr.unice.polytech.si4.conception.l.exceptions.InvalidNumberIngredient;
+import fr.unice.polytech.si4.conception.l.exceptions.InvalidTypeIngredient;
+import fr.unice.polytech.si4.conception.l.exceptions.NotFindException;
 import fr.unice.polytech.si4.conception.l.products.Cookie;
+import fr.unice.polytech.si4.conception.l.products.CookieFactory;
+import fr.unice.polytech.si4.conception.l.products.composition.Ingredient;
+import fr.unice.polytech.si4.conception.l.products.composition.IngredientType;
+import fr.unice.polytech.si4.conception.l.store.Manager;
 import fr.unice.polytech.si4.conception.l.store.Store;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 
 class CookieFactoryTest {
@@ -16,24 +28,51 @@ class CookieFactoryTest {
     String phoneNumber;
     String mail;
     SystemInfo systemInfo;
-    Log log;
+    private List<Cookie> cookies;
+    private List<Store> stores;
     private Cookie cookieMock;
     private Store storeMock;
     private Customer customerMock;
+    private Ingredient ingredient1;
+    private Ingredient ingredient2;
+    private Store realStore1;
+    private Store realStore2;
+    private Ingredient chocolateFlavor;
+    private Ingredient vanillaFlavor;
+    private Ingredient kitkatTopping;
+    private Ingredient mnmsTopping;
+    private Ingredient daimTopping;
+    private Ingredient speculosTopping;
+    private CookieFactory cookieFactory;
 
     @BeforeEach
     void setUp() {
-
+        cookieFactory = new CookieFactory();
         name = "Esteve";
         phoneNumber = "0658601237";
         mail = "estevet@hotmail.fr";
         systemInfo = SystemInfo.getInstance();
-        log = new Log();
-
+        systemInfo.resetSystemInfo();
+        cookies = new ArrayList<>();
+        stores = new ArrayList<>();
         cookieMock = mock(Cookie.class);
         storeMock = mock(Store.class);
         customerMock = mock(Customer.class);
+        ingredient1 = new Ingredient("Nuts", 1, IngredientType.TOPPING);
+        ingredient2 = new Ingredient("stanpe", 2, IngredientType.FLAVOR);
+        //ingredientMock1 = mock(Ingredient.class);
+        //ingredientMock2 = mock(Ingredient.class);
+        realStore1 = new Store(1, "addr", 2, "00", "mail", mock(Manager.class));
+        realStore2 = new Store(2, "ad", 3, "04", "email", mock(Manager.class));
+
+        chocolateFlavor = new Ingredient("vanille", 1, IngredientType.FLAVOR);
+        vanillaFlavor = new Ingredient("chocolate", 1, IngredientType.FLAVOR);
+        mnmsTopping = new Ingredient("mnms", 1, IngredientType.TOPPING);
+        kitkatTopping = new Ingredient("kitkat", 1, IngredientType.TOPPING);
+        daimTopping = new Ingredient("daim", 1, IngredientType.TOPPING);
+        speculosTopping = new Ingredient("speculos", 1, IngredientType.TOPPING);
     }
+
 
     @Test
     void subscription() {
@@ -44,7 +83,14 @@ class CookieFactoryTest {
 
         assertEquals(1, systemInfo.getCustomers().size());
 
-        Customer customerSubscribe = systemInfo.getCustomerByMail(mail);
+        Customer customerSubscribe = null;
+        try {
+            customerSubscribe = systemInfo.getCustomerByMail(mail);
+        } catch (NotFindException e) {
+            e.printStackTrace();
+        }
+        assertNotNull(customerSubscribe);
+        assertEquals(1, systemInfo.getCustomers().size());
 
         assertEquals(name, customerSubscribe.getName());
         assertEquals(phoneNumber, customerSubscribe.getPhoneNumber());
@@ -53,55 +99,51 @@ class CookieFactoryTest {
 
     @Test
     void getCustomerByMail() {
-        systemInfo.resetSystemInfo();
-        String nameCustomer1 = "name1";
-        String phoneCustomer1 = "phone1";
-        String mailCustomer1 = "mail1";
         try {
-            System.out.println(systemInfo.getCustomers());
-            systemInfo.addCustomer(new Customer(nameCustomer1, phoneCustomer1, mailCustomer1));
-            System.out.println(systemInfo.getCustomers());
-
+            systemInfo.addCustomer(new Customer(name, phoneNumber, mail));
         } catch (AlreadyCreatedException e) {
             e.printStackTrace();
         }
-
-        assertEquals(nameCustomer1, systemInfo.getCustomerByMail(mailCustomer1).getName());
-        assertEquals(phoneCustomer1, systemInfo.getCustomerByMail(mailCustomer1).getPhoneNumber());
-        assertEquals(mailCustomer1, systemInfo.getCustomerByMail(mailCustomer1).getMail());
-
+        Customer c = null;
+        try {
+            c = systemInfo.getCustomerByMail(mail);
+        } catch (NotFindException e) {
+            e.printStackTrace();
+        }
+        assertNotNull(c);
+        assertEquals(name, c.getName());
+        assertEquals(phoneNumber, c.getPhoneNumber());
+        assertEquals(mail, c.getMail());
     }
 
     @Test
     void getCustomerByTel() {
-        systemInfo.resetSystemInfo();
-        String nameCustomer = "name";
-        String phoneCustomer = "phone";
-        String mailCustomer = "mail";
-        Customer customer = new Customer(nameCustomer, phoneCustomer, mailCustomer);
         try {
-            systemInfo.addCustomer(customer);
+            systemInfo.addCustomer(new Customer(name, phoneNumber, mail));
         } catch (AlreadyCreatedException e) {
             e.printStackTrace();
         }
-
-        assertEquals(nameCustomer, systemInfo.getCustomerByTel(phoneCustomer).getName());
-        assertEquals(phoneCustomer, systemInfo.getCustomerByTel(phoneCustomer).getPhoneNumber());
-        assertEquals(mailCustomer, systemInfo.getCustomerByTel(phoneCustomer).getMail());
+        Customer c = null;
+        try {
+            c = systemInfo.getCustomerByTel(phoneNumber);
+        } catch (NotFindException e) {
+            e.printStackTrace();
+        }
+        assertNotNull(c);
+        assertEquals(name, c.getName());
+        assertEquals(phoneNumber, c.getPhoneNumber());
+        assertEquals(mail, c.getMail());
     }
-
 
     @Test
     void noCookieTest() {
         systemInfo.resetSystemInfo();
-
         assertEquals(0, systemInfo.getCookies().size());
     }
 
     @Test
     void addingCookieTest() {
         systemInfo.resetSystemInfo();
-
         try {
             systemInfo.addCookie(cookieMock);
         } catch (AlreadyCreatedException e) {
@@ -122,7 +164,6 @@ class CookieFactoryTest {
     }
 
     @Test
-
     void noStoreTest() {
         systemInfo.resetSystemInfo();
         assertEquals(0, systemInfo.getStores().size());
@@ -147,13 +188,11 @@ class CookieFactoryTest {
             e.printStackTrace();
         }
         assertThrows(AlreadyCreatedException.class, () -> systemInfo.addStore(storeMock));
-
     }
 
     @Test
     void nCustomerTest() {
         assertEquals(0, systemInfo.getCustomers().size());
-
     }
 
     @Test
@@ -175,6 +214,42 @@ class CookieFactoryTest {
             e.printStackTrace();
         }
         assertThrows(AlreadyCreatedException.class, () -> systemInfo.addCustomer(customerMock));
+    }
 
+    @Test
+    void checkIngredientsValid() {
+        List<Ingredient> ingredients = new ArrayList<>();
+        ingredients.add(chocolateFlavor);
+        ingredients.add(mnmsTopping);
+        assertDoesNotThrow(() -> cookieFactory.checkIngredients(ingredients));
+    }
+
+    @Test
+    void checkIngredientsInvalidType() {
+        List<Ingredient> ingredients = new ArrayList<>();
+        ingredients.add(chocolateFlavor);
+        ingredients.add(mnmsTopping);
+        ingredients.add(new Ingredient("mauvaisType", 1, IngredientType.DOUGH));
+        assertThrows(InvalidTypeIngredient.class, () -> cookieFactory.checkIngredients(ingredients));
+    }
+
+    @Test
+    void checkIngredientsInvalidNumberFlavor() {
+        List<Ingredient> ingredients = new ArrayList<>();
+        ingredients.add(chocolateFlavor);
+        ingredients.add(vanillaFlavor);
+        ingredients.add(mnmsTopping);
+        assertThrows(InvalidNumberIngredient.class, () -> cookieFactory.checkIngredients(ingredients));
+    }
+
+    @Test
+    void checkIngredientsInvalidNumberTopping() {
+        List<Ingredient> ingredients = new ArrayList<>();
+        ingredients.add(chocolateFlavor);
+        ingredients.add(kitkatTopping);
+        ingredients.add(mnmsTopping);
+        ingredients.add(daimTopping);
+        ingredients.add(speculosTopping);
+        assertThrows(InvalidNumberIngredient.class, () -> cookieFactory.checkIngredients(ingredients));
     }
 }

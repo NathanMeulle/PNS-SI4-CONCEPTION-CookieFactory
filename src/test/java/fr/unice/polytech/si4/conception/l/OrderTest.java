@@ -3,6 +3,8 @@ package fr.unice.polytech.si4.conception.l;
 import fr.unice.polytech.si4.conception.l.customer.AnonymousCustomer;
 import fr.unice.polytech.si4.conception.l.customer.Customer;
 import fr.unice.polytech.si4.conception.l.exceptions.ErrorPreparingOrder;
+import fr.unice.polytech.si4.conception.l.exceptions.InvalidNumberIngredient;
+import fr.unice.polytech.si4.conception.l.exceptions.InvalidTypeIngredient;
 import fr.unice.polytech.si4.conception.l.order.Order;
 import fr.unice.polytech.si4.conception.l.products.Cookie;
 import fr.unice.polytech.si4.conception.l.products.CookieFactory;
@@ -40,7 +42,7 @@ class OrderTest {
 
 
     @BeforeEach
-    void setup() {
+    void setup() throws InvalidNumberIngredient, InvalidTypeIngredient {
         cookieFactory = new CookieFactory();
         storeMock = mock(Store.class);
         when(storeMock.getTax()).thenReturn(1.0);
@@ -57,7 +59,7 @@ class OrderTest {
         store.setKitchen(kitchen);
         chocolate = new Ingredient("Chocolate", 4, IngredientType.FLAVOR);
 
-        mnm = new Ingredient("MnM", 7, IngredientType.FLAVOR);
+        mnm = new Ingredient("MnM", 7, IngredientType.TOPPING);
 
         kitchen.incrementStock(chocolate, 5);
         kitchen.incrementStock(mnm, 3);
@@ -111,7 +113,7 @@ class OrderTest {
         vincent.createOrder(store);
         vincent.addCookie(chocoCookie, 7);
         vincent.addCookie(mnMChocoCookie, 1);
-        assertThrows(ErrorPreparingOrder.class, () -> vincent.makeOrder());
+        assertThrows(ErrorPreparingOrder.class, () -> vincent.submitOrder());
     }
 
     @Test
@@ -119,7 +121,7 @@ class OrderTest {
         vincent.createOrder(store);
         vincent.addCookie(chocoCookie, 4);
         vincent.addCookie(mnMChocoCookie, 1);
-        assertDoesNotThrow(() -> vincent.makeOrder());
+        assertDoesNotThrow(() -> vincent.submitOrder());
     }
 
     @Test
@@ -127,7 +129,7 @@ class OrderTest {
         vincent.createOrder(store);
         vincent.addCookie(chocoCookie, 4);
         vincent.addCookie(mnMChocoCookie, 2);
-        assertThrows(ErrorPreparingOrder.class, () -> vincent.makeOrder());
+        assertThrows(ErrorPreparingOrder.class, () -> vincent.submitOrder());
     }
 
     @Test

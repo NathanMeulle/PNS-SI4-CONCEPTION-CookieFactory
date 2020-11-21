@@ -2,8 +2,9 @@ package fr.unice.polytech.si4.conception.l;
 
 import fr.unice.polytech.si4.conception.l.customer.Customer;
 import fr.unice.polytech.si4.conception.l.exceptions.AlreadyCreatedException;
-import fr.unice.polytech.si4.conception.l.order.Order;
+import fr.unice.polytech.si4.conception.l.exceptions.NotFindException;
 import fr.unice.polytech.si4.conception.l.products.Cookie;
+import fr.unice.polytech.si4.conception.l.products.composition.Ingredient;
 import fr.unice.polytech.si4.conception.l.store.Store;
 
 import java.util.ArrayList;
@@ -16,11 +17,12 @@ import java.util.Map;
  * Class containing our company, regrouping our stores, cookies, customers and managers
  * @Patern Singleton
  */
-public class SystemInfo {
+public class SystemInfo implements ISystemInfo {
 
     private List<Customer> customers;
     private List<Cookie> cookies;
     private List<Store> stores;
+    private List<Ingredient> ingredients;
     private Cookie bestOfNational;
 
     private SystemInfo() {
@@ -28,6 +30,7 @@ public class SystemInfo {
         this.cookies = new ArrayList<>();
         this.stores = new ArrayList<>();
         this.customers = new ArrayList<>();
+        this.ingredients = new ArrayList<>();
         this.bestOfNational = null;
     }
 
@@ -41,7 +44,7 @@ public class SystemInfo {
         this.stores.clear();
         this.customers.clear();
         this.cookies.clear();
-
+        this.ingredients.clear();
     }
 
     /**
@@ -57,12 +60,12 @@ public class SystemInfo {
         }
     }
 
-    public Store getStoreByAddress(String address) {
+    public Store getStoreByAddress(String address) throws NotFindException {
         for (Store s : stores) {
             if (s.getAddress().equals(address))
                 return s;
         }
-        return null;
+        throw new NotFindException("address not find");
     }
 
     public void addCookie(Cookie cookie) throws AlreadyCreatedException {
@@ -72,6 +75,19 @@ public class SystemInfo {
             cookies.add(cookie);
         }
     }
+
+    /**
+     * Add a new list of ingredients in the stock of each stores.
+     * @param ingredientList : the list of ingredients which we want to had into the catalogue of CookieFactory
+     */
+    public void newIngredient(List<Ingredient> ingredientList) {
+        for (Ingredient i : ingredientList){
+            if (!ingredients.contains(i)) {
+                ingredients.add(i);
+            }
+        }
+    }
+
 
     /**
      * create and add a customer to the customer list. If it already exists, returns an exception.
@@ -101,6 +117,17 @@ public class SystemInfo {
     }
 
     /**
+     * Generate a proxy version of the CookieFactory named FactoryCustomerSide.
+     * The FactoryCustomerSide give just access to the cookies, stores and ingredients
+     * but within unmodifiableList
+     * @return : an instance of class FactoryCustomerSide
+     */
+    public FactoryCustomerSide generateProxy(){
+        return new FactoryCustomerSide();
+    }
+
+
+    /**
      * *******************************************************************************
      * GETTERS / SETTERS
      * ********************************************************************************
@@ -117,12 +144,12 @@ public class SystemInfo {
      * @return the customer if he exists in the databse
      */
 
-    public Customer getCustomerByMail(String mail) {
+    public Customer getCustomerByMail(String mail) throws NotFindException {
         for (Customer c : customers) {
             if (c.getMail().equals(mail))
                 return c;
         }
-        return null;
+        throw new NotFindException("mail not find");
     }
 
     /**
@@ -131,20 +158,36 @@ public class SystemInfo {
      * @param numTel customer identifier
      * @return the customer if he exists in the databse
      */
-    public Customer getCustomerByTel(String numTel) {
+    public Customer getCustomerByTel(String numTel) throws NotFindException {
         for (Customer c : customers) {
             if (c.getPhoneNumber().equals(numTel))
                 return c;
         }
-        return null;
+        throw new NotFindException("tel not find");
     }
 
+    @Override
     public List<Cookie> getCookies() {
         return cookies;
     }
 
+    public Cookie getCookieByName(String name) throws NotFindException {
+        for(Cookie cookie : cookies){
+            if(cookie.getName().equals(name)){
+                return cookie;
+            }
+        }
+        throw new NotFindException("cookie not found");
+    }
+
+    @Override
     public List<Store> getStores() {
         return stores;
+    }
+
+    @Override
+    public List<Ingredient> getIngredients() {
+        return ingredients;
     }
 
     public void updateBestOfCookie() {
@@ -155,14 +198,13 @@ public class SystemInfo {
     public Map<Cookie, Integer> countNationalCookie() {
         Map<Cookie, Integer> totalCookie = new HashMap<>();
         for (Store store : getStores()) {
-            for (Order order : store.getOrderHistory().getRecentOrders()) { //TODO Nathan refacto avoid duplicate code
-                for (Cookie c : order.getCookies().keySet()) {
-                    if (totalCookie.containsKey(c)) {
-                        int updatedQuantity = totalCookie.get(c) + order.getCookies().get(c);
-                        totalCookie.replace(c, updatedQuantity);
-                    } else {
-                        totalCookie.put(c, order.getCookies().get(c));
-                    }
+            Map<Cookie, Integer> m = store.getOrderHistory().countStoreCookie(store.getOrderHistory().getRecentOrders());
+            for (Cookie c : m.keySet()) {
+                if (totalCookie.containsKey(c)) {
+                    int updatedQuantity = totalCookie.get(c) + m.get(c);
+                    totalCookie.replace(c, updatedQuantity);
+                } else {
+                    totalCookie.put(c, m.get(c));
                 }
             }
         }

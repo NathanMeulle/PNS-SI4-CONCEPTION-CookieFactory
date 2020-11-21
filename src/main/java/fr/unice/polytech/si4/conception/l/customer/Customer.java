@@ -60,6 +60,7 @@ public class Customer extends AnonymousCustomer implements CustomerInterface {
         return Objects.hash(super.hashCode(), getMail());
     }
 
+
     /**
      * *******************************************************************************
      * GETTERS / SETTERS

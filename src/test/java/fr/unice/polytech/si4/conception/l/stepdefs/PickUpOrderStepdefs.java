@@ -37,7 +37,7 @@ public class PickUpOrderStepdefs implements En {
             Calendar cal = new GregorianCalendar(LocalDateTime.now().getYear(), LocalDateTime.now().getMonthValue()-1, LocalDateTime.now().getDayOfMonth(), 14, 0, 0);
             Date choosenPickuptime = cal.getTime();
             orderBuilder.choosePickUpTime(choosenPickuptime);
-            anonymousCustomer.makeOrder();
+            anonymousCustomer.submitOrder();
             order = anonymousCustomer.getOrder();
         });
 

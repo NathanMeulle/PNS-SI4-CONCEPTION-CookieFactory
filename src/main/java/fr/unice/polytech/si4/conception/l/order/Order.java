@@ -129,10 +129,6 @@ public class Order {
         return priceTTC;
     }
 
-    public void setPriceHT(double priceHT) {
-        this.priceHT = priceHT;
-    }
-
     public Map<Cookie, Integer> getCookies() {
         return cookies;
     }
@@ -169,19 +165,6 @@ public class Order {
         return this.nbCookies;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Order order = (Order) o;
-        return idOrder == order.idOrder &&
-                priceHT == order.priceHT &&
-                nbCookies == order.nbCookies &&
-                date.equals(order.date) &&
-                store.equals(order.store) &&
-                cookies.equals(order.cookies) &&
-                customer.equals(order.customer);
-    }
 
     @Override
     public int hashCode() {
@@ -322,7 +305,6 @@ public class Order {
 
 
     }
-
 }
 
 

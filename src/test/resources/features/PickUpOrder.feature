@@ -24,3 +24,5 @@ Feature: Pick up an order
     And his order isn't ready yet
     And the order is paid
     Then order raise an exception
+
+    ## TODO pick up when the store is closed...

@@ -27,6 +27,7 @@ public class PayOrderStepdef implements En {
     SystemInfo systemInfo;
     Cookie cookieChoco;
     Cookie cookieVanilla;
+    Cookie cookiePerso;
     Ingredient chocolate;
     Ingredient vanilla;
     List<Ingredient> ingredients1;
@@ -59,7 +60,7 @@ public class PayOrderStepdef implements En {
             when(cookie.getPrice()).thenReturn(1.0);
             customer.createOrder(store);
             customer.addCookie(cookie, arg0);
-            customer.makeOrder();
+            customer.submitOrder();
         });
         Then("^there is (\\d+) in the cookie counter$", (Integer arg0) -> {
             assertEquals(arg0, customer.getNbCookieOrdered());
@@ -75,7 +76,7 @@ public class PayOrderStepdef implements En {
             when(cookie.getPrice()).thenReturn(price);
             customer.createOrder(store);
             customer.addCookie(cookie, arg0);
-            customer.makeOrder();
+            customer.submitOrder();
         });
         Then("^he must pay \"([^\"]*)\"$", (Double arg0) -> {
             assertEquals(arg0, customer.getPrice(), 0.01);
@@ -100,7 +101,7 @@ public class PayOrderStepdef implements En {
             customer.createOrder(store);
             customer.addCookie(cookieChoco, arg0);
             customer.addCookie(cookieVanilla, arg1);
-            customer.makeOrder();
+            customer.submitOrder();
             store.addToOrderHistory(customer.getOrder());
 
         });
@@ -112,6 +113,22 @@ public class PayOrderStepdef implements En {
         });
         Then("^cookie choco is the bestOfCookie$", () -> {
             assertEquals(cookieChoco, systemInfo.getBestCookieNational());
+        });
+        When("^an order of (\\d+) cookie personnalized$", (Integer arg0) -> {
+            customer = new Customer("vincent", "06", "mail");
+
+            chocolate = new Ingredient("Chocolate", 1, IngredientType.FLAVOR);
+            ingredients1 = new ArrayList<>();
+            ingredients1.add(chocolate);
+            cookiePerso = cookieFactory.createPersonnalizedCookie("Perso", ingredients1, new Dough("plain", 1), Mix.TOPPED, Cooking.CRUNCHY);
+
+            customer.createOrder(store);
+            customer.addCookie(cookiePerso, arg0);
+            customer.submitOrder();
+            store.addToOrderHistory(customer.getOrder());
+        });
+        Then("^cookie personnalized is the bestOfCookie$", () -> {
+            assertEquals(cookiePerso, systemInfo.getBestCookieNational());
         });
     }
 }

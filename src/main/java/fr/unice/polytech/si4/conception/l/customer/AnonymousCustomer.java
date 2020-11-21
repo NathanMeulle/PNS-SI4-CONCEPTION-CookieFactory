@@ -36,7 +36,8 @@ public class AnonymousCustomer implements CustomerInterface {
         this.orderBuilder.addCookie(cookie, quantity);
     }
 
-    public void makeOrder() throws ErrorPreparingOrder {
+
+    public void submitOrder() throws ErrorPreparingOrder {
         this.order = this.orderBuilder.build();
         this.order.submit();
     }
@@ -91,5 +92,4 @@ public class AnonymousCustomer implements CustomerInterface {
     public void setOrder(Order order) {
         this.order = order;
     }
-
 }
