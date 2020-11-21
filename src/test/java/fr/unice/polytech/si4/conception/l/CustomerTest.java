@@ -1,20 +1,13 @@
 package fr.unice.polytech.si4.conception.l;
 
 
+import fr.unice.polytech.si4.conception.l.customer.AnonymousCustomer;
 import fr.unice.polytech.si4.conception.l.customer.Customer;
-import fr.unice.polytech.si4.conception.l.exceptions.AlreadyCreatedException;
-import fr.unice.polytech.si4.conception.l.products.composition.Ingredient;
-import fr.unice.polytech.si4.conception.l.products.composition.IngredientType;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 
 public class CustomerTest {
@@ -23,74 +16,17 @@ public class CustomerTest {
     private Customer customer2;
     private SystemInfo SystemInfo;
 
-    Ingredient ingredientDoughMock1;
-    Ingredient ingredientDoughMock2;
-    Ingredient ingredientFlavorMock1;
-    Ingredient ingredientToppingMock1;
-    Ingredient ingredientToppingMock2;
-    Ingredient ingredientToppingMock3;
-    List<Ingredient> ingredientList;
-
-
     /**
      * Dès que des attributs (mail OU phone) sont identiques, les clients sont identiques
      */
 
     @BeforeEach
-    void setUp() throws AlreadyCreatedException {
+    void setUp() {
 
         customer1 = new Customer("Charlie", "06", "charlie@mail.com");
         SystemInfo = fr.unice.polytech.si4.conception.l.SystemInfo.getInstance();
         SystemInfo.resetSystemInfo();
-
-        ingredientDoughMock1 = mock(Ingredient.class);
-        when(ingredientDoughMock1.getType()).thenReturn(IngredientType.DOUGH);
-        when(ingredientDoughMock1.getPrice()).thenReturn(3);
-        ingredientDoughMock2 = mock(Ingredient.class);
-        when(ingredientDoughMock2.getType()).thenReturn(IngredientType.DOUGH);
-        when(ingredientDoughMock2.getPrice()).thenReturn(1);
-        ingredientFlavorMock1 = mock(Ingredient.class);
-        when(ingredientFlavorMock1.getType()).thenReturn(IngredientType.FLAVOR);
-        when(ingredientFlavorMock1.getPrice()).thenReturn(4);
-        ingredientToppingMock1 = mock(Ingredient.class);
-        when(ingredientToppingMock1.getType()).thenReturn(IngredientType.TOPPING);
-        when(ingredientToppingMock1.getPrice()).thenReturn(5);
-        ingredientToppingMock2 = mock(Ingredient.class);
-        when(ingredientToppingMock2.getType()).thenReturn(IngredientType.TOPPING);
-        when(ingredientToppingMock2.getPrice()).thenReturn(1);
-        ingredientToppingMock3 = mock(Ingredient.class);
-        when(ingredientToppingMock3.getType()).thenReturn(IngredientType.TOPPING);
-        when(ingredientToppingMock3.getPrice()).thenReturn(7);
-        ingredientList = new ArrayList<>();
-        ingredientList.add(ingredientDoughMock1);
-        ingredientList.add(ingredientDoughMock2);
-        ingredientList.add(ingredientFlavorMock1);
-        ingredientList.add(ingredientToppingMock1);
-        ingredientList.add(ingredientToppingMock2);
-        ingredientList.add(ingredientToppingMock3);
-        //TODO à revoir...
-        SystemInfo.newIngredient(ingredientList);
     }
-
-    @Test
-    void createCookieDefaultTest() {
-        /*
-        List<Ingredient> ingredientList = new ArrayList<>();
-        ingredientList.add(ingredientDoughMock1);
-        ingredientList.add(ingredientFlavorMock1);
-        ingredientList.add(ingredientToppingMock1);
-        ingredientList.add(ingredientToppingMock2);
-        ingredientList.add(ingredientToppingMock3);
-        Cookie cookieExpected = new Cookie("CookiePersoByDefault", ingredientList, Mix.MIXED, Cooking.CRUNCHY);
-
-
-        customer1.createCookie(SystemInfo.generateProxy());
-        Cookie cookieCreated = SystemInfo.getCookies().get(0);
-
-        assertEquals(cookieExpected, cookieCreated);
-         */
-    }
-
 
     @Test
     void equalTest() {
@@ -126,6 +62,17 @@ public class CustomerTest {
         customer1 = new Customer("Charlie", "06", "charlie@mail.com");
         customer2 = new Customer("Charlie", "07", "charlo@mail.com");
         assertNotEquals(customer1, customer2);
+    }
+
+    @Test
+    void AnonymousEqualTest() {
+        AnonymousCustomer customer = new AnonymousCustomer("Charlie", "06");
+        AnonymousCustomer customer2 = new AnonymousCustomer("Charlie", "06");
+        AnonymousCustomer customer3 = new AnonymousCustomer("Charlie", "07");
+        AnonymousCustomer customer4 = new AnonymousCustomer("Charlo", "06");
+        assertEquals(customer, customer2);
+        assertEquals(customer2, customer4);
+        assertNotEquals(customer2, customer3);
     }
 
 }

@@ -59,5 +59,14 @@ Feature: Pay Order
       When an order of 3 cookie choco and 2 cookie vanilla
       Then the customer pay 9.4 euros
 
+  Scenario: Order a personnalized cookie
+    When an order of 5 cookie personnalized
+    Then the customer pay 12.5 euros
+    And the cookiFactory update the bestOf
+    Then cookie personnalized is the bestOfCookie
+
+    When an order of 5 cookie personnalized
+    Then the customer pay 11.25 euros
+
 
 

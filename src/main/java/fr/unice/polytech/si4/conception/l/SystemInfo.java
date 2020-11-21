@@ -80,20 +80,12 @@ public class SystemInfo implements ISystemInfo {
      * Add a new list of ingredients in the stock of each stores.
      * @param ingredientList : the list of ingredients which we want to had into the catalogue of CookieFactory
      */
-    public void newIngredient(List<Ingredient> ingredientList) throws AlreadyCreatedException {
+    public void newIngredient(List<Ingredient> ingredientList) {
         for (Ingredient i : ingredientList){
-            if (ingredients.contains(i)) {
-                throw new AlreadyCreatedException("Ingredient already exists");
-            } else {
+            if (!ingredients.contains(i)) {
                 ingredients.add(i);
             }
         }
-    }
-
-    public void newIngredient(Ingredient ingredient) throws AlreadyCreatedException {
-        List<Ingredient> ingredientList = new ArrayList<>();
-        ingredientList.add(ingredient);
-        newIngredient(ingredientList);
     }
 
 

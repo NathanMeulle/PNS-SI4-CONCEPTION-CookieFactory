@@ -27,6 +27,7 @@ public class PayOrderStepdef implements En {
     SystemInfo systemInfo;
     Cookie cookieChoco;
     Cookie cookieVanilla;
+    Cookie cookiePerso;
     Ingredient chocolate;
     Ingredient vanilla;
     List<Ingredient> ingredients1;
@@ -114,6 +115,22 @@ public class PayOrderStepdef implements En {
         });
         Then("^cookie choco is the bestOfCookie$", () -> {
             assertEquals(cookieChoco, systemInfo.getBestCookieNational());
+        });
+        When("^an order of (\\d+) cookie personnalized$", (Integer arg0) -> {
+            customer = new Customer("vincent", "06", "mail");
+
+            chocolate = new Ingredient("Chocolate", 1, IngredientType.FLAVOR);
+            ingredients1 = new ArrayList<>();
+            ingredients1.add(chocolate);
+            cookiePerso = cookieFactory.createPersonnalizedCookie("Perso", ingredients1, new Dough("plain", 1), Mix.TOPPED, Cooking.CRUNCHY);
+
+            customer.createOrder(store);
+            customer.addCookie(cookiePerso, arg0);
+            customer.submitOrder();
+            store.addToOrderHistory(customer.getOrder());
+        });
+        Then("^cookie personnalized is the bestOfCookie$", () -> {
+            assertEquals(cookiePerso, systemInfo.getBestCookieNational());
         });
     }
 }

@@ -7,12 +7,12 @@ import fr.unice.polytech.si4.conception.l.products.composition.*;
 import fr.unice.polytech.si4.conception.l.store.Kitchen;
 import fr.unice.polytech.si4.conception.l.store.Manager;
 import fr.unice.polytech.si4.conception.l.store.Store;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import io.cucumber.java8.En;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.mock;
 
 public class CreatePersonalizedRecipeStepDef implements En {
@@ -60,12 +60,7 @@ public class CreatePersonalizedRecipeStepDef implements En {
                 () -> {
             List<Ingredient> ingredientList = new ArrayList<>();
             ingredientList.add(vanilla);
-            jhon.createCookie(systemInfo.generateProxy(), "HeavyVanilla", ingredientList, flour, Mix.MIXED, Cooking.CHEWY);
-            System.out.println(systemInfo.getCookies());
-        });
-        Then("the recipe \"HeavyVanilla\" is present in the cookieFactory", () ->{
-            cookieCreated = systemInfo.getCookieByName("HeavyVanilla");
-            assertEquals("HeavyVanilla", cookieCreated.getName());
+            cookieCreated = systemInfo.generateProxy().createCookiePersonalized( "HeavyVanilla", ingredientList, flour, Mix.MIXED, Cooking.CHEWY);
         });
         And("the cookie \"HeavyVanilla\" is composed by the ingredients vanilla and wholemeal flour", () -> {
             assertEquals(vanilla, cookieCreated.getIngredients().get(0));

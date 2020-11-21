@@ -7,7 +7,6 @@ import fr.unice.polytech.si4.conception.l.products.composition.IngredientType;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -53,14 +52,7 @@ class FactoryCustomerSideTest {
         when(ingredientToppingMock2.getType()).thenReturn(IngredientType.TOPPING);
         ingredientToppingMock3 = mock(Ingredient.class);
         when(ingredientToppingMock3.getType()).thenReturn(IngredientType.TOPPING);
-        ingredientList = new ArrayList<>();
-        ingredientList.add(ingredientDoughMock1);
-        ingredientList.add(ingredientDoughMock2);
-        ingredientList.add(ingredientFlavorMock1);
-        ingredientList.add(ingredientToppingMock1);
-        ingredientList.add(ingredientToppingMock2);
-        ingredientList.add(ingredientToppingMock3);
-        //TODO à revoir
+        ingredientList = List.of(ingredientDoughMock1, ingredientDoughMock2, ingredientFlavorMock1, ingredientToppingMock1, ingredientToppingMock2, ingredientToppingMock3);
         systemInfo.newIngredient(ingredientList);
     }
 

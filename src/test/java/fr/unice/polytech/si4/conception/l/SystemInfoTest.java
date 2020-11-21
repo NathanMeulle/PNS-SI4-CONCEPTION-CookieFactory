@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 class SystemInfoTest {
 
@@ -157,6 +158,11 @@ class SystemInfoTest {
     }
 
     @Test
+    void getStoreTest() {
+        assertThrows(NotFindException.class, () -> systemInfo.getStoreByAddress("Bolivie"));
+    }
+
+    @Test
     void addingSameStoreTest() {
         try {
             systemInfo.addStore(storeMock);
@@ -194,4 +200,17 @@ class SystemInfoTest {
         assertThrows(AlreadyCreatedException.class, () -> systemInfo.addCustomer(customerMock));
 
     }
+
+    @Test
+    void getCookieest() throws NotFindException {
+        try {
+            systemInfo.addCookie(cookieMock);
+        } catch (AlreadyCreatedException e) {
+            e.printStackTrace();
+        }
+        when(cookieMock.getName()).thenReturn("cookie");
+        assertDoesNotThrow(()->systemInfo.getCookieByName("cookie"));
+        assertThrows(NotFindException.class, () -> systemInfo.getCookieByName("pistache"));
+    }
+
 }

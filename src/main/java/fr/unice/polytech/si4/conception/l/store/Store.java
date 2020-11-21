@@ -8,7 +8,6 @@ import fr.unice.polytech.si4.conception.l.products.Cookie;
 import fr.unice.polytech.si4.conception.l.products.composition.Ingredient;
 import fr.unice.polytech.si4.conception.l.store.schedule.Schedule;
 
-import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
