@@ -29,7 +29,7 @@ public class CookieFactory implements CookieFactoryInterface {
     public void checkIngredients(List<Ingredient> ingredients) throws InvalidTypeIngredient, InvalidNumberIngredient {
         int cptFlavor = 0;
         int cptTopping = 0;
-        if (ingredients.size() != 0) {
+        if (!ingredients.isEmpty()) {
             for (Ingredient i : ingredients) {
                 if(!SystemInfo.getInstance().getIngredients().contains(i))
                     throw new InvalidTypeIngredient("Ingredient does not exist in the Factory");
