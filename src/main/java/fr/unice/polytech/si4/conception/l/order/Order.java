@@ -165,13 +165,6 @@ public class Order {
         return this.nbCookies;
     }
 
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(idOrder, date, store, customer);
-    }
-
-
     /**
      * This class is the builder to construct the order
      * @author Delmotte Vincent

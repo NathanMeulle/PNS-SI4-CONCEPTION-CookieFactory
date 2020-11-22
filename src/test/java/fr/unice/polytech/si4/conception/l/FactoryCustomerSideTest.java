@@ -2,8 +2,10 @@ package fr.unice.polytech.si4.conception.l;
 
 import fr.unice.polytech.si4.conception.l.customer.Customer;
 import fr.unice.polytech.si4.conception.l.exceptions.AlreadyCreatedException;
+import fr.unice.polytech.si4.conception.l.products.Cookie;
 import fr.unice.polytech.si4.conception.l.products.composition.Ingredient;
 import fr.unice.polytech.si4.conception.l.products.composition.IngredientType;
+import fr.unice.polytech.si4.conception.l.store.Store;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -53,7 +55,7 @@ class FactoryCustomerSideTest {
         ingredientToppingMock3 = mock(Ingredient.class);
         when(ingredientToppingMock3.getType()).thenReturn(IngredientType.TOPPING);
         ingredientList = List.of(ingredientDoughMock1, ingredientDoughMock2, ingredientFlavorMock1, ingredientToppingMock1, ingredientToppingMock2, ingredientToppingMock3);
-        systemInfo.newIngredient(ingredientList);
+        systemInfo.addIngredient(ingredientList);
     }
 
     @Test
@@ -88,4 +90,30 @@ class FactoryCustomerSideTest {
         systemInfo.resetSystemInfo();
     }
 
+    @Test
+    void getCookiesTest(){
+        Cookie cookie = mock(Cookie.class);
+        try {
+            systemInfo.addCookie(cookie);
+        } catch (AlreadyCreatedException e) {
+            e.printStackTrace();
+        }
+        assertEquals(List.of(cookie), catalogue.getCookies());
+    }
+
+    @Test
+    void getStoresTest(){
+        Store store = mock(Store.class);
+        try {
+            systemInfo.addStore(store);
+        } catch (AlreadyCreatedException e) {
+            e.printStackTrace();
+        }
+        assertEquals(List.of(store), catalogue.getStores());
+    }
+
+    @Test
+    void getIngredientTest(){
+        assertEquals(ingredientList, catalogue.getIngredients());
+    }
 }

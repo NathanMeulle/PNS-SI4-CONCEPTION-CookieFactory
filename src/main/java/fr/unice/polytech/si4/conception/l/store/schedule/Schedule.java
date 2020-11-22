@@ -11,7 +11,7 @@ import java.util.Map;
  * Custom class to manage a store's opening/closing hours
  */
 public class Schedule implements Comparator<Date> {
-    private EnumMap<Day, Time> openingHours;
+    private Map<Day, Time> openingHours;
 
     public Schedule(){
         openingHours = new EnumMap<>(Day.class);
@@ -74,11 +74,11 @@ public class Schedule implements Comparator<Date> {
             case 5: return Day.THURSDAY;
             case 6: return Day.FRIDAY;
             case 7: return Day.SATURDAY;
+            default: return Day.SUNDAY;
         }
-        return Day.SUNDAY;
     }
 
-    public void setOpeningHours(EnumMap<Day, Time> openingHours) {
+    public void setOpeningHours(Map<Day, Time> openingHours) {
         this.openingHours = openingHours;
     }
 

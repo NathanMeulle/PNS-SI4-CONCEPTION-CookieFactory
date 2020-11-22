@@ -13,8 +13,6 @@ import fr.unice.polytech.si4.conception.l.store.Manager;
 import fr.unice.polytech.si4.conception.l.store.Store;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.ArrayList;
 import java.util.List;

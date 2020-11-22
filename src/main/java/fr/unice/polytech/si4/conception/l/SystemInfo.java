@@ -80,7 +80,7 @@ public class SystemInfo implements ISystemInfo {
      * Add a new list of ingredients in the stock of each stores.
      * @param ingredientList : the list of ingredients which we want to had into the catalogue of CookieFactory
      */
-    public void newIngredient(List<Ingredient> ingredientList) {
+    public void addIngredient(List<Ingredient> ingredientList) {
         for (Ingredient i : ingredientList){
             if (!ingredients.contains(i)) {
                 ingredients.add(i);
@@ -215,13 +215,18 @@ public class SystemInfo implements ISystemInfo {
         Cookie bestCookie = null;
         for (Map.Entry<Cookie, Integer> entry : totalCookie.entrySet()) {
             if (bestCookie == null || entry.getValue() >= totalCookie.get(bestCookie)) {
-                if(entry.getValue().equals(totalCookie.get(bestCookie))){
-                    double tmp = (bestCookie == null)?0:bestCookie.getPrice();
-                    bestCookie = (entry.getKey().getPrice() < tmp)?entry.getKey():bestCookie; // en cas d'égalité, on renvoie le cookie le moins cher
-                }
-                else bestCookie = entry.getKey();
+                bestCookie = changeBestOf(totalCookie, bestCookie, entry);
             }
         }
+        return bestCookie;
+    }
+
+    private Cookie changeBestOf(Map<Cookie, Integer> totalCookie, Cookie bestCookie, Map.Entry<Cookie, Integer> entry) {
+        if(entry.getValue().equals(totalCookie.get(bestCookie))){
+            double tmp = (bestCookie == null)?0: bestCookie.getPrice();
+            bestCookie = (entry.getKey().getPrice() < tmp)? entry.getKey(): bestCookie; // en cas d'égalité, on renvoie le cookie le moins cher
+        }
+        else bestCookie = entry.getKey();
         return bestCookie;
     }
 
