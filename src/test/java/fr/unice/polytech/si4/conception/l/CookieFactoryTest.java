@@ -69,6 +69,7 @@ class CookieFactoryTest {
         kitkatTopping = new Ingredient("kitkat", 1, IngredientType.TOPPING);
         daimTopping = new Ingredient("daim", 1, IngredientType.TOPPING);
         speculosTopping = new Ingredient("speculos", 1, IngredientType.TOPPING);
+        systemInfo.addIngredient(List.of(chocolateFlavor, vanillaFlavor, mnmsTopping, kitkatTopping, daimTopping, speculosTopping));
     }
 
 

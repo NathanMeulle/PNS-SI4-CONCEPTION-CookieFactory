@@ -54,9 +54,11 @@ public class IntegrationOrderingStepDef implements En {
         });
         And("^an ingredient called Chocolate, costing (\\d+)$", (Integer arg0) -> {
             chocolate = new Ingredient("Chocolate", arg0, IngredientType.FLAVOR);
+            systemInfo.addIngredient(List.of(chocolate));
         });
         And("^an ingredient called MnMs, costing (\\d+)$", (Integer arg0) -> {
             mnm = new Ingredient("MnM", arg0, IngredientType.TOPPING);
+            systemInfo.addIngredient(List.of(mnm));
         });
         And("^A recipe \"([^\"]*)\" with ingredients \"([^\"]*)\"$", (String arg0, String arg1) -> {
             List<Ingredient> ingredients = new ArrayList<>();
@@ -110,6 +112,7 @@ public class IntegrationOrderingStepDef implements En {
             Ingredient ingredient1 = new Ingredient(arg0, 3, IngredientType.FLAVOR);
             Ingredient ingredient2 = new Ingredient(arg1, 4, IngredientType.TOPPING);
             Ingredient ingredient3 = new Ingredient(arg2, 5, IngredientType.TOPPING);
+            systemInfo.addIngredient(List.of(ingredient1, ingredient2, ingredient3));
             kitchen.incrementStock(ingredient1, 4);
             kitchen.incrementStock(ingredient2, 4);
             kitchen.incrementStock(ingredient3, 4);

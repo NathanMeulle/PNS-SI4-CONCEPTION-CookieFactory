@@ -1,5 +1,6 @@
 package fr.unice.polytech.si4.conception.l.products;
 
+import fr.unice.polytech.si4.conception.l.SystemInfo;
 import fr.unice.polytech.si4.conception.l.exceptions.InvalidNumberIngredient;
 import fr.unice.polytech.si4.conception.l.exceptions.InvalidTypeIngredient;
 import fr.unice.polytech.si4.conception.l.products.composition.*;
@@ -30,6 +31,8 @@ public class CookieFactory implements CookieFactoryInterface {
         int cptTopping = 0;
         if (ingredients.size() != 0) {
             for (Ingredient i : ingredients) {
+                if(!SystemInfo.getInstance().getIngredients().contains(i))
+                    throw new InvalidTypeIngredient("Ingredient does not exist in the Factory");
                 if (i.getType().equals(IngredientType.FLAVOR)) {
                     cptFlavor += 1;
                 } else if (i.getType().equals(IngredientType.TOPPING)) {

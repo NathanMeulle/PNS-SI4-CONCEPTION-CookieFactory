@@ -35,6 +35,7 @@ public class CreateRecipeStepdefs implements En {
             List<Store> stores = new ArrayList<>();
             stores.add(store);
             systemInfo = systemInfo.getInstance();
+            systemInfo.resetSystemInfo();
             for (Store s : stores) {
                 systemInfo.addStore(s);
 
@@ -43,7 +44,9 @@ public class CreateRecipeStepdefs implements En {
 
         And("^a recipe of a cookie named \"([^\"]*)\"$", (String arg0) -> {
             List<Ingredient> ingredients = new ArrayList<>();
-            ingredients.add(new Ingredient("Chocolate", 2, IngredientType.FLAVOR));
+            Ingredient i = new Ingredient("Chocolate", 2, IngredientType.FLAVOR);
+            systemInfo.addIngredient(List.of(i));
+            ingredients.add(i);
             cookie = cookieFactory.createDefaultCookie(arg0, ingredients, new Dough("plain", 1),  Mix.MIXED, Cooking.CRUNCHY);
         });
 

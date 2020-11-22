@@ -38,6 +38,7 @@ class OrderTest {
     Cookie chocoCookie;
     AnonymousCustomer vincent;
     CookieFactory cookieFactory;
+    SystemInfo systemInfo;
 
 
 
@@ -52,6 +53,7 @@ class OrderTest {
         cookieVanilleMock = mock(Cookie.class);
         managerMock = mock(Manager.class);
 
+
         store = new Store(1, "", 1.2, "01", "mail", managerMock);
 
         kitchen = new Kitchen();
@@ -61,6 +63,9 @@ class OrderTest {
 
         mnm = new Ingredient("MnM", 7, IngredientType.TOPPING);
 
+        systemInfo = SystemInfo.getInstance();
+        systemInfo.resetSystemInfo();
+        systemInfo.addIngredient(List.of(chocolate, mnm));
         kitchen.incrementStock(chocolate, 5);
         kitchen.incrementStock(mnm, 3);
 

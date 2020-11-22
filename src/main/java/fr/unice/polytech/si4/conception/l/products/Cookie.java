@@ -98,6 +98,10 @@ public abstract class Cookie {
         return ingredients;
     }
 
+    public CookieType getCookieType() {
+        return cookieType;
+    }
+
     public void setIngredients(List<Ingredient> ingredients) {
         this.ingredients = ingredients;
     }

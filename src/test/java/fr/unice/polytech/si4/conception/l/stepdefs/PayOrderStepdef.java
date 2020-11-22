@@ -89,11 +89,13 @@ public class PayOrderStepdef implements En {
             customer = new Customer("vincent", "06", "mail");
 
             chocolate = new Ingredient("Chocolate", 1, IngredientType.FLAVOR);
+            vanilla = new Ingredient("Vanilla", 1, IngredientType.FLAVOR);
+            systemInfo.addIngredient(List.of(chocolate, vanilla));
+
             ingredients1 = new ArrayList<>();
             ingredients1.add(chocolate);
             cookieChoco = cookieFactory.createDefaultCookie("Choco", ingredients1, new Dough("plain", 1), Mix.TOPPED, Cooking.CRUNCHY);
 
-            vanilla = new Ingredient("Vanilla", 1, IngredientType.FLAVOR);
             ingredients2 = new ArrayList<>();
             ingredients2.add(chocolate);
             cookieVanilla = cookieFactory.createDefaultCookie("Vanilla", ingredients2, new Dough("plain", 1), Mix.TOPPED, Cooking.CRUNCHY);
@@ -120,6 +122,7 @@ public class PayOrderStepdef implements En {
             chocolate = new Ingredient("Chocolate", 1, IngredientType.FLAVOR);
             ingredients1 = new ArrayList<>();
             ingredients1.add(chocolate);
+            systemInfo.addIngredient(List.of(chocolate));
             cookiePerso = cookieFactory.createPersonnalizedCookie("Perso", ingredients1, new Dough("plain", 1), Mix.TOPPED, Cooking.CRUNCHY);
 
             customer.createOrder(store);
