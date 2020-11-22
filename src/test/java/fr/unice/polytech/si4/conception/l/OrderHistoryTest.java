@@ -17,7 +17,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 
-public class OrderHistoryTest {
+class OrderHistoryTest {
 
     SystemInfo systemInfo;
     Store store1;
@@ -235,6 +235,33 @@ public class OrderHistoryTest {
     void getStoreBestOfTest1() {
         Map<Cookie, Integer> cookies1 = new HashMap<>();
         cookies1.put(cookie1, 2);
+        cookies1.put(cookie2, 7);
+        when(order1.getCookies()).thenReturn(cookies1);
+        when(order1.getStore()).thenReturn(store1);
+
+        Map<Cookie, Integer> cookies2 = new HashMap<>();
+        cookies2.put(cookie3, 2);
+        cookies2.put(cookie4, 12);
+        when(order2.getCookies()).thenReturn(cookies2);
+        when(order2.getStore()).thenReturn(store1);
+
+        when(cookie1.getPrice()).thenReturn(2.0);
+        when(cookie4.getPrice()).thenReturn(1.0);
+
+        orderHistory1.addOrder(order1);
+        orderHistory1.addOrder(order2);
+
+        assertEquals(cookie4, orderHistory1.getBestCookieStore());
+    }
+
+
+    /**
+     * Cas d'égalité Best of Cookie of a store
+     */
+    @Test
+    void getStoreBestOfTest2() {
+        Map<Cookie, Integer> cookies1 = new HashMap<>();
+        cookies1.put(cookie1, 12);
         cookies1.put(cookie2, 7);
         when(order1.getCookies()).thenReturn(cookies1);
         when(order1.getStore()).thenReturn(store1);

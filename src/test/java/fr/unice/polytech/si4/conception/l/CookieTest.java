@@ -1,11 +1,10 @@
 package fr.unice.polytech.si4.conception.l;
 
+import fr.unice.polytech.si4.conception.l.exceptions.InvalidNumberIngredient;
+import fr.unice.polytech.si4.conception.l.exceptions.InvalidTypeIngredient;
 import fr.unice.polytech.si4.conception.l.products.Cookie;
 import fr.unice.polytech.si4.conception.l.products.CookieFactory;
-import fr.unice.polytech.si4.conception.l.products.composition.Cooking;
-import fr.unice.polytech.si4.conception.l.products.composition.Dough;
-import fr.unice.polytech.si4.conception.l.products.composition.Ingredient;
-import fr.unice.polytech.si4.conception.l.products.composition.Mix;
+import fr.unice.polytech.si4.conception.l.products.composition.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -13,43 +12,45 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
-public class CookieTest {
+class CookieTest {
 
     private Ingredient ingredient1;
     private Ingredient ingredient2;
     private Cookie cookie;
     private List<Ingredient> ingredients;
     private CookieFactory cookieFactory;
+    private SystemInfo systemInfo;
 
     @BeforeEach
     void setup() {
         cookieFactory = new CookieFactory();
-        ingredient1 = mock(Ingredient.class);
-        ingredient2 = mock(Ingredient.class);
-        when(ingredient1.getPrice()).thenReturn(3);
-        when(ingredient2.getPrice()).thenReturn(4);
+        ingredient1 = new Ingredient("ingredient1", 3, IngredientType.FLAVOR);
+        ingredient2 = new Ingredient("ingredient2", 4, IngredientType.TOPPING);
+
+        systemInfo = SystemInfo.getInstance();
+        systemInfo.resetSystemInfo();
+        systemInfo.addIngredient(List.of(ingredient1, ingredient2));
+
         ingredients = new ArrayList<>();
     }
 
 
     @Test
-    void calculPriceTest0() {
+    void calculPriceTest0() throws InvalidNumberIngredient, InvalidTypeIngredient {
         cookie = cookieFactory.createDefaultCookie("", ingredients, new Dough("plain", 1), Mix.MIXED, Cooking.CRUNCHY);
         assertEquals(0, cookie.getPrice());
     }
 
     @Test
-    void calculPriceTest() {
+    void calculPriceTest() throws InvalidNumberIngredient, InvalidTypeIngredient {
         ingredients.add(ingredient1);
         cookie = cookieFactory.createDefaultCookie("", ingredients, new Dough("plain", 1), Mix.MIXED, Cooking.CRUNCHY);
         assertEquals(4, cookie.getPrice());
     }
 
     @Test
-    void calculPriceTest2() {
+    void calculPriceTest2() throws InvalidNumberIngredient, InvalidTypeIngredient {
         ingredients.add(ingredient1);
         ingredients.add(ingredient2);
         cookie = cookieFactory.createDefaultCookie("", ingredients, new Dough("plain", 1), Mix.MIXED, Cooking.CRUNCHY);
@@ -57,7 +58,7 @@ public class CookieTest {
     }
 
     @Test
-    void calculPriceTest3() {
+    void calculPriceTest3() throws InvalidNumberIngredient, InvalidTypeIngredient {
         ingredients.add(ingredient1);
         ingredients.add(ingredient2);
         ingredients.add(ingredient2);

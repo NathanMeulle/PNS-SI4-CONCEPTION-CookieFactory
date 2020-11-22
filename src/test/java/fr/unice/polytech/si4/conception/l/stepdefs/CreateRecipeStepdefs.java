@@ -24,6 +24,8 @@ public class CreateRecipeStepdefs implements En {
 
     public CreateRecipeStepdefs() {
 
+        ////////////////////////// Background //////////////////////////
+
         Given("^a factory with a store$", () -> {
 
             Manager manager = new Manager(1, "Nathan");
@@ -33,6 +35,7 @@ public class CreateRecipeStepdefs implements En {
             List<Store> stores = new ArrayList<>();
             stores.add(store);
             systemInfo = systemInfo.getInstance();
+            systemInfo.resetSystemInfo();
             for (Store s : stores) {
                 systemInfo.addStore(s);
 
@@ -41,15 +44,23 @@ public class CreateRecipeStepdefs implements En {
 
         And("^a recipe of a cookie named \"([^\"]*)\"$", (String arg0) -> {
             List<Ingredient> ingredients = new ArrayList<>();
-            ingredients.add(new Ingredient("Chocolate", 2, IngredientType.FLAVOR));
+            Ingredient i = new Ingredient("Chocolate", 2, IngredientType.FLAVOR);
+            systemInfo.addIngredient(List.of(i));
+            ingredients.add(i);
             cookie = cookieFactory.createDefaultCookie(arg0, ingredients, new Dough("plain", 1),  Mix.MIXED, Cooking.CRUNCHY);
         });
+
+        ////////////////////////// Scenario_1 //////////////////////////
+
         When("^the factory requests his number of recipe$", () -> {
             nbCookies = systemInfo.getCookies().size();
         });
         Then("^There is (\\d+) in his number of recipe$", (Integer arg0) -> {
             assertEquals(arg0.intValue(),nbCookies);
         });
+
+        ////////////////////////// Scenario_2 //////////////////////////
+
         When("^the factory adds the recipe \"([^\"]*)\"$", (String arg0) -> {
             systemInfo.addCookie(cookie);
         });

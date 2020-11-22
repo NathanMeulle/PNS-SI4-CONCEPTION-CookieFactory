@@ -1,5 +1,6 @@
 package fr.unice.polytech.si4.conception.l.stepdefs;
 
+import fr.unice.polytech.si4.conception.l.SystemInfo;
 import fr.unice.polytech.si4.conception.l.customer.AnonymousCustomer;
 import fr.unice.polytech.si4.conception.l.customer.Customer;
 import fr.unice.polytech.si4.conception.l.order.Order;
@@ -25,19 +26,25 @@ public class CreateOrderStepDef implements En {
     private Customer customer;
     private CookieFactory cookieFactory;
     private Order.OrderBuilder orderBuilder;
+    SystemInfo systemInfo;
 
     public CreateOrderStepDef() {
         Given("^a store, an anonymous customer and a customer$", () -> {
             cookieFactory = new CookieFactory();
+            systemInfo = SystemInfo.getInstance();
+            systemInfo.resetSystemInfo();
             Manager manager = new Manager(1,"Phillipe");
             store = new Store(1,"0",1.0,"0652487564","@gmail.com",manager);
             anonymousCustomer = new AnonymousCustomer("Philippe", "06.05.45.87.12");
             customer = new Customer("Phil", "06", "phil@mail.fr");
+
         });
 
         And("^a cookie of name \"([^\"]*)\"$", (String arg0) -> {
             List<Ingredient> ingredients = new ArrayList<>();
-            ingredients.add(new Ingredient("Chocolate", 2, IngredientType.FLAVOR));
+            Ingredient i = new Ingredient("Chocolate", 2, IngredientType.FLAVOR);
+            systemInfo.addIngredient(List.of(i));
+            ingredients.add(i);
             cookie = cookieFactory.createDefaultCookie(arg0, ingredients, new Dough("plain", 1),  Mix.MIXED, Cooking.CRUNCHY);
 
         });

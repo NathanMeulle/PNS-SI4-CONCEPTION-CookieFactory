@@ -5,6 +5,7 @@ import fr.unice.polytech.si4.conception.l.exceptions.NotPaid;
 import fr.unice.polytech.si4.conception.l.exceptions.WrongPickUpTimeException;
 import fr.unice.polytech.si4.conception.l.products.Cookie;
 
+import java.util.Date;
 import java.util.Objects;
 
 public class Customer extends AnonymousCustomer implements CustomerInterface {
@@ -41,8 +42,8 @@ public class Customer extends AnonymousCustomer implements CustomerInterface {
         this.nbCookieOrdered = 0;
     }
 
-    public void pickUpOrder() throws NotAlreadyCooked, NotPaid, WrongPickUpTimeException {
-        super.getOrder().pickedUp();
+    public void pickUpOrder(Date date) throws NotAlreadyCooked, NotPaid, WrongPickUpTimeException {
+        super.getOrder().pickedUp(date);
     }
 
 
@@ -58,6 +59,7 @@ public class Customer extends AnonymousCustomer implements CustomerInterface {
     public int hashCode() {
         return Objects.hash(super.hashCode(), getMail());
     }
+
 
     /**
      * *******************************************************************************

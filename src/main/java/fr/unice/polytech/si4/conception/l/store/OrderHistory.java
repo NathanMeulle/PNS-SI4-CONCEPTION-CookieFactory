@@ -72,11 +72,17 @@ public class OrderHistory {
         Cookie bestCookie = null;
         for (Map.Entry<Cookie, Integer> entry : totalCookie.entrySet()) {
             if (bestCookie == null || entry.getValue() >= totalCookie.get(bestCookie)) {
-                if(entry.getValue() == totalCookie.get(bestCookie))
-                    bestCookie = (entry.getKey().getPrice() < bestCookie.getPrice())?entry.getKey():bestCookie; // en cas d'égalité, on renvoie le cookie le moins cher
-                else bestCookie = entry.getKey();
+                bestCookie = changeBestOf(totalCookie, bestCookie, entry);
             }
         }
+        return bestCookie;
+    }
+
+    private Cookie changeBestOf(Map<Cookie, Integer> totalCookie, Cookie bestCookie, Map.Entry<Cookie, Integer> entry) {
+        if (entry.getValue().equals(totalCookie.get(bestCookie))) {
+            double tmp = (bestCookie == null)?0: bestCookie.getPrice();
+            bestCookie = (entry.getKey().getPrice() < tmp) ? entry.getKey() : bestCookie; // en cas d'égalité, on renvoie le cookie le moins cher
+        } else bestCookie = entry.getKey();
         return bestCookie;
     }
 

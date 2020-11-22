@@ -5,6 +5,7 @@ import fr.unice.polytech.si4.conception.l.customer.AnonymousCustomer;
 import fr.unice.polytech.si4.conception.l.order.Order;
 import fr.unice.polytech.si4.conception.l.order.StateOrder;
 import fr.unice.polytech.si4.conception.l.products.Cookie;
+import fr.unice.polytech.si4.conception.l.products.composition.Ingredient;
 import fr.unice.polytech.si4.conception.l.store.schedule.Schedule;
 
 import java.util.Map;
@@ -110,6 +111,15 @@ public class Store {
         Log.add(" A sms was sent to "+ anonymousCustomer.getName() +" to come and collect his order. ");
     }
 
+    /**
+     * Increment the stock of the kitchen with the ingredient in param
+     * @param ingredient : ingredient to increment
+     * @param n : number of ingredient
+     */
+    public void incrementStock(Ingredient ingredient, int n){
+        kitchen.incrementStock(ingredient, n);
+    }
+
     @Override
     public int hashCode() {
         return Objects.hash(getId(), getAddress(), getTax(), getPhone(), getMail(), manager, schedule);
@@ -134,6 +144,13 @@ public class Store {
     public Kitchen getKitchen() {
         return kitchen;
     }
+
+    public Map<Ingredient, Integer> getStock() {
+
+        return kitchen.getStock();
+    }
+
+
 
     public void setOrderHistory(OrderHistory orderHistory) {
         this.orderHistory = orderHistory;

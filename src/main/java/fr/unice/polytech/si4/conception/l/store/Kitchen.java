@@ -112,7 +112,7 @@ public class Kitchen {
      * Method Overload
      * Add An Ingredient to stock
      *
-     * @param ingredient : store to assign
+     * @param ingredient : ingredient to increment
      * @param n : number of ingredient
      */
     public void incrementStock(Ingredient ingredient, int n){

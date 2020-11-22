@@ -1,5 +1,5 @@
 # Created by vincent at 17/10/2020
-Feature: Create Order
+Feature: Adding to Order
 
   Background:
     Given a store, an anonymous customer and a customer

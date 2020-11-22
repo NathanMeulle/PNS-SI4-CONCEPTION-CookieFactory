@@ -14,7 +14,9 @@ import fr.unice.polytech.si4.conception.l.exceptions.WrongPickUpTimeException;
 import fr.unice.polytech.si4.conception.l.products.Cookie;
 import fr.unice.polytech.si4.conception.l.store.Store;
 
-import java.util.*;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 
 public class Order {
@@ -53,13 +55,13 @@ public class Order {
      * When the customer pick up his order, it's put in OrderHistory
      * If order not ready, raise NotAlreadyCookedException
      */
-    public void pickedUp() throws NotAlreadyCooked, NotPaid, WrongPickUpTimeException {
-        Calendar cal = Calendar.getInstance();
-        Date date = cal.getTime();
+    public void pickedUp(Date date) throws NotAlreadyCooked, NotPaid, WrongPickUpTimeException {
         if (!isPaid) {
             throw new NotPaid("You did not pay");
         }
 
+        System.out.println(date);
+        System.out.println(pickUpTime);
         if (date.compareTo(pickUpTime) < 0)
             throw new WrongPickUpTimeException("You're are way too early");
 
@@ -126,10 +128,6 @@ public class Order {
         return priceTTC;
     }
 
-    public void setPriceHT(double priceHT) {
-        this.priceHT = priceHT;
-    }
-
     public Map<Cookie, Integer> getCookies() {
         return cookies;
     }
@@ -165,26 +163,6 @@ public class Order {
     public int getNbCookies() {
         return this.nbCookies;
     }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Order order = (Order) o;
-        return idOrder == order.idOrder &&
-                priceHT == order.priceHT &&
-                nbCookies == order.nbCookies &&
-                date.equals(order.date) &&
-                store.equals(order.store) &&
-                cookies.equals(order.cookies) &&
-                customer.equals(order.customer);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(idOrder, date, store, customer);
-    }
-
 
     /**
      * This class is the builder to construct the order
@@ -278,8 +256,11 @@ public class Order {
          * set the pickup time of this order
          * @param time order pickup time
          */
-        public OrderBuilder choosePickUpTime(Date time){
-            this.pickUpTime = time;
+        public OrderBuilder choosePickUpTime(Date time) throws WrongPickUpTimeException {
+            if (!store.getSchedule().checkIsOpen(time))
+                throw new WrongPickUpTimeException("Store is closed");
+            else
+                this.pickUpTime = time;
             return this;
         }
 
@@ -316,7 +297,6 @@ public class Order {
 
 
     }
-
 }
 
 
