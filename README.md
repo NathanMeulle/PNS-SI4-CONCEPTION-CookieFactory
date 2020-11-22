@@ -30,7 +30,9 @@ This project allows customers to order cookies online from a variety of recipes 
 | User Story | Fichier Feature | Scénarios |
 | --- | --- | --- |
 | <ul><li>En tant que </li><li>Je veux </li><li>Afin de </li></ul>| fichier.feature | <ul><li>scenario1</li><li>scenario2</li><li>scenario3</li><li>scenario4</li></ul> |
-| <ul><li>En tant que manager </li><li>Je veux créer une nouvelle recette de cookie</li><li>Afin de proposer une nouvelle recette sur l’ensemble de la chaine </li></ul>| fichier.feature | scenario1 |
+| <ul><li>En tant que manager </li><li>Je veux créer une nouvelle recette de cookie</li><li>Afin de proposer une nouvelle recette sur l’ensemble de la chaine </li></ul>| CreateRecipe.feature |  <ul><li>No Cookie by default</li><li>Adding Cookie</li></ul> |
+| <ul><li>En tant que client anonyme </li><li>Je veux commander un cookie</li><li>Afin de réserver mes cookies </li></ul> | MakeOrder.feature | <ul><li>Make an order with enough ingredients</li><li>Make an order without enough ingredients</li></ul> |
+|<ul><li>En tant que client anonyme</li><li>Je veux adhérer</li><li>Afin de comptabiliser mes cookies et être identifié</li></ul>| BecomeMember.feature | <ul><li>He is anonymous and wants to register</li><li>He wants to register again while being a member</li><li>An other client can't register with same information</li></ul> |
 
 
 
