@@ -13,6 +13,7 @@ import java.util.List;
 public class MarcelEat {
 
     public static List<DeliveryMan> deliveryMans = new ArrayList<>();
+    public static List<Order> orderToPay = new ArrayList<>();
 
     MarcelEat() {
         //empty
@@ -22,7 +23,7 @@ public class MarcelEat {
      * Create the delivery man team
      */
     public void initialization() {
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < 2; i++) {
             deliveryMans.add(new DeliveryMan(0,0));
         }
     }
@@ -45,4 +46,16 @@ public class MarcelEat {
         throw new NoDeliveryManDispo("There is no delivery man dispo");
     }
 
+    /**
+     * When a store pay Marcel Eat, it removes the order to the list of none paid orders
+     * @param order
+     */
+    public void pay(Order order) {
+        for (Order o : orderToPay) {
+            if (o.equals(order)) {
+                orderToPay.remove(order);
+            }
+        }
+    }
 }
+
