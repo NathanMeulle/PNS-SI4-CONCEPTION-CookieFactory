@@ -31,7 +31,7 @@ public class Order {
     private StateOrder stateOrder;
     private Date pickUpTime;
     private double priceHT;
-    private double priceTTC;
+    private double priceTTC; // TODO à supprimer ?
 
 
     /**
@@ -46,6 +46,8 @@ public class Order {
         this.customer = builder.customer;
         this.isPaid = builder.isPaid;
         this.pickUpTime = builder.pickUpTime;
+        this.priceHT = builder.priceHT;
+        this.priceTTC = builder.priceTTC;
     }
 
 
@@ -55,13 +57,10 @@ public class Order {
      * When the customer pick up his order, it's put in OrderHistory
      * If order not ready, raise NotAlreadyCookedException
      */
-    public void pickedUp(Date date) throws NotAlreadyCooked, NotPaid, WrongPickUpTimeException {
+    public void pickedUp(Date date) throws NotAlreadyCooked, NotPaid, WrongPickUpTimeException { //TODO indiquer de quelle date il s'agit
         if (!isPaid) {
             throw new NotPaid("You did not pay");
         }
-
-        System.out.println(date);
-        System.out.println(pickUpTime);
         if (date.compareTo(pickUpTime) < 0)
             throw new WrongPickUpTimeException("You're are way too early");
 
@@ -256,7 +255,7 @@ public class Order {
          * set the pickup time of this order
          * @param time order pickup time
          */
-        public OrderBuilder choosePickUpTime(Date time) throws WrongPickUpTimeException {
+        public OrderBuilder choosePickUpTime(Date time) throws WrongPickUpTimeException { //TODO indiquer limite de cette méthode
             if (!store.getSchedule().checkIsOpen(time))
                 throw new WrongPickUpTimeException("Store is closed");
             else

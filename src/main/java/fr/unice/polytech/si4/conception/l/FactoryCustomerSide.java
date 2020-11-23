@@ -40,16 +40,32 @@ public  class FactoryCustomerSide implements ISystemInfo {
      * @param cooking : the way of cooking of the cookie
      */
     public Cookie createCookiePersonalized(String name, List<Ingredient> ingredientList, Dough dough, Mix mix, Cooking cooking) throws InvalidTypeIngredient, InvalidNumberIngredient {
-        return cookieFactory.createPersonnalizedCookie(name, ingredientList, dough, mix, cooking);
+        Cookie cookieCreated =  cookieFactory.createPersonnalizedCookie(name, ingredientList, dough, mix, cooking);
+        submitCookie(cookieCreated);
+        return cookieCreated;
     }
 
-    public Cookie addIngredientToCookie(Cookie c, Ingredient ingredient) throws AlreadyCreatedException, InvalidTypeIngredient, InvalidNumberIngredient {
+    /**
+     * Method to submit the cookie att the SystemInfo.
+     * This method catch a AlreadyCreatedException if the cookie is already
+     * created and add this exception to the Log.
+     * @param cookie : The cookie to submit
+     */
+    private void submitCookie(Cookie cookie){
+        try {
+            systemInfo.addCookie(cookie);
+        } catch (AlreadyCreatedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public Cookie addIngredientToCookie(Cookie c, Ingredient ingredient) throws InvalidTypeIngredient, InvalidNumberIngredient {
         List<Ingredient> ingredients = c.getIngredients();
         ingredients.add(ingredient);
         return createCookiePersonalized(c.getName(), ingredients, c.getDough(), c.getMix(), c.getCooking());
     }
 
-    public Cookie removeIngredientToCookie(Cookie c, Ingredient ingredient) throws AlreadyCreatedException, InvalidTypeIngredient, InvalidNumberIngredient {
+    public Cookie removeIngredientToCookie(Cookie c, Ingredient ingredient) throws InvalidTypeIngredient, InvalidNumberIngredient {
         List<Ingredient> ingredients = c.getIngredients();
         ingredients.remove(ingredient);
         return createCookiePersonalized(c.getName(), ingredients, c.getDough(), c.getMix(), c.getCooking());

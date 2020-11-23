@@ -65,7 +65,7 @@ public class Schedule implements Comparator<Date> {
             return Integer.compare(d1.getHours() * 3600 + d1.getMinutes() * 60 + d1.getSeconds(), d2.getHours() * 3600 + d2.getMinutes() * 60 + d2.getSeconds());
     }
 
-    private Day getDay(int i) {
+    private Day getDay(int i) { //TODO getDayFromInt à utiliser à la place
         switch(i) {
             case 1: return Day.SUNDAY;
             case 2: return Day.MONDAY;

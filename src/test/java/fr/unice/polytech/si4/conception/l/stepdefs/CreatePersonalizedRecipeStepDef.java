@@ -69,7 +69,7 @@ public class CreatePersonalizedRecipeStepDef implements En {
             systemInfo.addIngredient(ingredientList);
             cookieCreated = systemInfo.generateProxy().createCookiePersonalized( "HeavyVanilla", ingredientList, flour, Mix.MIXED, Cooking.CHEWY);
         });
-        And("the cookie \"HeavyVanilla\" is composed by the ingredients vanilla and wholemeal flour", () -> {
+        Then("the cookie \"HeavyVanilla\" is composed by the ingredients vanilla and wholemeal flour", () -> {
             assertEquals(vanilla, cookieCreated.getIngredients().get(0));
             assertEquals(flour, cookieCreated.getDough());
             assertEquals(Mix.MIXED, cookieCreated.getMix());
