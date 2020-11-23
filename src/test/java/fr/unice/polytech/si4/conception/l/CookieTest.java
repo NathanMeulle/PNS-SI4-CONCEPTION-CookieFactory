@@ -25,12 +25,7 @@ class CookieTest {
     private Cookie cookie;
     private List<Ingredient> ingredients;
     private CookieFactory cookieFactory;
-    private Ingredient chocolateFlavor;
-    private Ingredient vanillaFlavor;
-    private Ingredient kitkatTopping;
-    private Ingredient mnmsTopping;
-    private Ingredient daimTopping;
-    private Ingredient speculosTopping;
+
 
 
 
@@ -42,13 +37,6 @@ class CookieTest {
 
         ingredients = new ArrayList<>();
 
-        chocolateFlavor = new Ingredient("vanille", 1, IngredientType.FLAVOR);
-        vanillaFlavor = new Ingredient("chocolate", 1, IngredientType.FLAVOR);
-        mnmsTopping = new Ingredient("mnms", 1, IngredientType.TOPPING);
-        kitkatTopping = new Ingredient("kitkat", 1, IngredientType.TOPPING);
-        daimTopping = new Ingredient("daim", 1, IngredientType.TOPPING);
-        speculosTopping = new Ingredient("speculos", 1, IngredientType.TOPPING);
-        cookie = cookieFactory.createDefaultCookie("", ingredients, new Dough("plain", 1), Mix.MIXED, Cooking.CRUNCHY);
     }
 
 
@@ -80,43 +68,6 @@ class CookieTest {
         ingredients.add(ingredient2);
         cookie = cookieFactory.createDefaultCookie("", ingredients, new Dough("plain", 1), Mix.MIXED, Cooking.CRUNCHY);
         assertEquals(12, cookie.getPrice());
-    }
-
-    @Test
-    void checkIngredientsValid() {
-        cookie.getIngredients().clear();
-        cookie.getIngredients().add(chocolateFlavor);
-        cookie.getIngredients().add(mnmsTopping);
-        assertDoesNotThrow(() -> cookie.checkIngredients());
-    }
-
-    @Test
-    void checkIngredientsInvalidType() {
-        cookie.getIngredients().clear();
-        cookie.getIngredients().add(chocolateFlavor);
-        cookie.getIngredients().add(mnmsTopping);
-        cookie.getIngredients().add(new Ingredient("mauvaisType", 1, IngredientType.DOUGH));
-        assertThrows(InvalidTypeIngredient.class, () -> cookie.checkIngredients());
-    }
-
-    @Test
-    void checkIngredientsInvalidNumberFlavor() {
-        cookie.getIngredients().clear();
-        cookie.getIngredients().add(chocolateFlavor);
-        cookie.getIngredients().add(vanillaFlavor);
-        cookie.getIngredients().add(mnmsTopping);
-        assertThrows(InvalidNumberIngredient.class, () -> cookie.checkIngredients());
-    }
-
-    @Test
-    void checkIngredientsInvalidNumberTopping() {
-        cookie.getIngredients().clear();
-        cookie.getIngredients().add(chocolateFlavor);
-        cookie.getIngredients().add(kitkatTopping);
-        cookie.getIngredients().add(mnmsTopping);
-        cookie.getIngredients().add(daimTopping);
-        cookie.getIngredients().add(speculosTopping);
-        assertThrows(InvalidNumberIngredient.class, () -> cookie.checkIngredients());
     }
 
 }

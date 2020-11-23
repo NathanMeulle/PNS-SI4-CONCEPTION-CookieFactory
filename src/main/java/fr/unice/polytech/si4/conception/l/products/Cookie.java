@@ -42,7 +42,6 @@ public abstract class Cookie {
         this.price = calculPrice();
         this.mix = mix;
         this.cooking = cooking;
-        checkIngredients();
     }
 
     public int calculPrice() {
@@ -104,7 +103,6 @@ public abstract class Cookie {
 
     public void setIngredients(List<Ingredient> ingredients) throws InvalidNumberIngredient, InvalidTypeIngredient {
         this.ingredients = ingredients;
-        checkIngredients();
     }
 
 
@@ -125,33 +123,4 @@ public abstract class Cookie {
         return Objects.hash(getName(), getPrice(), getMix(), getCooking(), getIngredients());
     }
 
-    public void retire(Ingredient ingredient) throws NotContainsIngredient, InvalidNumberIngredient, InvalidTypeIngredient {
-        if (this.ingredients.contains(ingredient)) ingredients.remove(ingredient);
-        else throw new NotContainsIngredient("La recette ne contient pas cet ingredient");
-        checkIngredients();
-    };
-
-    public void checkIngredients() throws InvalidTypeIngredient, InvalidNumberIngredient {
-        int cptFlavor = 0;
-        int cptTopping = 0;
-        if (ingredients.size() != 0) {
-            for (Ingredient i : ingredients) {
-                if (i.getType().equals(IngredientType.FLAVOR)) {
-                    cptFlavor += 1;
-                } else if (i.getType().equals(IngredientType.TOPPING)) {
-                    cptTopping += 1;
-                } else {
-                    throw new InvalidTypeIngredient("There is only Flavor and Topping in the list of ingredients");
-                }
-            }
-
-            if (cptFlavor > 1) {
-                throw new InvalidNumberIngredient("You can put a maximum of 1 flavor");
-            }
-            if (cptTopping > 3) {
-                throw new InvalidNumberIngredient("You can put a maximum of 3 topping");
-            }
-        }
-
-    }
 }

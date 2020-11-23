@@ -15,6 +15,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -42,6 +43,7 @@ class CookieFactoryTest {
     private Ingredient daimTopping;
     private Ingredient speculosTopping;
     private CookieFactory cookieFactory;
+    private List<Ingredient> ingredients;
 
     @BeforeEach
     void setUp() {
@@ -212,5 +214,42 @@ class CookieFactoryTest {
             e.printStackTrace();
         }
         assertThrows(AlreadyCreatedException.class, () -> systemInfo.addCustomer(customerMock));
+    }
+
+    @Test
+    void checkIngredientsValid() {
+        ingredients = new ArrayList<>();
+        ingredients.add(chocolateFlavor);
+        ingredients.add(mnmsTopping);
+        assertDoesNotThrow(() -> cookieFactory.checkIngredients(ingredients));
+    }
+
+    @Test
+    void checkIngredientsInvalidType() {
+        ingredients = new ArrayList<>();
+        ingredients.add(chocolateFlavor);
+        ingredients.add(mnmsTopping);
+        ingredients.add(new Ingredient("mauvaisType", 1, IngredientType.DOUGH));
+        assertThrows(InvalidTypeIngredient.class, () -> cookieFactory.checkIngredients(ingredients));
+    }
+
+    @Test
+    void checkIngredientsInvalidNumberFlavor() {
+        ingredients = new ArrayList<>();
+        ingredients.add(chocolateFlavor);
+        ingredients.add(vanillaFlavor);
+        ingredients.add(mnmsTopping);
+        assertThrows(InvalidNumberIngredient.class, () -> cookieFactory.checkIngredients(ingredients));
+    }
+
+    @Test
+    void checkIngredientsInvalidNumberTopping() {
+        ingredients = new ArrayList<>();
+        ingredients.add(chocolateFlavor);
+        ingredients.add(kitkatTopping);
+        ingredients.add(mnmsTopping);
+        ingredients.add(daimTopping);
+        ingredients.add(speculosTopping);
+        assertThrows(InvalidNumberIngredient.class, () -> cookieFactory.checkIngredients(ingredients));
     }
 }
