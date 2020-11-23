@@ -1,5 +1,8 @@
 package fr.unice.polytech.si4.conception.l.util.schedule;
 
+import fr.unice.polytech.si4.conception.l.store.schedule.Day;
+import fr.unice.polytech.si4.conception.l.store.schedule.Schedule;
+import fr.unice.polytech.si4.conception.l.store.schedule.Time;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

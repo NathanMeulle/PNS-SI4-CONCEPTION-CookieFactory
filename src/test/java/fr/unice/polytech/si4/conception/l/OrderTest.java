@@ -1,9 +1,17 @@
 package fr.unice.polytech.si4.conception.l;
 
-import fr.unice.polytech.si4.conception.l.cookie.composition.Cooking;
-import fr.unice.polytech.si4.conception.l.cookie.composition.IngredientType;
-import fr.unice.polytech.si4.conception.l.cookie.composition.Mix;
+import fr.unice.polytech.si4.conception.l.customer.AnonymousCustomer;
+import fr.unice.polytech.si4.conception.l.customer.Customer;
 import fr.unice.polytech.si4.conception.l.exceptions.ErrorPreparingOrder;
+import fr.unice.polytech.si4.conception.l.exceptions.InvalidNumberIngredient;
+import fr.unice.polytech.si4.conception.l.exceptions.InvalidTypeIngredient;
+import fr.unice.polytech.si4.conception.l.order.Order;
+import fr.unice.polytech.si4.conception.l.products.Cookie;
+import fr.unice.polytech.si4.conception.l.products.CookieFactory;
+import fr.unice.polytech.si4.conception.l.products.composition.*;
+import fr.unice.polytech.si4.conception.l.store.Kitchen;
+import fr.unice.polytech.si4.conception.l.store.Manager;
+import fr.unice.polytech.si4.conception.l.store.Store;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -15,7 +23,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 class OrderTest {
-    Order order;
+    Order.OrderBuilder orderBuilder;
     Cookie cookieChocoMock;
     Cookie cookieVanilleMock;
     Store storeMock;
@@ -29,15 +37,22 @@ class OrderTest {
     Cookie mnMChocoCookie;
     Cookie chocoCookie;
     AnonymousCustomer vincent;
+    CookieFactory cookieFactory;
+    SystemInfo systemInfo;
+
 
 
     @BeforeEach
-    void setup() {
+    void setup() throws InvalidNumberIngredient, InvalidTypeIngredient {
+        cookieFactory = new CookieFactory();
         storeMock = mock(Store.class);
         when(storeMock.getTax()).thenReturn(1.0);
+
+        AnonymousCustomer aCustomer = new AnonymousCustomer("Petrovitch", "065065045");
         cookieChocoMock = mock(Cookie.class);
         cookieVanilleMock = mock(Cookie.class);
         managerMock = mock(Manager.class);
+
 
         store = new Store(1, "", 1.2, "01", "mail", managerMock);
 
@@ -45,19 +60,23 @@ class OrderTest {
         kitchen.assignStore(store);
         store.setKitchen(kitchen);
         chocolate = new Ingredient("Chocolate", 4, IngredientType.FLAVOR);
-        mnm = new Ingredient("MnM", 7, IngredientType.FLAVOR);
 
+        mnm = new Ingredient("MnM", 7, IngredientType.TOPPING);
+
+        systemInfo = SystemInfo.getInstance();
+        systemInfo.resetSystemInfo();
+        systemInfo.addIngredient(List.of(chocolate, mnm));
         kitchen.incrementStock(chocolate, 5);
         kitchen.incrementStock(mnm, 3);
 
         ingredients = new ArrayList<>();
         ingredients.add(chocolate);
         ingredients.add(mnm);
-        mnMChocoCookie = new Cookie("MnmsChoco", ingredients, Mix.TOPPED, Cooking.CRUNCHY);
+        mnMChocoCookie = cookieFactory.createDefaultCookie("MnmsChoco", ingredients, new Dough("plain", 0), Mix.TOPPED, Cooking.CRUNCHY);
 
         ingredients2 = new ArrayList<>();
         ingredients2.add(chocolate);
-        chocoCookie = new Cookie("Choco", ingredients2, Mix.TOPPED, Cooking.CRUNCHY);
+        chocoCookie = cookieFactory.createDefaultCookie("Choco", ingredients2, new Dough("plain", 0), Mix.TOPPED, Cooking.CRUNCHY);
 
         vincent = new AnonymousCustomer("vincent", "06");
 
@@ -68,9 +87,9 @@ class OrderTest {
     void addCookieTest() {
         vincent.createOrder(storeMock);
         vincent.addCookie(cookieChocoMock, 1);
-        order = vincent.getOrder();
-        assertEquals(1, order.getCookies().get(cookieChocoMock));
-        assertEquals(1, order.getNbCookies());
+        orderBuilder = vincent.getOrderBuilder();
+        assertEquals(1, orderBuilder.getCookies().get(cookieChocoMock));
+        assertEquals(1, orderBuilder.getNbCookies());
     }
 
     @Test
@@ -78,9 +97,9 @@ class OrderTest {
         vincent.createOrder(storeMock);
         vincent.addCookie(cookieChocoMock, 1);
         vincent.addCookie(cookieChocoMock, 1);
-        order = vincent.getOrder();
-        assertEquals(2, order.getCookies().get(cookieChocoMock));
-        assertEquals(2, order.getNbCookies());
+        orderBuilder = vincent.getOrderBuilder();
+        assertEquals(2, orderBuilder.getCookies().get(cookieChocoMock));
+        assertEquals(2, orderBuilder.getNbCookies());
     }
 
     @Test
@@ -88,20 +107,18 @@ class OrderTest {
         vincent.createOrder(storeMock);
         vincent.addCookie(cookieChocoMock, 1);
         vincent.addCookie(cookieVanilleMock, 3);
-        order = vincent.getOrder();
-        assertEquals(1, order.getCookies().get(cookieChocoMock));
-        assertEquals(3, order.getCookies().get(cookieVanilleMock));
-        assertEquals(4, order.getNbCookies());
+        orderBuilder = vincent.getOrderBuilder();
+        assertEquals(1, orderBuilder.getCookies().get(cookieChocoMock));
+        assertEquals(3, orderBuilder.getCookies().get(cookieVanilleMock));
+        assertEquals(4, orderBuilder.getNbCookies());
     }
 
     @Test
     void isAchievableTest() {
-
         vincent.createOrder(store);
         vincent.addCookie(chocoCookie, 7);
         vincent.addCookie(mnMChocoCookie, 1);
-
-        assertThrows(ErrorPreparingOrder.class, () -> vincent.makeOrder());
+        assertThrows(ErrorPreparingOrder.class, () -> vincent.submitOrder());
     }
 
     @Test
@@ -109,7 +126,7 @@ class OrderTest {
         vincent.createOrder(store);
         vincent.addCookie(chocoCookie, 4);
         vincent.addCookie(mnMChocoCookie, 1);
-        assertDoesNotThrow(() -> vincent.makeOrder());
+        assertDoesNotThrow(() -> vincent.submitOrder());
     }
 
     @Test
@@ -117,7 +134,7 @@ class OrderTest {
         vincent.createOrder(store);
         vincent.addCookie(chocoCookie, 4);
         vincent.addCookie(mnMChocoCookie, 2);
-        assertThrows(ErrorPreparingOrder.class, () -> vincent.makeOrder());
+        assertThrows(ErrorPreparingOrder.class, () -> vincent.submitOrder());
     }
 
     @Test
@@ -151,5 +168,6 @@ class OrderTest {
         customer.addCookie(mnMChocoCookie, 4);
 
         assertEquals(168.48, customer.getPrice(), 0.01);
+
     }
 }

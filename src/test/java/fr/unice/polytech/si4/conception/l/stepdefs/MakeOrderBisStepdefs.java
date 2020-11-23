@@ -1,8 +1,14 @@
 package fr.unice.polytech.si4.conception.l.stepdefs;
 
-import fr.unice.polytech.si4.conception.l.*;
-import fr.unice.polytech.si4.conception.l.cookie.composition.IngredientType;
+import fr.unice.polytech.si4.conception.l.customer.AnonymousCustomer;
 import fr.unice.polytech.si4.conception.l.exceptions.ErrorPreparingOrder;
+import fr.unice.polytech.si4.conception.l.order.Order;
+import fr.unice.polytech.si4.conception.l.products.Cookie;
+import fr.unice.polytech.si4.conception.l.products.composition.Ingredient;
+import fr.unice.polytech.si4.conception.l.products.composition.IngredientType;
+import fr.unice.polytech.si4.conception.l.store.Kitchen;
+import fr.unice.polytech.si4.conception.l.store.Manager;
+import fr.unice.polytech.si4.conception.l.store.Store;
 import io.cucumber.java8.En;
 
 import java.util.ArrayList;
@@ -35,6 +41,7 @@ public class MakeOrderBisStepdefs implements En {
             when(cookieM.getName()).thenReturn(arg1);
             when(cookieM.getIngredients()).thenReturn(ingredients);
             when(cookieM.getPrice()).thenReturn((double) 2);
+            when(cookieM.getPrice()).thenReturn(2.0);
             store = new Store(1, "oui", 25, "06", "", mock(Manager.class));
             store.setKitchen(kitchen);
             kitchen.assignStore(store);
@@ -47,11 +54,11 @@ public class MakeOrderBisStepdefs implements En {
             kitchen.incrementStock(chocolate ,arg0);
         });
         Then("^order is done$", () -> {
-            assertDoesNotThrow(() -> anonymousCustomer.makeOrder());
+            assertDoesNotThrow(() -> anonymousCustomer.submitOrder());
         });
 
         Then("^order is cancel$", () -> {
-            assertThrows(ErrorPreparingOrder.class, () -> anonymousCustomer.makeOrder());
+            assertThrows(ErrorPreparingOrder.class, () -> anonymousCustomer.submitOrder());
         });
 
     }

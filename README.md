@@ -8,6 +8,7 @@ The goal of this project is to create a cookie factory 🏭
 
 ## Plan
 - [Presentation](#Presentation)
+- [Fonctionnalités livrées](#Fonctionnalités-livrées)
 - [Team](#Team)
 - [How to contribute](#How-to-contribute)
 - [SonarQube](#SonarQube)
@@ -22,6 +23,18 @@ This project allows customers to order cookies online from a variety of recipes 
 ![](https://img.shields.io/badge/Tools-Docker-informational?style=flat&logo=docker&logoColor=white&color=4581E5)
 ![](https://img.shields.io/badge/Tools-Maven-informational?style=flat&logo=maven&logoColor=white&color=4581E5)
 ![](https://img.shields.io/badge/Editor-IntelliJ_IDEA-informational?style=flat&logo=intellij-idea&logoColor=white&color=4581E5)
+
+
+## Fonctionnalités livrées
+
+| User Story | Fichier Feature | Scénarios |
+| --- | --- | --- |
+| <ul><li>En tant que </li><li>Je veux </li><li>Afin de </li></ul>| fichier.feature | <ul><li>scenario1</li><li>scenario2</li><li>scenario3</li><li>scenario4</li></ul> |
+| <ul><li>En tant que manager </li><li>Je veux créer une nouvelle recette de cookie</li><li>Afin de proposer une nouvelle recette sur l’ensemble de la chaine </li></ul>| CreateRecipe.feature |  <ul><li>No Cookie by default</li><li>Adding Cookie</li></ul> |
+| <ul><li>En tant que client anonyme </li><li>Je veux commander un cookie</li><li>Afin de réserver mes cookies </li></ul> | MakeOrder.feature | <ul><li>Make an order with enough ingredients</li><li>Make an order without enough ingredients</li></ul> |
+|<ul><li>En tant que client anonyme</li><li>Je veux adhérer</li><li>Afin de comptabiliser mes cookies et être identifié</li></ul>| BecomeMember.feature | <ul><li>He is anonymous and wants to register</li><li>He wants to register again while being a member</li><li>An other client can't register with same information</li></ul> |
+
+
 
 
 ## Team
