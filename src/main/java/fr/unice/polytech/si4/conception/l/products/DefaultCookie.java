@@ -1,5 +1,7 @@
 package fr.unice.polytech.si4.conception.l.products;
 
+import fr.unice.polytech.si4.conception.l.exceptions.InvalidNumberIngredient;
+import fr.unice.polytech.si4.conception.l.exceptions.InvalidTypeIngredient;
 import fr.unice.polytech.si4.conception.l.products.composition.Cooking;
 import fr.unice.polytech.si4.conception.l.products.composition.Dough;
 import fr.unice.polytech.si4.conception.l.products.composition.Ingredient;
@@ -24,7 +26,8 @@ public class DefaultCookie extends Cookie {
      * @param mix         a mix  MIXED or TOPPED
      * @param cooking     a cooking     CRUNCHY or CHEWY
      */
-    DefaultCookie(String name, List<Ingredient> ingredients, Dough dough, Mix mix, Cooking cooking) {
+    DefaultCookie(String name, List<Ingredient> ingredients, Dough dough, Mix mix, Cooking cooking) throws InvalidTypeIngredient, InvalidNumberIngredient {
         super(name, CookieType.DEFAULT, ingredients, dough, mix, cooking);
     }
+
 }

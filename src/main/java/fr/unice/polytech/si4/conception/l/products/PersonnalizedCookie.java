@@ -1,5 +1,7 @@
 package fr.unice.polytech.si4.conception.l.products;
 
+import fr.unice.polytech.si4.conception.l.exceptions.InvalidNumberIngredient;
+import fr.unice.polytech.si4.conception.l.exceptions.InvalidTypeIngredient;
 import fr.unice.polytech.si4.conception.l.products.composition.Cooking;
 import fr.unice.polytech.si4.conception.l.products.composition.Dough;
 import fr.unice.polytech.si4.conception.l.products.composition.Ingredient;
@@ -23,12 +25,17 @@ public class PersonnalizedCookie extends Cookie {
      * @param mix         a mix  MIXED or TOPPED
      * @param cooking     a cooking     CRUNCHY or CHEWY
      */
-    PersonnalizedCookie(String name, List<Ingredient> ingredients, Dough dough, Mix mix, Cooking cooking) {
+    PersonnalizedCookie(String name, List<Ingredient> ingredients, Dough dough, Mix mix, Cooking cooking) throws InvalidTypeIngredient, InvalidNumberIngredient {
         super(name, CookieType.PERSONNALIZED, ingredients, dough, mix, cooking);
+    }
+
+    PersonnalizedCookie(String name, Cookie cookie) throws InvalidTypeIngredient, InvalidNumberIngredient {
+        super(name, CookieType.PERSONNALIZED, cookie.getIngredients(), cookie.getDough(), cookie.getMix(), cookie.getCooking());
     }
 
     @Override
     public double getPrice() {
         return super.getPrice()*1.25;
     }
+
 }

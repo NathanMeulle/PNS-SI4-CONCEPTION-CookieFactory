@@ -20,4 +20,5 @@ public interface CookieFactoryInterface {
 
     Cookie createPersonnalizedCookie(String name,List<Ingredient> ingredients, Dough dough, Mix mix, Cooking cooking) throws InvalidNumberIngredient, InvalidTypeIngredient;
 
+    Cookie createPersonnalizedCookie(String name, Cookie cookie) throws InvalidNumberIngredient, InvalidTypeIngredient;
 }

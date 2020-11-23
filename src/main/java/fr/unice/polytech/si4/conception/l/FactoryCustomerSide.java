@@ -42,6 +42,10 @@ public  class FactoryCustomerSide implements ISystemInfo {
         return cookieFactory.createPersonnalizedCookie(name, ingredientList, dough, mix, cooking);
     }
 
+    public Cookie createCookiePersonalized(String name, Cookie cookie) throws InvalidTypeIngredient, InvalidNumberIngredient {
+        return cookieFactory.createPersonnalizedCookie(name, cookie);
+    }
+
     @Override
     public List<Cookie> getCookies() {
         return List.copyOf(systemInfo.getCookies());

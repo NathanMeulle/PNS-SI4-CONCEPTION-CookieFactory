@@ -213,41 +213,4 @@ class CookieFactoryTest {
         }
         assertThrows(AlreadyCreatedException.class, () -> systemInfo.addCustomer(customerMock));
     }
-
-    @Test
-    void checkIngredientsValid() {
-        List<Ingredient> ingredients = new ArrayList<>();
-        ingredients.add(chocolateFlavor);
-        ingredients.add(mnmsTopping);
-        assertDoesNotThrow(() -> cookieFactory.checkIngredients(ingredients));
-    }
-
-    @Test
-    void checkIngredientsInvalidType() {
-        List<Ingredient> ingredients = new ArrayList<>();
-        ingredients.add(chocolateFlavor);
-        ingredients.add(mnmsTopping);
-        ingredients.add(new Ingredient("mauvaisType", 1, IngredientType.DOUGH));
-        assertThrows(InvalidTypeIngredient.class, () -> cookieFactory.checkIngredients(ingredients));
-    }
-
-    @Test
-    void checkIngredientsInvalidNumberFlavor() {
-        List<Ingredient> ingredients = new ArrayList<>();
-        ingredients.add(chocolateFlavor);
-        ingredients.add(vanillaFlavor);
-        ingredients.add(mnmsTopping);
-        assertThrows(InvalidNumberIngredient.class, () -> cookieFactory.checkIngredients(ingredients));
-    }
-
-    @Test
-    void checkIngredientsInvalidNumberTopping() {
-        List<Ingredient> ingredients = new ArrayList<>();
-        ingredients.add(chocolateFlavor);
-        ingredients.add(kitkatTopping);
-        ingredients.add(mnmsTopping);
-        ingredients.add(daimTopping);
-        ingredients.add(speculosTopping);
-        assertThrows(InvalidNumberIngredient.class, () -> cookieFactory.checkIngredients(ingredients));
-    }
 }

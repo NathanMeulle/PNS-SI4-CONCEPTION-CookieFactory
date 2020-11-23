@@ -1,10 +1,10 @@
 package fr.unice.polytech.si4.conception.l.products;
 
 
-import fr.unice.polytech.si4.conception.l.products.composition.Cooking;
-import fr.unice.polytech.si4.conception.l.products.composition.Dough;
-import fr.unice.polytech.si4.conception.l.products.composition.Ingredient;
-import fr.unice.polytech.si4.conception.l.products.composition.Mix;
+import fr.unice.polytech.si4.conception.l.exceptions.InvalidNumberIngredient;
+import fr.unice.polytech.si4.conception.l.exceptions.InvalidTypeIngredient;
+import fr.unice.polytech.si4.conception.l.exceptions.NotContainsIngredient;
+import fr.unice.polytech.si4.conception.l.products.composition.*;
 
 import java.util.List;
 import java.util.Objects;
@@ -34,7 +34,7 @@ public abstract class Cookie {
      * @param mix a mix  MIXED or TOPPED
      * @param cooking a cooking     CRUNCHY or CHEWY
      */
-    Cookie(String name, CookieType cookieType, List<Ingredient> ingredients, Dough dough, Mix mix, Cooking cooking) {
+    Cookie(String name, CookieType cookieType, List<Ingredient> ingredients, Dough dough, Mix mix, Cooking cooking) throws InvalidNumberIngredient, InvalidTypeIngredient {
         this.name = name;
         this.cookieType = cookieType;
         this.ingredients = ingredients;
@@ -42,6 +42,7 @@ public abstract class Cookie {
         this.price = calculPrice();
         this.mix = mix;
         this.cooking = cooking;
+        checkIngredients();
     }
 
     public int calculPrice() {
@@ -78,28 +79,32 @@ public abstract class Cookie {
 
     public Dough getDough() { return dough; }
 
-    public void setMix(Mix mix) {
+    public void setMix(Mix mix) throws InvalidTypeIngredient {
         this.mix = mix;
+        if (this.mix == null)  throw new InvalidTypeIngredient(" The cookie must have a mix type");
     }
 
     public Cooking getCooking() {
         return cooking;
     }
 
-    public void setCooking(Cooking cooking) {
+    public void setCooking(Cooking cooking) throws InvalidTypeIngredient {
         this.cooking = cooking;
+        if (this.cooking == null) throw new InvalidTypeIngredient("The cookie must have a cooking type");
     }
 
-    public void setDough(Dough dough) {
+    public void setDough(Dough dough) throws InvalidTypeIngredient {
         this.dough = dough;
+        if (this.dough == null) throw new InvalidTypeIngredient(" The cookie must have a dough type");
     }
 
     public List<Ingredient> getIngredients() {
         return ingredients;
     }
 
-    public void setIngredients(List<Ingredient> ingredients) {
+    public void setIngredients(List<Ingredient> ingredients) throws InvalidNumberIngredient, InvalidTypeIngredient {
         this.ingredients = ingredients;
+        checkIngredients();
     }
 
 
@@ -118,5 +123,35 @@ public abstract class Cookie {
     @Override
     public int hashCode() {
         return Objects.hash(getName(), getPrice(), getMix(), getCooking(), getIngredients());
+    }
+
+    public void retire(Ingredient ingredient) throws NotContainsIngredient, InvalidNumberIngredient, InvalidTypeIngredient {
+        if (this.ingredients.contains(ingredient)) ingredients.remove(ingredient);
+        else throw new NotContainsIngredient("La recette ne contient pas cet ingredient");
+        checkIngredients();
+    };
+
+    public void checkIngredients() throws InvalidTypeIngredient, InvalidNumberIngredient {
+        int cptFlavor = 0;
+        int cptTopping = 0;
+        if (ingredients.size() != 0) {
+            for (Ingredient i : ingredients) {
+                if (i.getType().equals(IngredientType.FLAVOR)) {
+                    cptFlavor += 1;
+                } else if (i.getType().equals(IngredientType.TOPPING)) {
+                    cptTopping += 1;
+                } else {
+                    throw new InvalidTypeIngredient("There is only Flavor and Topping in the list of ingredients");
+                }
+            }
+
+            if (cptFlavor > 1) {
+                throw new InvalidNumberIngredient("You can put a maximum of 1 flavor");
+            }
+            if (cptTopping > 3) {
+                throw new InvalidNumberIngredient("You can put a maximum of 3 topping");
+            }
+        }
+
     }
 }
