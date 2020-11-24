@@ -20,6 +20,10 @@ Feature: Becoming a member
     And there is "1" in the list of customers
     And register "failure"
 
+  Scenario: He wants to subscribe to the loyalty program
+    When being already registered he subscribe to the loyalty program
+    Then he becomes a member of the loyalty program
+
   Scenario Outline: An other client can't register with same information
     When he fill a form in order to register and he submits it
     Then he becomes a member

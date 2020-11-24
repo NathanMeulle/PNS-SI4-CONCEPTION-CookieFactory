@@ -81,5 +81,13 @@ public class BecomeMemberStepDef implements En {
             }
         });
 
+        When("^being already registered he subscribe to the loyalty program$", () -> {
+            customerSubscribe = systemInfo.getCustomerByMail(mail);
+            customerSubscribe.setLoyaltyProgram(true);
+        });
+        Then("^he becomes a member of the loyalty program$", () -> {
+            assertTrue(customerSubscribe.isLoyaltyProgram());
+        });
+
     }
 }

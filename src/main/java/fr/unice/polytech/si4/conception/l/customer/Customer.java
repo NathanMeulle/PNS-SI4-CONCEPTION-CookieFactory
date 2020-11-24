@@ -79,6 +79,10 @@ public class Customer extends AnonymousCustomer implements CustomerInterface {
         this.loyaltyProgram = loyaltyProgram;
     }
 
+    public boolean isLoyaltyProgram() {
+        return loyaltyProgram;
+    }
+
     public int getNbCookieOrdered() {
         return nbCookieOrdered;
     }
