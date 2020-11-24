@@ -36,7 +36,7 @@ public class MarcelEat {
      * @param order
      * @throws NoDeliveryManDispo
      */
-    public void requestDelivery(Order order) throws NoDeliveryManDispo {
+    public static void requestDelivery(Order order) throws NoDeliveryManDispo {
         for (DeliveryMan deliveryMan : deliveryMans) {
             if (deliveryMan.isDispo()) {
                 deliveryMan.assignOrder(order);
@@ -50,7 +50,7 @@ public class MarcelEat {
      * When a store pay Marcel Eat, it removes the order to the list of none paid orders
      * @param order
      */
-    public void pay(Order order) {
+    public static void pay(Order order) {
         for (Order o : orderToPay) {
             if (o.equals(order)) {
                 orderToPay.remove(order);
