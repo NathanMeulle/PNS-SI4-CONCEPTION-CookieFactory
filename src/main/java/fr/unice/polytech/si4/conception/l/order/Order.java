@@ -79,6 +79,17 @@ public class Order {
         }
     }
 
+
+    /**
+     * the delivery man pick up the order
+     * the store pay 2 MarcelEat for delivery
+     */
+    public void deliverByMarcelEat() {
+        MarcelEat.pickUpByDeliveryMan(this);
+        this.store.payMarcelEat(this, 2);
+        this.store.addToOrderHistory(this);
+    }
+
     /**
      * When the customer finish the selection and confirme his order
      * Check if kitchen can do this order

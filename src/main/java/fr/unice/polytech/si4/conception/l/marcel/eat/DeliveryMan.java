@@ -10,18 +10,13 @@ import java.util.Objects;
 
 public class DeliveryMan {
 
-    private double lattitude;
-    private double longitude;
     private boolean dispo;
-    private double customerLattitude;
-    private double customerLongitude;
     private int id;
+    private Order order;
 
 
-    DeliveryMan(double lattitude, double longitude) {
+    DeliveryMan() {
         this.id = hashCode();
-        this.lattitude = lattitude;
-        this.longitude = longitude;
         this.dispo = true;
     }
 
@@ -31,8 +26,7 @@ public class DeliveryMan {
      * @param order
      */
     public void assignOrder(Order order) {
-        this.longitude = 15;
-        this.lattitude = 10;
+        this.order = order;
     }
 
     /**
@@ -43,19 +37,9 @@ public class DeliveryMan {
         return this.dispo;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        DeliveryMan that = (DeliveryMan) o;
-        return Double.compare(that.lattitude, lattitude) == 0 &&
-                Double.compare(that.longitude, longitude) == 0 &&
-                dispo == that.dispo &&
-                id == that.id;
-    }
 
     @Override
     public int hashCode() {
-        return Objects.hash(lattitude, longitude, dispo, id);
+        return Objects.hash(dispo, id);
     }
 }

@@ -14,9 +14,14 @@ public class MarcelEat {
 
     public static List<DeliveryMan> deliveryMans = new ArrayList<>();
     public static List<Order> orderToPay = new ArrayList<>();
+    public static double bank;
 
     MarcelEat() {
         //empty
+    }
+
+    public static void pickUpByDeliveryMan(Order order) {
+
     }
 
     /**
@@ -24,7 +29,8 @@ public class MarcelEat {
      */
     public void initialization() {
         for (int i = 0; i < 2; i++) {
-            deliveryMans.add(new DeliveryMan(0,0));
+            deliveryMans.add(new DeliveryMan());
+            bank = 0;
         }
     }
 
@@ -50,10 +56,11 @@ public class MarcelEat {
      * When a store pay Marcel Eat, it removes the order to the list of none paid orders
      * @param order
      */
-    public static void pay(Order order) {
+    public static void pay(Order order, double price) {
         for (Order o : orderToPay) {
             if (o.equals(order)) {
                 orderToPay.remove(order);
+                bank += price;
             }
         }
     }
