@@ -1,6 +1,5 @@
 package fr.unice.polytech.si4.conception.l;
 
-import fr.unice.polytech.si4.conception.l.exceptions.AlreadyCreatedException;
 import fr.unice.polytech.si4.conception.l.exceptions.InvalidNumberIngredient;
 import fr.unice.polytech.si4.conception.l.exceptions.InvalidTypeIngredient;
 import fr.unice.polytech.si4.conception.l.exceptions.NotFindException;
@@ -40,24 +39,9 @@ public  class FactoryCustomerSide implements ISystemInfo {
      * @param cooking : the way of cooking of the cookie
      */
     public Cookie createCookiePersonalized(String name, List<Ingredient> ingredientList, Dough dough, Mix mix, Cooking cooking) throws InvalidTypeIngredient, InvalidNumberIngredient {
-        Cookie cookieCreated =  cookieFactory.createPersonnalizedCookie(name, ingredientList, dough, mix, cooking);
-        submitCookie(cookieCreated);
-        return cookieCreated;
+       return cookieFactory.createPersonnalizedCookie(name, ingredientList, dough, mix, cooking);
     }
 
-    /**
-     * Method to submit the cookie att the SystemInfo.
-     * This method catch a AlreadyCreatedException if the cookie is already
-     * created and add this exception to the Log.
-     * @param cookie : The cookie to submit
-     */
-    private void submitCookie(Cookie cookie){
-        try {
-            systemInfo.addCookie(cookie);
-        } catch (AlreadyCreatedException e) {
-            e.printStackTrace();
-        }
-    }
 
     public Cookie addIngredientToCookie(Cookie c, Ingredient ingredient) throws InvalidTypeIngredient, InvalidNumberIngredient {
         List<Ingredient> ingredients = c.getIngredients();
@@ -102,7 +86,7 @@ public  class FactoryCustomerSide implements ISystemInfo {
      * @return an unmodifiableList of Dough
      */
     public List<Ingredient> getDough() {
-        return ingredientOfType(IngredientType.DOUGH);
+        return getIngredientOfType(IngredientType.DOUGH);
     }
 
     /**
@@ -111,7 +95,7 @@ public  class FactoryCustomerSide implements ISystemInfo {
      * @return an unmodifiableList of Flavor
      */
     public List<Ingredient> getFlavor() {
-        return ingredientOfType(IngredientType.FLAVOR);
+        return getIngredientOfType(IngredientType.FLAVOR);
     }
 
     /**
@@ -120,7 +104,7 @@ public  class FactoryCustomerSide implements ISystemInfo {
      * @return an unmodifiableList of Topping
      */
     public List<Ingredient> getTopping() {
-        return ingredientOfType(IngredientType.TOPPING);
+        return getIngredientOfType(IngredientType.TOPPING);
     }
 
     /**
@@ -129,7 +113,7 @@ public  class FactoryCustomerSide implements ISystemInfo {
      * @param ingredientType : IngredientType requested
      * @return a list of ingredient corresponding to the ingredientType
      */
-    public List<Ingredient> ingredientOfType(IngredientType ingredientType){
+    public List<Ingredient> getIngredientOfType(IngredientType ingredientType){
         List<Ingredient> listReturned = new ArrayList<>();
         for (Ingredient ingredient : ingredientList){
             if(ingredient.getType().equals(ingredientType)){

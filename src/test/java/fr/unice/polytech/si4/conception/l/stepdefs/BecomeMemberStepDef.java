@@ -73,8 +73,6 @@ public class BecomeMemberStepDef implements En {
 
         Then("^register \"([^\"]*)\"$", (String arg0) -> {
             if (arg0.equals("failure")) {
-                java.lang.System.out.println(systemInfo.getCustomers().get(0).getMail());
-                java.lang.System.out.println(otherMail);
                 assertThrows(AlreadyCreatedException.class, () -> systemInfo.subscription(otherName, otherPhone, otherMail));
             } else {
                 assertDoesNotThrow(() -> systemInfo.subscription(otherName, otherPhone, otherMail));
