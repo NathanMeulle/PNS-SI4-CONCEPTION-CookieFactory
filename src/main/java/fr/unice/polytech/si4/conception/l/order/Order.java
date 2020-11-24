@@ -293,8 +293,6 @@ public class Order {
         public double getPriceTTC() {
             return priceTTC;
         }
-
-
     }
 }
 

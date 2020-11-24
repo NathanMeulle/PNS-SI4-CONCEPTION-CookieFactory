@@ -25,6 +25,10 @@ public abstract class Cookie {
     private List<Ingredient> ingredients;
 
 
+    public void setCookieType(CookieType cookieType) {
+        this.cookieType = cookieType;
+    }
+
     /**
      * Creates a cookie with :
      * @param name name of the cookie
