@@ -104,7 +104,9 @@ public class Order {
             this.setStateOrder(StateOrder.VALIDATED);
             Log.add("Order:" + this.getIdOrder() + " - Validated\n" + "Created at:" + date + "\nPick up time: " + pickUpTime.toString());
             this.store.prepareOrder(this);
-            this.contactMarcelEat();
+            if (this.delivery) {
+                this.contactMarcelEat();
+            }
         } else {
             this.setStateOrder(StateOrder.REFUSED);
             Log.add("Order:" + this.getIdOrder() + " - Refused");

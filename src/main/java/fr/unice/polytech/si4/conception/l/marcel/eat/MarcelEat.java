@@ -1,5 +1,6 @@
 package fr.unice.polytech.si4.conception.l.marcel.eat;
 
+import fr.unice.polytech.si4.conception.l.Log;
 import fr.unice.polytech.si4.conception.l.order.Order;
 import fr.unice.polytech.si4.conception.l.store.Store;
 
@@ -21,13 +22,13 @@ public class MarcelEat {
     }
 
     public static void pickUpByDeliveryMan(Order order) {
-
+        Log.add("Order has been pick up by a delivery man");
     }
 
     /**
      * Create the delivery man team
      */
-    public void initialization() {
+    public static void initialization() {
         for (int i = 0; i < 2; i++) {
             deliveryMans.add(new DeliveryMan());
             bank = 0;
