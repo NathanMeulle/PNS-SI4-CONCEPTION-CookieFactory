@@ -34,7 +34,7 @@ public class CookieOnDemandStepdefs implements En {
             customer = new Customer(arg0, arg2, arg1);
             kitchen = new Kitchen();
             kitchen.assignStore(store);
-            store = new Store(1, "", 5, "", "", new Manager(1, ""));
+            store = new Store(1, "", 5, "", "",0,0, new Manager(1, ""));
             store.setKitchen(kitchen);
             systemInfo.addCustomer(customer);
             systemInfo.addStore(store);

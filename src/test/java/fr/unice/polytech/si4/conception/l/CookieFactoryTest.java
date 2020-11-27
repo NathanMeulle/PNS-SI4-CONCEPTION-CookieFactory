@@ -60,8 +60,8 @@ class CookieFactoryTest {
         ingredient2 = new Ingredient("stanpe", 2, IngredientType.FLAVOR);
         //ingredientMock1 = mock(Ingredient.class);
         //ingredientMock2 = mock(Ingredient.class);
-        realStore1 = new Store(1, "addr", 2, "00", "mail", mock(Manager.class));
-        realStore2 = new Store(2, "ad", 3, "04", "email", mock(Manager.class));
+        realStore1 = new Store(1, "addr", 2, "00", "mail",0,0, mock(Manager.class));
+        realStore2 = new Store(2, "ad", 3, "04", "email",0,0, mock(Manager.class));
 
         chocolateFlavor = new Ingredient("vanille", 1, IngredientType.FLAVOR);
         vanillaFlavor = new Ingredient("chocolate", 1, IngredientType.FLAVOR);

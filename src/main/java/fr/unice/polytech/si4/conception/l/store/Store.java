@@ -1,6 +1,7 @@
 package fr.unice.polytech.si4.conception.l.store;
 
 import fr.unice.polytech.si4.conception.l.Log;
+import fr.unice.polytech.si4.conception.l.SystemInfo;
 import fr.unice.polytech.si4.conception.l.customer.AnonymousCustomer;
 import fr.unice.polytech.si4.conception.l.marcel.eat.MarcelEat;
 import fr.unice.polytech.si4.conception.l.order.Order;
@@ -9,6 +10,8 @@ import fr.unice.polytech.si4.conception.l.products.Cookie;
 import fr.unice.polytech.si4.conception.l.products.composition.Ingredient;
 import fr.unice.polytech.si4.conception.l.store.schedule.Schedule;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
@@ -24,14 +27,19 @@ public class Store {
     private Kitchen kitchen;
     private OrderHistory orderHistory;
     private Cookie bestOfStore;
+    private double latitude;
+    private double longitude;
+    private final double earthRadius = 6371;
 
-    public Store(int id, String address, double tax, String phone, String mail, Manager manager) {
+    public Store(int id, String address, double tax, String phone, String mail,double latitude, double longitude, Manager manager) {
         this.id = id;
         this.address = address;
         this.tax = tax;
         this.phone = phone;
         this.mail = mail;
         this.manager = manager;
+        this.latitude = latitude;
+        this.longitude = longitude;
         this.manager.assignStore(this);
         this.schedule = new Schedule();
         this.kitchen = new Kitchen();
@@ -173,5 +181,46 @@ public class Store {
 
     public void payMarcelEat(Order order, double price) {
         MarcelEat.pay(order, price);
+    }
+
+    public double getLatitude() {
+        return latitude;
+    }
+
+    public double getLongitude(){
+        return longitude;
+    }
+
+    public void setLatitude(double latitude){
+        this.latitude = latitude;
+    }
+
+    public void setLongitude(double longitude){
+        this.longitude = longitude;
+    }
+
+    public double getDistance(Store store){
+        return Math.acos(Math.sin(store.getLatitude() * Math.PI / 180.0) * Math.sin(this.latitude * Math.PI / 180.0) +
+                Math.cos(store.latitude * Math.PI / 180.0) * Math.cos(this.latitude * Math.PI / 180.0) *
+                        Math.cos((this.longitude - store.longitude) * Math.PI / 180.0)) * this.earthRadius;
+    }
+
+    public List<Store> storesNearby(){
+        List<Store> stores = SystemInfo.getInstance().getStores();
+        stores.remove(this);
+        List<Store> storesNearby = new ArrayList<>();
+        double minDistance = 0;
+        while(!stores.isEmpty()){
+            minDistance = getDistance(stores.get(0));
+            Store store = stores.get(0);
+            double distance = 0;
+            for (Store s : stores) {
+                distance = getDistance(s);
+                if (!this.equals(s) && distance < minDistance) { minDistance = distance; store = s; }
+            }
+            stores.remove(store);
+            storesNearby.add(store);
+        }
+        return storesNearby;
     }
 }

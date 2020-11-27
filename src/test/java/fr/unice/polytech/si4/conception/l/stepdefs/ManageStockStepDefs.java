@@ -23,7 +23,7 @@ public class ManageStockStepDefs  implements En {
         });
 
         And("^a factory with a store with his kitchen$", () -> {
-            store = new Store(2, "a", 1.0, "06","mail.com", manager);
+            store = new Store(2, "a", 1.0, "06","mail.com",0,0, manager);
             kitchen = this.store.getKitchen();
             Log.add(kitchen.toString());
 

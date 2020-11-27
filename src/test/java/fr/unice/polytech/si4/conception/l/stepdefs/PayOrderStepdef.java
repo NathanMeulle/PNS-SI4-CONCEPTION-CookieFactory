@@ -45,7 +45,7 @@ public class PayOrderStepdef implements En {
 
         And("^a store$", () -> {
             manager = mock(Manager.class);
-            store = new Store(1, "", 1, "", "", manager);
+            store = new Store(1, "", 1, "", "",0,0, manager);
             kitchen = mock(Kitchen.class);
             store.setKitchen(kitchen);
             when(kitchen.canDo(any())).thenReturn(true);

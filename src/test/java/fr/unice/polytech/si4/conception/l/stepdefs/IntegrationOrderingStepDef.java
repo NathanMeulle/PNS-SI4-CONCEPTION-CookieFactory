@@ -43,7 +43,7 @@ public class IntegrationOrderingStepDef implements En {
         });
         And("^a store located in \"([^\"]*)\" with a tax of \"([^\"]*)\"$", (String arg0, String arg1) -> {
             managerMock = mock(Manager.class);
-            store = new Store(1, arg0, Double.parseDouble(arg1),"01", "mail", managerMock);
+            store = new Store(1, arg0, Double.parseDouble(arg1),"01", "mail",0,0, managerMock);
             kitchen = new Kitchen();
             kitchen.assignStore(store);
             store.setKitchen(kitchen);

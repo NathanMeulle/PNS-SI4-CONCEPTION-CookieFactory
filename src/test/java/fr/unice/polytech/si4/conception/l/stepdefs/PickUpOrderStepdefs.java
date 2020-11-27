@@ -30,7 +30,7 @@ public class PickUpOrderStepdefs implements En {
     public PickUpOrderStepdefs() {
 
         Given("^an order and an anonymous customer$", () -> {
-            store = new Store(1, "adresse", 25, "06", "mail", mock(Manager.class));
+            store = new Store(1, "adresse", 25, "06", "mail",0,0, mock(Manager.class));
             anonymousCustomer = new AnonymousCustomer("Bertrand", "06");
             anonymousCustomer.createOrder(store);
             orderBuilder = anonymousCustomer.getOrderBuilder();

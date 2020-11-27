@@ -30,7 +30,7 @@ public class CreateRecipeStepdefs implements En {
 
             Manager manager = new Manager(1, "Nathan");
             cookieFactory = new CookieFactory();
-            Store store = new Store(1, "a", 1.0, "01", "mail.com", manager);
+            Store store = new Store(1, "a", 1.0, "01", "mail.com",0,0, manager);
             manager.assignStore(store);
             List<Store> stores = new ArrayList<>();
             stores.add(store);

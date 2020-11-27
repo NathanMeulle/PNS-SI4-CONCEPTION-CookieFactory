@@ -43,6 +43,10 @@ public class AnonymousCustomer implements CustomerInterface {
 
     public void submitOrder() throws ErrorPreparingOrder, NoDeliveryManDispo {
         this.order = this.orderBuilder.build();
+        this.submit();
+    }
+
+    public void submit() throws ErrorPreparingOrder, NoDeliveryManDispo {
         this.order.submit();
     }
 
@@ -55,6 +59,9 @@ public class AnonymousCustomer implements CustomerInterface {
         return this.orderBuilder.getPriceTTC();
     }
 
+    public void changeStore(Store store){
+        this.order.setStore(store);
+    }
 
     @Override
     public boolean equals(Object o) {

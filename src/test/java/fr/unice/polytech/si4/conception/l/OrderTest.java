@@ -54,7 +54,7 @@ class OrderTest {
         managerMock = mock(Manager.class);
 
 
-        store = new Store(1, "", 1.2, "01", "mail", managerMock);
+        store = new Store(1, "", 1.2, "01", "mail",0,0, managerMock);
 
         kitchen = new Kitchen();
         kitchen.assignStore(store);

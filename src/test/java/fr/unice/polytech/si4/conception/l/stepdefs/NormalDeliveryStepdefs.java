@@ -24,7 +24,7 @@ public class NormalDeliveryStepdefs implements En {
 
     public NormalDeliveryStepdefs() {
         Given("^a customer, an order and a store$", () -> {
-            Store store = new Store(1,"address", 5, "06", "mail", mock(Manager.class));
+            Store store = new Store(1,"address", 5, "06", "mail",0,0, mock(Manager.class));
             Kitchen kitchen = mock(Kitchen.class);
             store.setKitchen(kitchen);
             when(kitchen.canDo(any())).thenReturn(true);
