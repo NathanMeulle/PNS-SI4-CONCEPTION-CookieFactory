@@ -51,6 +51,10 @@ public class NormalDeliveryStepdefs implements En {
         Then("^the order is well deliver by MarcelEat$", () -> {
             assertEquals(StateOrder.CLASSIFIED, customer.getOrder().getStateOrder());
         });
+
+        Then("^the store pay MarcelEat$", () -> {
+            assertEquals(2.0, MarcelEat.bank, 0.1);
+        });
     }
 
 }

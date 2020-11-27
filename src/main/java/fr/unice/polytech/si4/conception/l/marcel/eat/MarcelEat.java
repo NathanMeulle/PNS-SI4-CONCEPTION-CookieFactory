@@ -31,8 +31,8 @@ public class MarcelEat {
     public static void initialization() {
         for (int i = 0; i < 2; i++) {
             deliveryMans.add(new DeliveryMan());
-            bank = 0;
         }
+        bank = 0;
     }
 
 
@@ -47,6 +47,7 @@ public class MarcelEat {
         for (DeliveryMan deliveryMan : deliveryMans) {
             if (deliveryMan.isDispo()) {
                 deliveryMan.assignOrder(order);
+                orderToPay.add(order);
                 return;
             }
         }
@@ -65,5 +66,6 @@ public class MarcelEat {
             }
         }
     }
+
 }
 

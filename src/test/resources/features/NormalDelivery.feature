@@ -13,3 +13,4 @@ Feature: Make a normal delivery
     Then the order is well prepare for delivery
     And a delivery man pick up the order
     Then the order is well deliver by MarcelEat
+    Then the store pay MarcelEat
