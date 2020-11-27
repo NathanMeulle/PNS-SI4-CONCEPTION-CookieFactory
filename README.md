@@ -42,7 +42,7 @@ This project allows customers to order cookies online from a variety of recipes 
 | <ul><li>En tant que manager</li><li>Je veux faire des stats sur les cookies commandés ces 30 derniers jours</li><li>Afin de déterminer quel est le Best Of Cookie du mois</li></ul>| PayOrder.feature | <ul><li>Order with a best of store cookie</li></ul> |
 | <ul><li>En tant que PDG</li><li>Je veux faire des stats sur les BOC de ces 30 derniers jours</li><li>Afin de déterminer quel est le cookie national</li></ul>| PayOrder.feature | <ul><li>Order with a best of national cookie</li></ul> |
 | <ul><li>En tant que client</li><li>Je veux choisir un cookie</li><li>Afin d'en modifier les ingrédients présents </li></ul>| CreatePersonalizedRecipe.feature | <ul><li>Jhon modify a cookie : adding an ingredient</li><li>Jhon modify a cookie : removing an ingredient</li><li>Jhon modify a cookie : non valid</li></ul> |
-
+| <ul><li>En tant que store</li><li>Je veux demander à MarcelEat une livraison</li><li>Afin de livrer mon client à l'adresse souhaitée</li></ul>| NormalDelivery.feature | <ul><li>sucessful delivery</li></ul> |
 
 
 
