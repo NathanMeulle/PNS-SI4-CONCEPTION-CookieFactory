@@ -4,6 +4,7 @@ import fr.unice.polytech.si4.conception.l.exceptions.ErrorPreparingOrder;
 import fr.unice.polytech.si4.conception.l.exceptions.NotAlreadyCooked;
 import fr.unice.polytech.si4.conception.l.exceptions.NotPaid;
 import fr.unice.polytech.si4.conception.l.exceptions.WrongPickUpTimeException;
+import fr.unice.polytech.si4.conception.l.marcel.eat.NoDeliveryManDispo;
 import fr.unice.polytech.si4.conception.l.order.Order;
 import fr.unice.polytech.si4.conception.l.products.Cookie;
 import fr.unice.polytech.si4.conception.l.store.Store;
@@ -36,8 +37,11 @@ public class AnonymousCustomer implements CustomerInterface {
         this.orderBuilder.addCookie(cookie, quantity);
     }
 
+    public void assignAddress(String address) {
+        this.getOrderBuilder().assignDeliveryAddress(address);
+    }
 
-    public void submitOrder() throws ErrorPreparingOrder {
+    public void submitOrder() throws ErrorPreparingOrder, NoDeliveryManDispo {
         this.order = this.orderBuilder.build();
         this.order.submit();
     }
@@ -92,4 +96,5 @@ public class AnonymousCustomer implements CustomerInterface {
     public void setOrder(Order order) {
         this.order = order;
     }
+
 }

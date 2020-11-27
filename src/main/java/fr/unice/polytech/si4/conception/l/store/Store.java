@@ -2,6 +2,7 @@ package fr.unice.polytech.si4.conception.l.store;
 
 import fr.unice.polytech.si4.conception.l.Log;
 import fr.unice.polytech.si4.conception.l.customer.AnonymousCustomer;
+import fr.unice.polytech.si4.conception.l.marcel.eat.MarcelEat;
 import fr.unice.polytech.si4.conception.l.order.Order;
 import fr.unice.polytech.si4.conception.l.order.StateOrder;
 import fr.unice.polytech.si4.conception.l.products.Cookie;
@@ -170,4 +171,7 @@ public class Store {
     }
 
 
+    public void payMarcelEat(Order order, double price) {
+        MarcelEat.pay(order, price);
+    }
 }

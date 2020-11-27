@@ -10,5 +10,6 @@ public enum StateOrder {
     VALIDATED,
     COOKED,
     CLASSIFIED,
-    REFUSED
+    REFUSED,
+    WAITDELIVERY
 }

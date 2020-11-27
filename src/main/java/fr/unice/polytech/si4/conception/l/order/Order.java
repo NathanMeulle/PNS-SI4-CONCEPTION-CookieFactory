@@ -11,6 +11,8 @@ import fr.unice.polytech.si4.conception.l.exceptions.ErrorPreparingOrder;
 import fr.unice.polytech.si4.conception.l.exceptions.NotAlreadyCooked;
 import fr.unice.polytech.si4.conception.l.exceptions.NotPaid;
 import fr.unice.polytech.si4.conception.l.exceptions.WrongPickUpTimeException;
+import fr.unice.polytech.si4.conception.l.marcel.eat.MarcelEat;
+import fr.unice.polytech.si4.conception.l.marcel.eat.NoDeliveryManDispo;
 import fr.unice.polytech.si4.conception.l.products.Cookie;
 import fr.unice.polytech.si4.conception.l.store.Store;
 
@@ -32,7 +34,7 @@ public class Order {
     private Date pickUpTime;
     private double priceHT;
     private double priceTTC; // TODO à supprimer ?
-
+    private boolean delivery;
 
     /**
      * Creates an order with an ID, a date of creation and the state Choice
@@ -48,6 +50,7 @@ public class Order {
         this.pickUpTime = builder.pickUpTime;
         this.priceHT = builder.priceHT;
         this.priceTTC = builder.priceTTC;
+        this.delivery = builder.delivery;
     }
 
 
@@ -73,23 +76,50 @@ public class Order {
         }
     }
 
+
+    /**
+     * the delivery man pick up the order
+     * the store pay 2 MarcelEat for delivery
+     */
+    public void deliverByMarcelEat() {
+        MarcelEat.pickUpByDeliveryMan(this);
+        this.store.payMarcelEat(this, 2);
+        this.store.addToOrderHistory(this);
+    }
+
     /**
      * When the customer finish the selection and confirme his order
      * Check if kitchen can do this order
      * If true => order state is Validated
+     * we cook the order
+     * if delivery is true : we contact MarcelEat
      * Else order state is Refused
      */
-    public void submit() throws ErrorPreparingOrder {
+    public void submit() throws ErrorPreparingOrder, NoDeliveryManDispo {
         this.setStateOrder(StateOrder.SUBMITTED);
         if (this.isAchievable()) {
             this.setStateOrder(StateOrder.VALIDATED);
             Log.add("Order:" + this.getIdOrder() + " - Validated\n" + "Created at:" + date + "\nPick up time: " + pickUpTime.toString());
             this.store.prepareOrder(this);
+            if (this.delivery) {
+                this.contactMarcelEat();
+            }
         } else {
             this.setStateOrder(StateOrder.REFUSED);
             Log.add("Order:" + this.getIdOrder() + " - Refused");
             throw new ErrorPreparingOrder("Erreur lors de la préparation de commande par la cuisine !");
         }
+    }
+
+    /**
+     * if the order has to be delivery
+     * we contact MarcelEat for a delivery man
+     * if no exception order wait for the delivery man
+     * @throws NoDeliveryManDispo
+     */
+    public void contactMarcelEat() throws NoDeliveryManDispo {
+        MarcelEat.requestDelivery(this);
+        this.setStateOrder(StateOrder.WAITDELIVERY);
     }
 
 
@@ -183,6 +213,8 @@ public class Order {
         private Date pickUpTime;
         private double priceHT;
         private double priceTTC;
+        private String address;
+        private boolean delivery;
 
 
 
@@ -198,6 +230,8 @@ public class Order {
             this.isPaid = false;
             this.stateOrder = StateOrder.CHOICE;
             this.pickUpTime = new Date();
+            this.address = "";
+            this.delivery = false;
         }
 
 
@@ -263,6 +297,12 @@ public class Order {
             return this;
         }
 
+        public OrderBuilder assignDeliveryAddress(String addressDelivery) {
+            this.address = addressDelivery;
+            this.delivery = true;
+            return this;
+        }
+
         /**
          * Generate a unique id that permits to recognize an order
          * @return id
@@ -277,9 +317,13 @@ public class Order {
 
         /**
          * return an order create by the builder
+         * if the order will be delivery by MarcelEat add an extra cost
          * @return
          */
         public Order build() {
+            if (this.delivery) {
+                this.priceTTC += 2.0;
+            }
             return new Order(this);
         }
 
