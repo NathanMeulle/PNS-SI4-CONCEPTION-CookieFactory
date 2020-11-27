@@ -25,4 +25,3 @@ Feature: Pick up an order
     And the order is paid
     Then order raise an exception
 
-    ## TODO pick up when the store is closed...

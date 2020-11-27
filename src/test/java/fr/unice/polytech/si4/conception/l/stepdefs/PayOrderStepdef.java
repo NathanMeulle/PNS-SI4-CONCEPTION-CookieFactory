@@ -133,5 +133,11 @@ public class PayOrderStepdef implements En {
         Then("^cookie personnalized is the bestOfCookie$", () -> {
             assertEquals(cookiePerso, systemInfo.getBestCookieNational());
         });
+        And("^the store update the bestOf$", () -> {
+            //Fait automatiquement lors de la commande
+        });
+        Then("^cookie choco is the bestOfCookie of the store$", () -> {
+            assertEquals(cookieChoco, store.getBestCookie());
+        });
     }
 }

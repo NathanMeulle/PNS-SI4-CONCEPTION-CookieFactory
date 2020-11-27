@@ -11,7 +11,7 @@ Feature: Make order
       When an anonymous customer submit his order and 4 "Chocolate" in the kitchen
       Then order is done
 
-    Scenario: Make an order with out enough ingredients
+    Scenario: Make an order without enough ingredients
       When an anonymous customer submit his order and 2 "Chocolate" in the kitchen
       Then order is cancel
 
