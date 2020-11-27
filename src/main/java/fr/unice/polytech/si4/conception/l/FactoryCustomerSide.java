@@ -1,5 +1,6 @@
 package fr.unice.polytech.si4.conception.l;
 
+import fr.unice.polytech.si4.conception.l.exceptions.AlreadyCreatedException;
 import fr.unice.polytech.si4.conception.l.exceptions.InvalidNumberIngredient;
 import fr.unice.polytech.si4.conception.l.exceptions.InvalidTypeIngredient;
 import fr.unice.polytech.si4.conception.l.exceptions.NotFindException;
@@ -39,17 +40,20 @@ public  class FactoryCustomerSide implements ISystemInfo {
      * @param cooking : the way of cooking of the cookie
      */
     public Cookie createCookiePersonalized(String name, List<Ingredient> ingredientList, Dough dough, Mix mix, Cooking cooking) throws InvalidTypeIngredient, InvalidNumberIngredient {
-       return cookieFactory.createPersonnalizedCookie(name, ingredientList, dough, mix, cooking);
+        return cookieFactory.createPersonnalizedCookie(name, ingredientList, dough, mix, cooking);
     }
 
-
-    public Cookie addIngredientToCookie(Cookie c, Ingredient ingredient) throws InvalidTypeIngredient, InvalidNumberIngredient {
+    public Cookie addIngredientToCookie(Cookie c, Ingredient ingredient) throws AlreadyCreatedException, InvalidTypeIngredient, InvalidNumberIngredient {
         List<Ingredient> ingredients = c.getIngredients();
         ingredients.add(ingredient);
         return createCookiePersonalized(c.getName(), ingredients, c.getDough(), c.getMix(), c.getCooking());
     }
 
-    public Cookie removeIngredientToCookie(Cookie c, Ingredient ingredient) throws InvalidTypeIngredient, InvalidNumberIngredient {
+    public void submitCookie(Cookie cookie) throws AlreadyCreatedException {
+        systemInfo.addCookie(cookie);
+    }
+
+    public Cookie removeIngredientToCookie(Cookie c, Ingredient ingredient) throws AlreadyCreatedException, InvalidTypeIngredient, InvalidNumberIngredient {
         List<Ingredient> ingredients = c.getIngredients();
         ingredients.remove(ingredient);
         return createCookiePersonalized(c.getName(), ingredients, c.getDough(), c.getMix(), c.getCooking());
@@ -60,6 +64,7 @@ public  class FactoryCustomerSide implements ISystemInfo {
         return List.copyOf(systemInfo.getCookies());
     }
 
+    /*
     public Cookie getCookieByName(String name) throws NotFindException {
         for(Cookie cookie : getCookies()){
             if(cookie.getName().equals(name)){
@@ -68,6 +73,7 @@ public  class FactoryCustomerSide implements ISystemInfo {
         }
         throw new NotFindException("cookie not found");
     }
+     */
 
 
     @Override
@@ -80,14 +86,7 @@ public  class FactoryCustomerSide implements ISystemInfo {
         return List.copyOf(systemInfo.getIngredients());
     }
 
-    /**
-     * Method to obtain specifically the ingredient
-     * of Dough type of the ingredientList
-     * @return an unmodifiableList of Dough
-     */
-    public List<Ingredient> getDough() {
-        return getIngredientOfType(IngredientType.DOUGH);
-    }
+
 
     /**
      * Method to obtain specifically the ingredient
@@ -95,7 +94,7 @@ public  class FactoryCustomerSide implements ISystemInfo {
      * @return an unmodifiableList of Flavor
      */
     public List<Ingredient> getFlavor() {
-        return getIngredientOfType(IngredientType.FLAVOR);
+        return ingredientOfType(IngredientType.FLAVOR);
     }
 
     /**
@@ -104,7 +103,7 @@ public  class FactoryCustomerSide implements ISystemInfo {
      * @return an unmodifiableList of Topping
      */
     public List<Ingredient> getTopping() {
-        return getIngredientOfType(IngredientType.TOPPING);
+        return ingredientOfType(IngredientType.TOPPING);
     }
 
     /**
@@ -113,7 +112,7 @@ public  class FactoryCustomerSide implements ISystemInfo {
      * @param ingredientType : IngredientType requested
      * @return a list of ingredient corresponding to the ingredientType
      */
-    public List<Ingredient> getIngredientOfType(IngredientType ingredientType){
+    public List<Ingredient> ingredientOfType(IngredientType ingredientType){
         List<Ingredient> listReturned = new ArrayList<>();
         for (Ingredient ingredient : ingredientList){
             if(ingredient.getType().equals(ingredientType)){

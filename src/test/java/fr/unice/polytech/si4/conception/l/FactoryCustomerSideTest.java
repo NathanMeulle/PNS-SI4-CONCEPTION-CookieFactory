@@ -1,10 +1,9 @@
 package fr.unice.polytech.si4.conception.l;
 
 import fr.unice.polytech.si4.conception.l.customer.Customer;
-import fr.unice.polytech.si4.conception.l.exceptions.AlreadyCreatedException;
+import fr.unice.polytech.si4.conception.l.exceptions.*;
 import fr.unice.polytech.si4.conception.l.products.Cookie;
-import fr.unice.polytech.si4.conception.l.products.composition.Ingredient;
-import fr.unice.polytech.si4.conception.l.products.composition.IngredientType;
+import fr.unice.polytech.si4.conception.l.products.composition.*;
 import fr.unice.polytech.si4.conception.l.store.Store;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -12,6 +11,7 @@ import org.junit.jupiter.api.Test;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -24,8 +24,8 @@ class FactoryCustomerSideTest {
     Ingredient ingredientTwo;
     Ingredient ingredientThree;
 
-    Ingredient ingredientDoughMock1;
-    Ingredient ingredientDoughMock2;
+    Dough ingredientDoughMock1;
+    Dough ingredientDoughMock2;
     Ingredient ingredientFlavorMock1;
     Ingredient ingredientToppingMock1;
     Ingredient ingredientToppingMock2;
@@ -42,9 +42,9 @@ class FactoryCustomerSideTest {
         ingredientTwo = new Ingredient("Dough gluten free", 5, IngredientType.DOUGH);
         ingredientThree = new Ingredient("student's tears", 1, IngredientType.TOPPING);
 
-        ingredientDoughMock1 = mock(Ingredient.class);
+        ingredientDoughMock1 = mock(Dough.class);
         when(ingredientDoughMock1.getType()).thenReturn(IngredientType.DOUGH);
-        ingredientDoughMock2 = mock(Ingredient.class);
+        ingredientDoughMock2 = mock(Dough.class);
         when(ingredientDoughMock2.getType()).thenReturn(IngredientType.DOUGH);
         ingredientFlavorMock1 = mock(Ingredient.class);
         when(ingredientFlavorMock1.getType()).thenReturn(IngredientType.FLAVOR);
@@ -54,19 +54,24 @@ class FactoryCustomerSideTest {
         when(ingredientToppingMock2.getType()).thenReturn(IngredientType.TOPPING);
         ingredientToppingMock3 = mock(Ingredient.class);
         when(ingredientToppingMock3.getType()).thenReturn(IngredientType.TOPPING);
-        ingredientList = List.of(ingredientDoughMock1, ingredientDoughMock2, ingredientFlavorMock1, ingredientToppingMock1, ingredientToppingMock2, ingredientToppingMock3);
+        //ingredientList = List.of(ingredientDoughMock1, ingredientDoughMock2, ingredientFlavorMock1, ingredientToppingMock1, ingredientToppingMock2, ingredientToppingMock3);
+        ingredientList = List.of(ingredientFlavorMock1, ingredientToppingMock1, ingredientToppingMock2, ingredientToppingMock3);
         systemInfo.addIngredient(ingredientList);
     }
 
     @Test
-    void getDoughTest() {
-        List<Ingredient> doughList = catalogue.getDough();
-        assertEquals(2, doughList.size());
-        for(Ingredient i : doughList){
-            assertEquals(IngredientType.DOUGH, i.getType());
-        }
-        systemInfo.resetSystemInfo();
+    void createCookieUsingProxy() throws AlreadyCreatedException, InvalidTypeIngredient, InvalidNumberIngredient, NotFindException, NoProxyAssociateException {
+        customer.associateProxy(catalogue);
+        String nameCookie = new String("myCookie");
+        customer.createCookieUsingProxy(nameCookie, ingredientList, ingredientDoughMock1, Mix.MIXED, Cooking.CRUNCHY);
+        Cookie cookieCreated = systemInfo.getCookieByName(nameCookie);
+        assertEquals(nameCookie, cookieCreated.getName());
+        assertEquals(ingredientList, cookieCreated.getIngredients());
+        assertEquals(ingredientDoughMock1, cookieCreated.getDough());
+        assertEquals(Mix.MIXED, cookieCreated.getMix());
+        assertEquals(Cooking.CRUNCHY, cookieCreated.getCooking());
     }
+
 
     @Test
     void getFlavorTest() {

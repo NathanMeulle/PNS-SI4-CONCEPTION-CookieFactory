@@ -1,11 +1,17 @@
 package fr.unice.polytech.si4.conception.l.customer;
 
-import fr.unice.polytech.si4.conception.l.exceptions.NotAlreadyCooked;
-import fr.unice.polytech.si4.conception.l.exceptions.NotPaid;
-import fr.unice.polytech.si4.conception.l.exceptions.WrongPickUpTimeException;
+import fr.unice.polytech.si4.conception.l.FactoryCustomerSide;
+import fr.unice.polytech.si4.conception.l.ISystemInfo;
+import fr.unice.polytech.si4.conception.l.SystemInfo;
+import fr.unice.polytech.si4.conception.l.exceptions.*;
 import fr.unice.polytech.si4.conception.l.products.Cookie;
+import fr.unice.polytech.si4.conception.l.products.composition.Cooking;
+import fr.unice.polytech.si4.conception.l.products.composition.Dough;
+import fr.unice.polytech.si4.conception.l.products.composition.Ingredient;
+import fr.unice.polytech.si4.conception.l.products.composition.Mix;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 
 public class Customer extends AnonymousCustomer implements CustomerInterface {
@@ -13,6 +19,7 @@ public class Customer extends AnonymousCustomer implements CustomerInterface {
     private String mail;
     private boolean loyaltyProgram;
     private int nbCookieOrdered;
+    private FactoryCustomerSide factoryCustomerSide;
 
     public Customer(String name, String phoneNumber, String mail) {
         super(name, phoneNumber);
@@ -40,6 +47,19 @@ public class Customer extends AnonymousCustomer implements CustomerInterface {
     public void decrementeNbCookie() {
         getOrderBuilder().applyDiscount();
         this.nbCookieOrdered = 0;
+    }
+
+    public void associateProxy(ISystemInfo iSystemInfo){
+        factoryCustomerSide = (FactoryCustomerSide)iSystemInfo;
+    }
+
+    public void createCookieUsingProxy(String name, List<Ingredient> ingredientList, Dough dough, Mix mix, Cooking cooking) throws InvalidNumberIngredient, InvalidTypeIngredient, AlreadyCreatedException, NoProxyAssociateException {
+
+        if(factoryCustomerSide == null){
+            throw new NoProxyAssociateException("This customer does not have an associate proxy");
+        }
+        Cookie cookie = factoryCustomerSide.createCookiePersonalized(name, ingredientList, dough, mix, cooking);
+        factoryCustomerSide.submitCookie(cookie);
     }
 
     public void pickUpOrder(Date date) throws NotAlreadyCooked, NotPaid, WrongPickUpTimeException {
