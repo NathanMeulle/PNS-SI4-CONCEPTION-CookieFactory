@@ -90,7 +90,7 @@ public class CreatePersonalizedRecipeStepDef implements En {
         });
         And("^Jhon add the ingredient called \"([^\"]*)\"$", (String arg0) -> {
             systemInfo.addIngredient(List.of(chocolate));
-            cookieCreated = systemInfo.generateProxy().addIngredientToCookie(selectedCookie, chocolate);
+            cookieCreated = jhon.addIngredientToCookie(selectedCookie, chocolate);
         });
         And("^the cookie \"([^\"]*)\" is composed by the ingredients vanilla, chocolate and wholemeal flour$", (String arg0) -> {
             assertEquals(vanilla, cookieCreated.getIngredients().get(0));
@@ -112,11 +112,11 @@ public class CreatePersonalizedRecipeStepDef implements En {
             selectedCookie = systemInfo.getCookieByName("HeavyVanilla");
         });
         And("^Jhon remove the ingredient called \"([^\"]*)\"$", (String arg0) -> {
-            cookieCreated = systemInfo.generateProxy().removeIngredientToCookie(selectedCookie, chocolate);
+            cookieCreated = jhon.removeIngredientToCookie(selectedCookie, chocolate);
         });
 
         Then("^Jhon add the ingredient called \"([^\"]*)\" and an error occured$", (String arg0) -> {
-            assertThrows(InvalidTypeIngredient.class, () -> systemInfo.generateProxy().addIngredientToCookie(selectedCookie, new Ingredient("banana", 0, IngredientType.TOPPING)));
+            assertThrows(InvalidTypeIngredient.class, () -> jhon.addIngredientToCookie(selectedCookie, new Ingredient("banana", 0, IngredientType.TOPPING)));
         });
 
     }
