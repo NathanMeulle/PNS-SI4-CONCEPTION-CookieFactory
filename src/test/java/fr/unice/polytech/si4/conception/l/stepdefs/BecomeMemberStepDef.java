@@ -30,10 +30,6 @@ public class BecomeMemberStepDef implements En {
             this.mail = arg2;
         });
 
-        /** ********************************************************************************
-         *                  Scenario: He is anonymous and wants to register
-         *  ********************************************************************************
-         */
         When("^he fill a form in order to register and he submits it$", () -> {
             systemInfo.resetSystemInfo();
             systemInfo.subscription(name, phoneNumber, mail);
@@ -56,11 +52,6 @@ public class BecomeMemberStepDef implements En {
             assertEquals(mail, customerSubscribe.getMail());
         });
 
-        /** ********************************************************************************
-         *          Scenario: He wants to register again while being a member
-         *  ********************************************************************************
-         */
-
         Then("^the email already exist is the database$", () -> {
             assertTrue(systemInfo.getCustomers().contains(systemInfo.getCustomerByMail(otherMail)));
         });
@@ -73,8 +64,6 @@ public class BecomeMemberStepDef implements En {
 
         Then("^register \"([^\"]*)\"$", (String arg0) -> {
             if (arg0.equals("failure")) {
-                java.lang.System.out.println(systemInfo.getCustomers().get(0).getMail());
-                java.lang.System.out.println(otherMail);
                 assertThrows(AlreadyCreatedException.class, () -> systemInfo.subscription(otherName, otherPhone, otherMail));
             } else {
                 assertDoesNotThrow(() -> systemInfo.subscription(otherName, otherPhone, otherMail));

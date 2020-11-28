@@ -1,8 +1,12 @@
 package fr.unice.polytech.si4.conception.l.store;
 
+import fr.unice.polytech.si4.conception.l.Log;
+import fr.unice.polytech.si4.conception.l.SystemInfo;
+import fr.unice.polytech.si4.conception.l.exceptions.AlreadyCreatedException;
 import fr.unice.polytech.si4.conception.l.order.Order;
 import fr.unice.polytech.si4.conception.l.order.StateOrder;
 import fr.unice.polytech.si4.conception.l.products.Cookie;
+import fr.unice.polytech.si4.conception.l.products.CookieType;
 
 import java.util.*;
 
@@ -24,7 +28,7 @@ public class OrderHistory {
     /**
      * When you add an order in OrderHistory, its state change to classified
      *
-     * @param order
+     * @param order the order
      */
     public void addOrder(Order order) {
         listOrder.add(order);
@@ -83,6 +87,12 @@ public class OrderHistory {
             double tmp = (bestCookie == null)?0: bestCookie.getPrice();
             bestCookie = (entry.getKey().getPrice() < tmp) ? entry.getKey() : bestCookie; // en cas d'égalité, on renvoie le cookie le moins cher
         } else bestCookie = entry.getKey();
+        if (bestCookie!=null) bestCookie.setCookieType(CookieType.DEFAULT);
+        try {
+            SystemInfo.getInstance().addCookie(bestCookie);
+        } catch (AlreadyCreatedException e) {
+            Log.add(e.getMessage());
+        }
         return bestCookie;
     }
 

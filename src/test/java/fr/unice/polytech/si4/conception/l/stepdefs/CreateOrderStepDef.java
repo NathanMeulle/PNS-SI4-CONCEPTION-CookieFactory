@@ -34,7 +34,7 @@ public class CreateOrderStepDef implements En {
             systemInfo = SystemInfo.getInstance();
             systemInfo.resetSystemInfo();
             Manager manager = new Manager(1,"Phillipe");
-            store = new Store(1,"0",1.0,"0652487564","@gmail.com",manager);
+            store = new Store(1,"0",1.0,"0652487564","@gmail.com",0,0,manager);
             anonymousCustomer = new AnonymousCustomer("Philippe", "06.05.45.87.12");
             customer = new Customer("Phil", "06", "phil@mail.fr");
 

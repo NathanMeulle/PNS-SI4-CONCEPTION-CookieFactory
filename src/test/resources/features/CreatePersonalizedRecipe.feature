@@ -14,7 +14,7 @@ Feature: Create Personalized Recipe
   Scenario: Jhon create his recipe
     When We add 8 vanilla and 10 wholemeal flour to the stock at store "Avignon"
     And Jhon create his recipe named "HeavyVanilla" with "CHEWY" cooking, a "MIXED" mix and the ingredients vanilla and wholemeal flour
-    And the cookie "HeavyVanilla" is composed by the ingredients vanilla and wholemeal flour
+    Then the cookie "HeavyVanilla" is composed by the ingredients vanilla and wholemeal flour
 
 
   Scenario: Jhon modify a cookie : adding an ingredient

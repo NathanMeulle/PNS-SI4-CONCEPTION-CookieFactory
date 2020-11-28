@@ -4,6 +4,7 @@ import fr.unice.polytech.si4.conception.l.customer.Customer;
 import fr.unice.polytech.si4.conception.l.exceptions.AlreadyCreatedException;
 import fr.unice.polytech.si4.conception.l.exceptions.NotFindException;
 import fr.unice.polytech.si4.conception.l.products.Cookie;
+import fr.unice.polytech.si4.conception.l.products.CookieType;
 import fr.unice.polytech.si4.conception.l.products.composition.Ingredient;
 import fr.unice.polytech.si4.conception.l.store.Store;
 
@@ -227,6 +228,12 @@ public class SystemInfo implements ISystemInfo {
             bestCookie = (entry.getKey().getPrice() < tmp)? entry.getKey(): bestCookie; // en cas d'égalité, on renvoie le cookie le moins cher
         }
         else bestCookie = entry.getKey();
+        if (bestCookie!=null) bestCookie.setCookieType(CookieType.DEFAULT);
+        try {
+            addCookie(bestCookie);
+        } catch (AlreadyCreatedException e) {
+            Log.add(e.getMessage());
+        }
         return bestCookie;
     }
 

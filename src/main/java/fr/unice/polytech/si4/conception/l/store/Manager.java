@@ -34,10 +34,4 @@ public class Manager {
         this.store = store;
     }
 
-
-
-
-
-
-
 }

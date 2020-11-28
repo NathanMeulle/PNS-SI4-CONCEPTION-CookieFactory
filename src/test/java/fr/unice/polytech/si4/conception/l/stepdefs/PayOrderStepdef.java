@@ -45,7 +45,7 @@ public class PayOrderStepdef implements En {
 
         And("^a store$", () -> {
             manager = mock(Manager.class);
-            store = new Store(1, "", 1, "", "", manager);
+            store = new Store(1, "", 1, "", "",0,0, manager);
             kitchen = mock(Kitchen.class);
             store.setKitchen(kitchen);
             when(kitchen.canDo(any())).thenReturn(true);
@@ -132,6 +132,12 @@ public class PayOrderStepdef implements En {
         });
         Then("^cookie personnalized is the bestOfCookie$", () -> {
             assertEquals(cookiePerso, systemInfo.getBestCookieNational());
+        });
+        And("^the store update the bestOf$", () -> {
+            //Fait automatiquement lors de la commande
+        });
+        Then("^cookie choco is the bestOfCookie of the store$", () -> {
+            assertEquals(cookieChoco, store.getBestCookie());
         });
     }
 }

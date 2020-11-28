@@ -1,6 +1,5 @@
 package fr.unice.polytech.si4.conception.l.stepdefs;
 
-import fr.unice.polytech.si4.conception.l.Log;
 import fr.unice.polytech.si4.conception.l.SystemInfo;
 import fr.unice.polytech.si4.conception.l.customer.Customer;
 import fr.unice.polytech.si4.conception.l.exceptions.WrongPickUpTimeException;
@@ -34,7 +33,7 @@ public class CookieOnDemandStepdefs implements En {
             customer = new Customer(arg0, arg2, arg1);
             kitchen = new Kitchen();
             kitchen.assignStore(store);
-            store = new Store(1, "", 5, "", "", new Manager(1, ""));
+            store = new Store(1, "", 5, "", "",0,0, new Manager(1, ""));
             store.setKitchen(kitchen);
             systemInfo.addCustomer(customer);
             systemInfo.addStore(store);
@@ -52,7 +51,6 @@ public class CookieOnDemandStepdefs implements En {
         });
         And("her order is sent to the store$", () -> {
             customer.submitOrder();
-            Log.display();
         });
         Then("^\"([^\"]*)\" comes at \"([^\"]*)\":\"([^\"]*)\":\"([^\"]*)\" and retrieve her order$", (String arg0, String arg1, String arg2, String arg3) -> {
             Calendar cal = new GregorianCalendar(LocalDateTime.now().getYear(), LocalDateTime.now().getMonthValue()-1, LocalDateTime.now().getDayOfMonth(), Integer.parseInt(arg1), Integer.parseInt(arg2), Integer.parseInt(arg3));

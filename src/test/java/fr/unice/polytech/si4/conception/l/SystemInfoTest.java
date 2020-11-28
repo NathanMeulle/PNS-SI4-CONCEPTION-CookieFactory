@@ -25,9 +25,9 @@ class SystemInfoTest {
     @BeforeEach
     void setUp() {
 
-        name = new String("Esteve");
-        phoneNumber = new String("0658601237");
-        mail = new String("estevet@hotmail.fr");
+        name = "Esteve";
+        phoneNumber = "0658601237";
+        mail = "estevet@hotmail.fr";
         systemInfo = SystemInfo.getInstance();
         systemInfo.resetSystemInfo();
         cookieMock = mock(Cookie.class);

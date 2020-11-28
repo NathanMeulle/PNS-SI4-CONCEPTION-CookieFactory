@@ -3,7 +3,6 @@ package fr.unice.polytech.si4.conception.l;
 import fr.unice.polytech.si4.conception.l.exceptions.AlreadyCreatedException;
 import fr.unice.polytech.si4.conception.l.exceptions.InvalidNumberIngredient;
 import fr.unice.polytech.si4.conception.l.exceptions.InvalidTypeIngredient;
-import fr.unice.polytech.si4.conception.l.exceptions.NotFindException;
 import fr.unice.polytech.si4.conception.l.products.Cookie;
 import fr.unice.polytech.si4.conception.l.products.CookieFactory;
 import fr.unice.polytech.si4.conception.l.products.composition.*;
@@ -43,13 +42,17 @@ public  class FactoryCustomerSide implements ISystemInfo {
         return cookieFactory.createPersonnalizedCookie(name, ingredientList, dough, mix, cooking);
     }
 
-    public Cookie addIngredientToCookie(Cookie c, Ingredient ingredient) throws AlreadyCreatedException, InvalidTypeIngredient, InvalidNumberIngredient {
+    public Cookie addIngredientToCookie(Cookie c, Ingredient ingredient) throws InvalidTypeIngredient, InvalidNumberIngredient {
         List<Ingredient> ingredients = c.getIngredients();
         ingredients.add(ingredient);
         return createCookiePersonalized(c.getName(), ingredients, c.getDough(), c.getMix(), c.getCooking());
     }
 
-    public Cookie removeIngredientToCookie(Cookie c, Ingredient ingredient) throws AlreadyCreatedException, InvalidTypeIngredient, InvalidNumberIngredient {
+    public void submitCookie(Cookie cookie) throws AlreadyCreatedException {
+        systemInfo.addCookie(cookie);
+    }
+
+    public Cookie removeIngredientToCookie(Cookie c, Ingredient ingredient) throws InvalidTypeIngredient, InvalidNumberIngredient {
         List<Ingredient> ingredients = c.getIngredients();
         ingredients.remove(ingredient);
         return createCookiePersonalized(c.getName(), ingredients, c.getDough(), c.getMix(), c.getCooking());
@@ -59,16 +62,6 @@ public  class FactoryCustomerSide implements ISystemInfo {
     public List<Cookie> getCookies() {
         return List.copyOf(systemInfo.getCookies());
     }
-
-    public Cookie getCookieByName(String name) throws NotFindException {
-        for(Cookie cookie : getCookies()){
-            if(cookie.getName().equals(name)){
-                return cookie;
-            }
-        }
-        throw new NotFindException("cookie not found");
-    }
-
 
     @Override
     public List<Store> getStores() {
@@ -80,14 +73,7 @@ public  class FactoryCustomerSide implements ISystemInfo {
         return List.copyOf(systemInfo.getIngredients());
     }
 
-    /**
-     * Method to obtain specifically the ingredient
-     * of Dough type of the ingredientList
-     * @return an unmodifiableList of Dough
-     */
-    public List<Ingredient> getDough() {
-        return ingredientOfType(IngredientType.DOUGH);
-    }
+
 
     /**
      * Method to obtain specifically the ingredient

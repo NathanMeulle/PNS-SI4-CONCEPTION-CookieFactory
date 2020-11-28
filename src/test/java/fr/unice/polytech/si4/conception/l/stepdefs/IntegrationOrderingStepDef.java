@@ -2,6 +2,7 @@ package fr.unice.polytech.si4.conception.l.stepdefs;
 
 import fr.unice.polytech.si4.conception.l.SystemInfo;
 import fr.unice.polytech.si4.conception.l.customer.AnonymousCustomer;
+import fr.unice.polytech.si4.conception.l.customer.Customer;
 import fr.unice.polytech.si4.conception.l.exceptions.ErrorPreparingOrder;
 import fr.unice.polytech.si4.conception.l.order.StateOrder;
 import fr.unice.polytech.si4.conception.l.products.Cookie;
@@ -23,6 +24,7 @@ public class IntegrationOrderingStepDef implements En {
 
 
     AnonymousCustomer vincent;
+    Customer gustave;
     Store store;
     Ingredient chocolate;
     Ingredient mnm;
@@ -41,7 +43,7 @@ public class IntegrationOrderingStepDef implements En {
         });
         And("^a store located in \"([^\"]*)\" with a tax of \"([^\"]*)\"$", (String arg0, String arg1) -> {
             managerMock = mock(Manager.class);
-            store = new Store(1, arg0, Double.parseDouble(arg1),"01", "mail", managerMock);
+            store = new Store(1, arg0, Double.parseDouble(arg1),"01", "mail",0,0, managerMock);
             kitchen = new Kitchen();
             kitchen.assignStore(store);
             store.setKitchen(kitchen);
@@ -78,7 +80,7 @@ public class IntegrationOrderingStepDef implements En {
             kitchen.incrementStock(chocolate, arg0);
             kitchen.incrementStock(mnm, arg2);
         });
-        And("^The client \"([^\"]*)\" makes an order of (\\d+) \"([^\"]*)\" and (\\d+) \"([^\"]*)\" at store \"([^\"]*)\"$", (String arg0, Integer arg1, String arg2, Integer arg3, String arg4, String arg5) -> {
+        And("^The Anonymous client \"([^\"]*)\" makes an order of (\\d+) \"([^\"]*)\" and (\\d+) \"([^\"]*)\" at store \"([^\"]*)\"$", (String arg0, Integer arg1, String arg2, Integer arg3, String arg4, String arg5) -> {
             store = systemInfo.getStoreByAddress(arg5);
 
             vincent.createOrder(store);
@@ -86,21 +88,27 @@ public class IntegrationOrderingStepDef implements En {
             vincent.addCookie(mnMChocoCookie, arg3);
             assertDoesNotThrow(()->vincent.submitOrder());
         });
-        And("^The client \"([^\"]*)\" try to create an order of (\\d+) \"([^\"]*)\" and (\\d+) \"([^\"]*)\" at store \"([^\"]*)\"$", (String arg0, Integer arg1, String arg2, Integer arg3, String arg4, String arg5) -> {
+        And("^The Anonymous client \"([^\"]*)\" try to create an order of (\\d+) \"([^\"]*)\" and (\\d+) \"([^\"]*)\" at store \"([^\"]*)\"$", (String arg0, Integer arg1, String arg2, Integer arg3, String arg4, String arg5) -> {
             store = systemInfo.getStoreByAddress(arg5);
             vincent.createOrder(store);
             vincent.addCookie(chocoCookie, arg1);
             vincent.addCookie(mnMChocoCookie, arg3);
             assertThrows(ErrorPreparingOrder.class, ()-> vincent.submitOrder());
         });
-        Then("^The client \"([^\"]*)\" has (\\d+) order$", (String arg0, Integer arg1) -> {
+        Then("^The Anonymous client \"([^\"]*)\" has (\\d+) order$", (String arg0, Integer arg1) -> {
             assertNotNull(vincent.getOrder());
+        });
+        And("^the total price of this order is now (.+) TTC for Anonymous client \"([^\"]*)\"$", (Double arg0, String arg2) -> {
+            assertEquals(3, chocoCookie.getPrice());
+            assertEquals(7, mnMChocoCookie.getPrice());
+
+            assertEquals(arg0, vincent.getPrice(), 0.01);
         });
         And("^the total price of this order is now (.+) TTC for client \"([^\"]*)\"$", (Double arg0, String arg2) -> {
             assertEquals(3, chocoCookie.getPrice());
             assertEquals(7, mnMChocoCookie.getPrice());
 
-            assertEquals(arg0, vincent.getPrice(), 0.01);
+            assertEquals(arg0, gustave.getPrice(), 0.01);
         });
         When("^The user makes an order of (\\d+) \"([^\"]*)\"$", (Integer arg0, String arg1) -> {
             vincent.createOrder(store);
@@ -129,6 +137,25 @@ public class IntegrationOrderingStepDef implements En {
         });
         And("^the store starts making the order$", () -> {
             assertEquals(StateOrder.COOKED, vincent.getOrder().getStateOrder());
+        });
+        Given("^A client called \"([^\"]*)\" with the phoneNumber \"([^\"]*)\" and mail \"([^\"]*)\"$", (String arg0, String arg1, String arg2) -> {
+            gustave = new Customer(arg0, arg1, arg2);
+        });
+        And("^The client \"([^\"]*)\" makes an order of (\\d+) \"([^\"]*)\" and (\\d+) \"([^\"]*)\" at store \"([^\"]*)\"$", (String arg0, Integer arg1, String arg2, Integer arg3, String arg4, String arg5) -> {
+            store = systemInfo.getStoreByAddress(arg5);
+            gustave.createOrder(store);
+            gustave.addCookie(chocoCookie, arg1);
+            gustave.addCookie(mnMChocoCookie, arg3);
+            assertDoesNotThrow(()->gustave.submitOrder());});
+        Then("^The client \"([^\"]*)\" has (\\d+) order$", (String arg0, Integer arg1) -> {
+            assertNotNull(gustave.getOrder());
+        });
+        And("^The client \"([^\"]*)\" try to create an order of (\\d+) \"([^\"]*)\" and (\\d+) \"([^\"]*)\" at store \"([^\"]*)\"$", (String arg0, Integer arg1, String arg2, Integer arg3, String arg4, String arg5) -> {
+            store = systemInfo.getStoreByAddress(arg5);
+            gustave.createOrder(store);
+            gustave.addCookie(chocoCookie, arg1);
+            gustave.addCookie(mnMChocoCookie, arg3);
+            assertThrows(ErrorPreparingOrder.class, ()-> gustave.submitOrder());
         });
     }
 }
