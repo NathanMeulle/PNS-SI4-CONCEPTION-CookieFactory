@@ -43,7 +43,7 @@ This project allows customers to order cookies online from a variety of recipes 
 | <ul><li>En tant que PDG</li><li>Je veux faire des stats sur les BOC de ces 30 derniers jours</li><li>Afin de déterminer quel est le cookie national</li></ul>| PayOrder.feature | <ul><li>Order with a best of national cookie</li></ul> |
 | <ul><li>En tant que client</li><li>Je veux choisir un cookie</li><li>Afin d'en modifier les ingrédients présents </li></ul>| CreatePersonalizedRecipe.feature | <ul><li>Jhon modify a cookie : adding an ingredient</li><li>Jhon modify a cookie : removing an ingredient</li><li>Jhon modify a cookie : non valid</li></ul> |
 | <ul><li>En tant que store</li><li>Je veux demander à MarcelEat une livraison</li><li>Afin de livrer mon client à l'adresse souhaitée</li></ul>| NormalDelivery.feature | <ul><li>Sucessful delivery</li></ul> |
-
+| <ul><li>En tant que client</li><li>Je veux sélectionner un autre magasin à proximité de mon choix initial</li><li>Afin de passer commande malgré l'indisponibilité des cookies (plus de stocks) dans mon magasin</li></ul>| KitchenBalancing.feature | <ul><li>Client can't make an order because out of stock but when he change store then his order is done</li></ul> |
 
 
 ## Team
