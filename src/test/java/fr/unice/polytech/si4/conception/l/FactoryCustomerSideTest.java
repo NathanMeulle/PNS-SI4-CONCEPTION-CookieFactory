@@ -11,7 +11,7 @@ import org.junit.jupiter.api.Test;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -60,9 +60,11 @@ class FactoryCustomerSideTest {
     }
 
     @Test
-    void createCookieUsingProxy() throws AlreadyCreatedException, InvalidTypeIngredient, InvalidNumberIngredient, NotFindException, NoProxyAssociateException {
+    void createCookieUsingProxyTest() throws AlreadyCreatedException, InvalidTypeIngredient, InvalidNumberIngredient, NotFindException, NoProxyAssociateException {
+        String nameCookie = "myCookie";
+        assertThrows(NoProxyAssociateException.class, ()->customer.createCookieUsingProxy(nameCookie, ingredientList, ingredientDoughMock1, Mix.MIXED, Cooking.CRUNCHY));
+
         customer.associateProxy(catalogue);
-        String nameCookie = new String("myCookie");
         customer.createCookieUsingProxy(nameCookie, ingredientList, ingredientDoughMock1, Mix.MIXED, Cooking.CRUNCHY);
         Cookie cookieCreated = systemInfo.getCookieByName(nameCookie);
         assertEquals(nameCookie, cookieCreated.getName());

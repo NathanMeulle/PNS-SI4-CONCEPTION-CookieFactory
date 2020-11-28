@@ -11,7 +11,7 @@ Feature: Kitchen Balancing
     And Another recipe "MnMChoco" with ingredients "Chocolate" and "MnM"
 
 
-  Scenario: Toto can't make an order because out of stock but when he change store then his order is done
+  Scenario: Client can't make an order because out of stock but when he change store then his order is done
     When Add 1 Chocolate and 3 MnMs to the stock at store located Paris
     And Add 10 Chocolate and 10 MnMs to the stock at store located Lyon
     Then Toto try to create an order of 3 Choco and 1 MnMChoco at store located Paris

@@ -29,7 +29,6 @@ public class Store {
     private Cookie bestOfStore;
     private double latitude;
     private double longitude;
-    private final double earthRadius = 6371;
 
     public Store(int id, String address, double tax, String phone, String mail,double latitude, double longitude, Manager manager) {
         this.id = id;
@@ -108,7 +107,7 @@ public class Store {
      * The store notify the kitchen to cook an Order
      * Once it's done Order state pass to Cooked
      * The store notify the client
-     * @param order
+     * @param order the order to prepare
      */
     public void prepareOrder(Order order){
         this.kitchen.prepareCookies(order.getCookies());
@@ -200,20 +199,21 @@ public class Store {
     }
 
     public double getDistance(Store store){
+        double earthRadius = 6371;
         return Math.acos(Math.sin(store.getLatitude() * Math.PI / 180.0) * Math.sin(this.latitude * Math.PI / 180.0) +
                 Math.cos(store.latitude * Math.PI / 180.0) * Math.cos(this.latitude * Math.PI / 180.0) *
-                        Math.cos((this.longitude - store.longitude) * Math.PI / 180.0)) * this.earthRadius;
+                        Math.cos((this.longitude - store.longitude) * Math.PI / 180.0)) * earthRadius;
     }
 
     public List<Store> storesNearby(){
         List<Store> stores = SystemInfo.getInstance().getStores();
         stores.remove(this);
         List<Store> storesNearby = new ArrayList<>();
-        double minDistance = 0;
+        double minDistance;
         while(!stores.isEmpty()){
             minDistance = getDistance(stores.get(0));
             Store store = stores.get(0);
-            double distance = 0;
+            double distance;
             for (Store s : stores) {
                 distance = getDistance(s);
                 if (!this.equals(s) && distance < minDistance) { minDistance = distance; store = s; }

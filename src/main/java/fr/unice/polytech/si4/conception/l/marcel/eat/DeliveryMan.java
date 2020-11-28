@@ -23,7 +23,7 @@ public class DeliveryMan {
     /**
      * Mock an assignment of a order to a delivery man
      * All order get longitude == 15 and lattitude == 10
-     * @param order
+     * @param order the order
      */
     public void assignOrder(Order order) {
         this.order = order;
@@ -31,15 +31,23 @@ public class DeliveryMan {
 
     /**
      * @return true if no order assign yet
-     * @return false if an order is already assign to this delivery man
+     *         false if an order is already assign to this delivery man
      */
     public boolean isDispo() {
         return this.dispo;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof DeliveryMan)) return false;
+        DeliveryMan that = (DeliveryMan) o;
+        return isDispo() == that.isDispo() &&
+                id == that.id;
+    }
 
     @Override
     public int hashCode() {
-        return Objects.hash(dispo, id);
+        return Objects.hash(isDispo(), id);
     }
 }

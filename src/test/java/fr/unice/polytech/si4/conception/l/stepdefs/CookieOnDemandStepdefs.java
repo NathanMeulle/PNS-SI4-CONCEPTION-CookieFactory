@@ -1,6 +1,5 @@
 package fr.unice.polytech.si4.conception.l.stepdefs;
 
-import fr.unice.polytech.si4.conception.l.Log;
 import fr.unice.polytech.si4.conception.l.SystemInfo;
 import fr.unice.polytech.si4.conception.l.customer.Customer;
 import fr.unice.polytech.si4.conception.l.exceptions.WrongPickUpTimeException;

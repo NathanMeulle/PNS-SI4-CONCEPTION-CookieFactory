@@ -228,11 +228,11 @@ public class SystemInfo implements ISystemInfo {
             bestCookie = (entry.getKey().getPrice() < tmp)? entry.getKey(): bestCookie; // en cas d'égalité, on renvoie le cookie le moins cher
         }
         else bestCookie = entry.getKey();
-        bestCookie.setCookieType(CookieType.DEFAULT);
+        if (bestCookie!=null) bestCookie.setCookieType(CookieType.DEFAULT);
         try {
             addCookie(bestCookie);
         } catch (AlreadyCreatedException e) {
-            e.printStackTrace();
+            Log.add(e.getMessage());
         }
         return bestCookie;
     }

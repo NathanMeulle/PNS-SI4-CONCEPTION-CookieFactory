@@ -2,7 +2,6 @@ package fr.unice.polytech.si4.conception.l.marcel.eat;
 
 import fr.unice.polytech.si4.conception.l.Log;
 import fr.unice.polytech.si4.conception.l.order.Order;
-import fr.unice.polytech.si4.conception.l.store.Store;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,8 +12,8 @@ import java.util.List;
 
 public class MarcelEat {
 
-    public static List<DeliveryMan> deliveryMans = new ArrayList<>();
-    public static List<Order> orderToPay = new ArrayList<>();
+    protected static List<DeliveryMan> deliveryMans = new ArrayList<>();
+    protected static List<Order> orderToPay = new ArrayList<>();
     public static double bank;
 
     MarcelEat() {
@@ -22,7 +21,7 @@ public class MarcelEat {
     }
 
     public static void pickUpByDeliveryMan(Order order) {
-        Log.add("Order has been pick up by a delivery man");
+        Log.add("Order : "+ order.getIdOrder() + " has been pick up by a delivery man");
     }
 
     /**
@@ -40,8 +39,8 @@ public class MarcelEat {
      * Request for a delivery
      * Check if a delivery man is up to delivery
      * assign the order to this delivery man
-     * @param order
-     * @throws NoDeliveryManDispo
+     * @param order the order
+     * @throws NoDeliveryManDispo if no one is Dispo
      */
     public static void requestDelivery(Order order) throws NoDeliveryManDispo {
         for (DeliveryMan deliveryMan : deliveryMans) {
@@ -56,7 +55,7 @@ public class MarcelEat {
 
     /**
      * When a store pay Marcel Eat, it removes the order to the list of none paid orders
-     * @param order
+     * @param order the order
      */
     public static void pay(Order order, double price) {
         for (Order o : orderToPay) {

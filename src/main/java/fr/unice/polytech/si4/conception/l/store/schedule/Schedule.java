@@ -54,10 +54,7 @@ public class Schedule implements Comparator<Date> {
             return false;
 
         Time timeClosing = openingHours.get(getDay(date.getDay()));
-        if (compare(date, timeClosing.getClosingHours()) > 0)
-            return false;
-
-        return true;
+        return compare(date, timeClosing.getClosingHours()) <= 0;
     }
 
     @Override
@@ -65,9 +62,8 @@ public class Schedule implements Comparator<Date> {
             return Integer.compare(d1.getHours() * 3600 + d1.getMinutes() * 60 + d1.getSeconds(), d2.getHours() * 3600 + d2.getMinutes() * 60 + d2.getSeconds());
     }
 
-    private Day getDay(int i) { //TODO getDayFromInt à utiliser à la place
+    private Day getDay(int i) {
         switch(i) {
-            case 1: return Day.SUNDAY;
             case 2: return Day.MONDAY;
             case 3: return Day.TUESDAY;
             case 4: return Day.WEDNESDAY;

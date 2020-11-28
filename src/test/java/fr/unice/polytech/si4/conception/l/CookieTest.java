@@ -20,7 +20,6 @@ class CookieTest {
     private Cookie cookie;
     private List<Ingredient> ingredients;
     private CookieFactory cookieFactory;
-    private SystemInfo systemInfo;
 
     @BeforeEach
     void setup() {
@@ -28,7 +27,7 @@ class CookieTest {
         ingredient1 = new Ingredient("ingredient1", 3, IngredientType.FLAVOR);
         ingredient2 = new Ingredient("ingredient2", 4, IngredientType.TOPPING);
 
-        systemInfo = SystemInfo.getInstance();
+        SystemInfo systemInfo = SystemInfo.getInstance();
         systemInfo.resetSystemInfo();
         systemInfo.addIngredient(List.of(ingredient1, ingredient2));
 

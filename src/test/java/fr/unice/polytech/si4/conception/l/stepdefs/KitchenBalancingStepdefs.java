@@ -16,7 +16,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.mockito.Mockito.mock;
 
 public class KitchenBalancingStepdefs implements En {
@@ -122,18 +121,18 @@ public class KitchenBalancingStepdefs implements En {
         And("^As the store does not have enough ingredients, the latter offers a list of stores in order of proximity that can meet the needs\\.$", () -> {
             nearByStores = parisStore.storesNearby();
             assertFalse(nearByStores.isEmpty());
-            assertEquals(nearByStores.size(), 3);
+            assertEquals(3, nearByStores.size());
         });
         And("^The closest store is in \"([^\"]*)\"$", (String arg0) -> {
-            assertTrue(lyonStore.equals(nearByStores.get(0)));
+            assertEquals(nearByStores.get(0), lyonStore);
         });
         Then("^Toto choose a store located \"([^\"]*)\"$", (String arg0) -> {
             toto.changeStore(lyonStore);
-            assertTrue(lyonStore.equals(toto.getOrder().getStore()));
+            assertEquals(toto.getOrder().getStore(), lyonStore);
             assertDoesNotThrow(()->toto.submit());
         });
         And("^Toto has (\\d+) order$", (Integer arg0) -> {
-            assertSame(toto.getOrder().getStateOrder(), StateOrder.COOKED);
+            assertSame( StateOrder.COOKED, toto.getOrder().getStateOrder());
         });
     }
 }

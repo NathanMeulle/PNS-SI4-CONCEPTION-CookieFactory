@@ -4,20 +4,16 @@ import fr.unice.polytech.si4.conception.l.customer.Customer;
 import fr.unice.polytech.si4.conception.l.marcel.eat.MarcelEat;
 import fr.unice.polytech.si4.conception.l.order.StateOrder;
 import fr.unice.polytech.si4.conception.l.products.Cookie;
-import fr.unice.polytech.si4.conception.l.products.composition.Ingredient;
-import fr.unice.polytech.si4.conception.l.products.composition.IngredientType;
 import fr.unice.polytech.si4.conception.l.store.Kitchen;
 import fr.unice.polytech.si4.conception.l.store.Manager;
-import fr.unice.polytech.si4.conception.l.store.OrderHistory;
 import fr.unice.polytech.si4.conception.l.store.Store;
 import io.cucumber.java8.En;
 
-import java.awt.event.KeyListener;
-
 import static org.junit.Assert.assertEquals;
-import static org.mockito.ArgumentMatchers.any;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
-import static org.mockito.Mockito.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 public class NormalDeliveryStepdefs implements En {
     private Customer customer;

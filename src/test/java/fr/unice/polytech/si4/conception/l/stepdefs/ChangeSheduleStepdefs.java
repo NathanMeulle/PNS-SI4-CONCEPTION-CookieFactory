@@ -7,8 +7,8 @@ import fr.unice.polytech.si4.conception.l.store.schedule.Time;
 import io.cucumber.java8.En;
 
 import java.util.Calendar;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 

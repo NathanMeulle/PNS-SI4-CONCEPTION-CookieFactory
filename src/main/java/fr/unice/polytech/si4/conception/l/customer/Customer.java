@@ -2,7 +2,6 @@ package fr.unice.polytech.si4.conception.l.customer;
 
 import fr.unice.polytech.si4.conception.l.FactoryCustomerSide;
 import fr.unice.polytech.si4.conception.l.ISystemInfo;
-import fr.unice.polytech.si4.conception.l.SystemInfo;
 import fr.unice.polytech.si4.conception.l.exceptions.*;
 import fr.unice.polytech.si4.conception.l.products.Cookie;
 import fr.unice.polytech.si4.conception.l.products.composition.Cooking;

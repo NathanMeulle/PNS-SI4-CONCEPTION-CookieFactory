@@ -1,7 +1,4 @@
 package fr.unice.polytech.si4.conception.l.order;
-/** Represents an Order
- * @author Delmotte Vincent
- */
 
 
 import fr.unice.polytech.si4.conception.l.Log;
@@ -20,7 +17,9 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-
+/** Represents an Order
+ * @author Delmotte Vincent
+ */
 public class Order {
 
     private Date date;
@@ -33,7 +32,7 @@ public class Order {
     private StateOrder stateOrder;
     private Date pickUpTime;
     private double priceHT;
-    private double priceTTC; // TODO à supprimer ?
+    private double priceTTC;
     private boolean delivery;
 
     /**
@@ -59,8 +58,9 @@ public class Order {
     /**
      * When the customer pick up his order, it's put in OrderHistory
      * If order not ready, raise NotAlreadyCookedException
+     * @param date : moment of picking up
      */
-    public void pickedUp(Date date) throws NotAlreadyCooked, NotPaid, WrongPickUpTimeException { //TODO indiquer de quelle date il s'agit
+    public void pickedUp(Date date) throws NotAlreadyCooked, NotPaid, WrongPickUpTimeException {
         if (!isPaid) {
             throw new NotPaid("You did not pay");
         }
@@ -115,7 +115,7 @@ public class Order {
      * if the order has to be delivery
      * we contact MarcelEat for a delivery man
      * if no exception order wait for the delivery man
-     * @throws NoDeliveryManDispo
+     * @throws NoDeliveryManDispo if no man dispo
      */
     public void contactMarcelEat() throws NoDeliveryManDispo {
         MarcelEat.requestDelivery(this);
@@ -278,7 +278,7 @@ public class Order {
 
         /**
          * Assign a customer or an anonymous customer
-         * @param customer
+         * @param customer the client
          */
         public OrderBuilder assignCustomer(AnonymousCustomer customer) {
             this.customer = customer;
@@ -289,7 +289,7 @@ public class Order {
          * set the pickup time of this order
          * @param time order pickup time
          */
-        public OrderBuilder choosePickUpTime(Date time) throws WrongPickUpTimeException { //TODO indiquer limite de cette méthode
+        public OrderBuilder choosePickUpTime(Date time) throws WrongPickUpTimeException {
             if (!store.getSchedule().checkIsOpen(time))
                 throw new WrongPickUpTimeException("Store is closed");
             else
@@ -318,7 +318,7 @@ public class Order {
         /**
          * return an order create by the builder
          * if the order will be delivery by MarcelEat add an extra cost
-         * @return
+         * @return the order
          */
         public Order build() {
             if (this.delivery) {

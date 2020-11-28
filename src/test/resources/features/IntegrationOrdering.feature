@@ -1,7 +1,6 @@
 # Created by nathan at 07/11/2020
 Feature: Ordering
   All steps for a client to order
-## TODO Rename
 
   Background:
     Given An anonymous client called "Vincent" with the phoneNumber "0612345678"

@@ -15,7 +15,8 @@ import io.cucumber.java8.En;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.mock;
 
 public class CreatePersonalizedRecipeStepDef implements En {
@@ -34,8 +35,6 @@ public class CreatePersonalizedRecipeStepDef implements En {
 
     public CreatePersonalizedRecipeStepDef() {
 
-        ////////////////////////////// Given //////////////////////////////
-
         Given("^Client named \"([^\"]*)\" with a phone number \"([^\"]*)\" and with a mail \"([^\"]*)\"$", (String arg0, String arg1, String arg2) -> {
             jhon = new Customer(arg0, arg1, arg2);
         });
@@ -51,8 +50,6 @@ public class CreatePersonalizedRecipeStepDef implements En {
             systemInfo.addStore(store);
             jhon.associateProxy(systemInfo.generateProxy());
         });
-
-
         And("an ingredient called \"vanilla\" which is a \"FLAVOR\", costing 4", () -> {
             vanilla = new Ingredient("vanilla", 4, IngredientType.FLAVOR);
         });
@@ -62,9 +59,6 @@ public class CreatePersonalizedRecipeStepDef implements En {
         And("another ingredient called \"wholemeal flour\" which is a \"DOUGH\", costing 2", () -> {
             flour = new Dough("wholemeal flour", 2);
         });
-
-        ////////////////////////////// Scenario 1 //////////////////////////////
-
         When("We add 8 vanilla and 10 wholemeal flour to the stock at store \"Avignon\"", () -> {
               store.incrementStock(vanilla, 8);
               store.incrementStock(flour, 10);
@@ -75,7 +69,6 @@ public class CreatePersonalizedRecipeStepDef implements En {
             ingredientList.add(vanilla);
             systemInfo.addIngredient(ingredientList);
             jhon.createCookieUsingProxy("HeavyVanilla", ingredientList, flour, Mix.MIXED, Cooking.CHEWY);
-            //cookieCreated = systemInfo.generateProxy().createCookiePersonalized( "HeavyVanilla", ingredientList, flour, Mix.MIXED, Cooking.CHEWY);
         });
         And("the cookie \"HeavyVanilla\" is composed by the ingredients vanilla and wholemeal flour", () -> {
             Cookie cookieCreated = systemInfo.getCookieByName("HeavyVanilla");
@@ -84,22 +77,16 @@ public class CreatePersonalizedRecipeStepDef implements En {
             assertEquals(Mix.MIXED, cookieCreated.getMix());
             assertEquals(Cooking.CHEWY, cookieCreated.getCooking());
         });
-
-        ////////////////////////////// Scenario 2 //////////////////////////////
-
         And("^Jhon select the cookie named \"([^\"]*)\" with \"([^\"]*)\" cooking, a \"([^\"]*)\" mix and the ingredients vanilla and wholemeal flour$", (String arg0, String arg1, String arg2) -> {
             List<Ingredient> ingredientList = new ArrayList<>();
             ingredientList.add(vanilla);
             systemInfo.resetSystemInfo();
             systemInfo.addIngredient(ingredientList);
-            //jhon.createCookieUsingProxy("HeavyVanilla", ingredientList, flour, Mix.MIXED, Cooking.CHEWY);
             systemInfo.addCookie(new CookieFactory().createDefaultCookie("HeavyVanilla",ingredientList, flour, Mix.MIXED, Cooking.CHEWY));
             selectedCookie = systemInfo.getCookieByName("HeavyVanilla");
-            //selectedCookie = systemInfo.generateProxy().getCookieByName("HeavyVanilla");
         });
         Then("^the cookie is a default Cookie$", () -> {
             assertEquals(CookieType.DEFAULT, selectedCookie.getCookieType());
-            //assertEquals(CookieType.PERSONNALIZED, selectedCookie.getCookieType());
         });
         And("^Jhon add the ingredient called \"([^\"]*)\"$", (String arg0) -> {
             systemInfo.addIngredient(List.of(chocolate));
@@ -116,24 +103,17 @@ public class CreatePersonalizedRecipeStepDef implements En {
             assertEquals(CookieType.PERSONNALIZED, cookieCreated.getCookieType());
         });
 
-        ////////////////////////////// Scenario 3 //////////////////////////////
-
         And("^Jhon select the cookie named \"([^\"]*)\" with \"([^\"]*)\" cooking, a \"([^\"]*)\" mix and the ingredients vanilla, chocolate and wholemeal flour$", (String arg0, String arg1, String arg2) -> {
             List<Ingredient> ingredientList = new ArrayList<>();
             ingredientList.add(vanilla);
             ingredientList.add(chocolate);
             systemInfo.addIngredient(ingredientList);
-            //jhon.createCookieUsingProxy("HeavyVanilla",ingredientList, flour, Mix.MIXED, Cooking.CHEWY);
             systemInfo.addCookie(new CookieFactory().createDefaultCookie("HeavyVanilla",ingredientList, flour, Mix.MIXED, Cooking.CHEWY));
-            //selectedCookie = systemInfo.generateProxy().getCookieByName("HeavyVanilla");
             selectedCookie = systemInfo.getCookieByName("HeavyVanilla");
         });
         And("^Jhon remove the ingredient called \"([^\"]*)\"$", (String arg0) -> {
             cookieCreated = systemInfo.generateProxy().removeIngredientToCookie(selectedCookie, chocolate);
-
         });
-
-        ////////////////////////////// Scenario 4 //////////////////////////////
 
         Then("^Jhon add the ingredient called \"([^\"]*)\" and an error occured$", (String arg0) -> {
             assertThrows(InvalidTypeIngredient.class, () -> systemInfo.generateProxy().addIngredientToCookie(selectedCookie, new Ingredient("banana", 0, IngredientType.TOPPING)));

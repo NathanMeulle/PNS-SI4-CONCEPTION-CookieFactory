@@ -13,7 +13,7 @@ import java.util.Date;
 import java.util.Objects;
 
 /**
- * Class of an AnonynousCustomer
+ * Class of an Anonymous Customer
  */
 public class AnonymousCustomer implements CustomerInterface {
 
@@ -100,8 +100,5 @@ public class AnonymousCustomer implements CustomerInterface {
         return orderBuilder;
     }
 
-    public void setOrder(Order order) {
-        this.order = order;
-    }
 
 }

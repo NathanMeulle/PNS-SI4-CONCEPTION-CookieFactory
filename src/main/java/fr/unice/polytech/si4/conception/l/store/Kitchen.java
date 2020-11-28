@@ -102,7 +102,6 @@ public class Kitchen {
      * Assign store to the kitchen
      *
      * @param store : store to assign
-     * @return : an int of the quantity of the ingredient
      */
     public void assignStore(Store store){
         this.store = store;
