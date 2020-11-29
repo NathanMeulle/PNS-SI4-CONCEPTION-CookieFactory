@@ -11,13 +11,13 @@ Feature: Create Personalized Recipe
     And an ingredient called "chocolate" which is a "TOPPING", costing 4
     And another ingredient called "wholemeal flour" which is a "DOUGH", costing 2
 
-  Scenario: Jhon create his recipe
+  Scenario: A Client create his recipe
     When We add 8 vanilla and 10 wholemeal flour to the stock at store "Avignon"
     And Jhon create his recipe named "HeavyVanilla" with "CHEWY" cooking, a "MIXED" mix and the ingredients vanilla and wholemeal flour
     Then the cookie "HeavyVanilla" is composed by the ingredients vanilla and wholemeal flour
 
 
-  Scenario: Jhon modify a cookie : adding an ingredient
+  Scenario: A Client modify a cookie : adding an ingredient
     When We add 8 vanilla and 10 wholemeal flour to the stock at store "Avignon"
     And Jhon select the cookie named "HeavyVanilla" with "CHEWY" cooking, a "MIXED" mix and the ingredients vanilla and wholemeal flour
     Then the cookie is a default Cookie
@@ -26,7 +26,7 @@ Feature: Create Personalized Recipe
     And the cookie "HeavyVanilla" is composed by the ingredients vanilla, chocolate and wholemeal flour
     Then the cookie is a personnalized Cookie
 
-  Scenario: Jhon modify a cookie : removing an ingredient
+  Scenario: A Client modify a cookie : removing an ingredient
     When We add 8 vanilla and 10 wholemeal flour to the stock at store "Avignon"
     And Jhon select the cookie named "HeavyVanilla" with "CHEWY" cooking, a "MIXED" mix and the ingredients vanilla, chocolate and wholemeal flour
     Then the cookie is a default Cookie
@@ -35,7 +35,7 @@ Feature: Create Personalized Recipe
     And the cookie "HeavyVanilla" is composed by the ingredients vanilla and wholemeal flour
     Then the cookie is a personnalized Cookie
 
-  Scenario: Jhon modify a cookie : non valid
+  Scenario: A Client modify a cookie : non valid
     When We add 8 vanilla and 10 wholemeal flour to the stock at store "Avignon"
     And Jhon select the cookie named "HeavyVanilla" with "CHEWY" cooking, a "MIXED" mix and the ingredients vanilla and wholemeal flour
     Then the cookie is a default Cookie
